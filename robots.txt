@@ -1,0 +1,4 @@
+Sitemap: https://dadaromeo.github.io/sitemapindex.xml
+
+User-Agent: *
+Host: dadaromeo.github.io
