@@ -1,1 +1,3 @@
-My personal blog
+### Personal Blog
+
+Probabilistic Models and Machine Learning
