@@ -6,15 +6,7 @@
     xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
-  <loc>https://dadaromeo.github.io/galleries/rss.xml</loc>
-  <lastmod>2016-10-04T15:56:00Z</lastmod>
- </sitemap>
- <sitemap>
-  <loc>https://dadaromeo.github.io/rss.xml</loc>
-  <lastmod>2016-10-04T16:16:00Z</lastmod>
- </sitemap>
- <sitemap>
   <loc>https://dadaromeo.github.io/sitemap.xml</loc>
-  <lastmod>2016-10-04T16:16:00Z</lastmod>
+  <lastmod>2016-10-05T15:07:00Z</lastmod>
  </sitemap>
 </sitemapindex>
