@@ -135,7 +135,7 @@ NAVIGATION_LINKS = {
         ('/', '<i class="fa fa-lg fa-home"></i>&nbsp; Home'),
         ("/archive.html", "Archive"),
         ("/categories/", "Tags"),
-        ("https://github.com/dadaromeo", "Github"),
+        ("https://github.com/dadaromeo", "GitHub"),
     ),
 }
 
