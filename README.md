@@ -1,3 +1,3 @@
-### Personal Blog
+### Adventures in Dataland
 
-Probabilistic Models and Machine Learning
+My personal blog

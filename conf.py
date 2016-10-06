@@ -26,7 +26,7 @@ SITE_URL = "https://dadaromeo.github.io/"
 # If not set, defaults to SITE_URL
 # BASE_URL = "https://dadaromeo.github.io/"
 BLOG_EMAIL = "dada.romy@gmail.com"
-BLOG_DESCRIPTION = "Probabilistic Models and Machine Learning"  # (translatable)
+BLOG_DESCRIPTION = "Adventures in Dataland"  # (translatable)
 
 # Nikola is multilingual!
 #
@@ -206,7 +206,7 @@ TIMEZONE = "Africa/Douala"
 
 # Date format used to display post dates. (translatable)
 # (str used by datetime.datetime.strftime)
-DATE_FORMAT = '%b %d, %Y'
+DATE_FORMAT = '%B %d, %Y'
 
 # Date format used to display post dates, if local dates are used. (translatable)
 # (str used by moment.js)
@@ -794,7 +794,7 @@ IMAGE_THUMBNAIL_SIZE = 240
 # Used to create favicon link like this:
 # <link rel="name" href="file" sizes="size"/>
 FAVICONS = (
-     ("icon", "/favicon-16x16ico", "16x16"),
+     ("icon", "/favicon-16x16.png", "16x16"),
      ("icon", "/favicon-96x96.png", "96x96"),
 )
 
@@ -996,19 +996,19 @@ MARKDOWN_EXTENSIONS = ['fenced_code', 'codehilite', 'extra']
 # long time). Insert anything you want here, or even make it empty (which is
 # the default right now)
 # (translatable)
-SOCIAL_BUTTONS_CODE = """
- <!-- Social buttons -->
- <div id="addthisbox" class="addthis_toolbox addthis_peekaboo_style addthis_default_style addthis_label_style addthis_32x32_style">
- <a class="addthis_button_more">Share</a>
- <ul><li><a class="addthis_button_facebook"></a>
- <li><a class="addthis_button_google_plusone_share"></a>
- <li><a class="addthis_button_linkedin"></a>
- <li><a class="addthis_button_twitter"></a>
- </ul>
- </div>
- <script src="https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4f7088a56bb93798"></script>
- <!-- End of social buttons -->
- """
+# SOCIAL_BUTTONS_CODE = """
+# <!-- Social buttons -->
+# <div id="addthisbox" class="addthis_toolbox addthis_peekaboo_style addthis_default_style addthis_label_style addthis_32x32_style">
+# <a class="addthis_button_more">Share</a>
+# <ul><li><a class="addthis_button_facebook"></a>
+# <li><a class="addthis_button_google_plusone_share"></a>
+# <li><a class="addthis_button_linkedin"></a>
+# <li><a class="addthis_button_twitter"></a>
+# </ul>
+# </div>
+# <script src="https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4f7088a56bb93798"></script>
+# <!-- End of social buttons -->
+# """
 
 # Show link to source for the posts?
 # Formerly known as HIDE_SOURCELINK (inverse)
