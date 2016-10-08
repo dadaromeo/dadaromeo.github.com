@@ -27,7 +27,7 @@ article: http://ogp.me/ns/article#
          styles: {'.MathJax_Display': {"margin": 0}}
      }
  });
- </script><!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/conway-maxwell-poisson-distribution-in-pymc3/" type="text/html">
+ </script><!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/global-shark-incidences/" type="text/html">
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 </head>
 <body>
@@ -60,7 +60,7 @@ article: http://ogp.me/ns/article#
 <a href="categories/">Tags</a>
                 </li>
 <li>
-<a href="https://github.com/dadaromeo">GitHub</a>
+<a href="https://github.com/dadaromeo/adventures-in-dataland">GitHub</a>
 
                 
             </li>
@@ -72,7 +72,74 @@ article: http://ogp.me/ns/article#
         
     
 <div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/conway-maxwell-poisson-distribution-in-pymc3/" class="u-url">Conway-Maxwell-Poisson distribution in PyMC3</a></h1>
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/global-shark-incidences/" class="u-url">Global shark incidences</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">
+                Romeo Dada
+            </span></p>
+            <p class="dateline"><a href="posts/global-shark-incidences/" rel="bookmark"><time class="published dt-published" datetime="2016-10-08T15:05:12+01:00" title="October 08, 2016">October 08, 2016</time></a></p>
+                <p class="commentline">            <a href="posts/global-shark-incidences/#disqus_thread" data-disqus-identifier="cache/posts/global-shark-incidences.html">Comments</a>
+
+
+        </p>
+</div>
+    </header><div class="p-summary entry-summary">
+    <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this notebook, we're going to visualize shark's incidences over the course of years and by country. We're going to plot a heatmap where the rows are countries and the columns, years. We think this kind of chart will provide a visual trend of the countries involve in the attacks as well as the number of attacks.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>First, let's import some libraries: <code>pandas</code> will allow us to load the dataset and do some clean while <code>altair</code> is the library we will use for visualization.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">altair</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The data is available <a href="https://www.kaggle.com/teajay/global-shark-attacks/downloads/global-shark-attacks.zip">here</a>. You can do this:</p>
+<div class="highlight"><pre><span></span>wget https://www.kaggle.com/teajay/global-shark-attacks/downloads/global-shark-attacks.zip
+</pre></div>
+<p>and then, decompress it to your <code>data</code> directory:</p>
+<div class="highlight"><pre><span></span>unzip global-shark-attacks.zip -d data
+</pre></div>
+<p class="more"><a href="posts/global-shark-incidences/">Read more…</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/conway-maxwell-poisson-distribution-in-pymc3/" class="u-url">Conway-Maxwell-Poisson distribution in PyMC3</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn">
                 Romeo Dada
