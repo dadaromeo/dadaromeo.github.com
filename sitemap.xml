@@ -15,11 +15,15 @@
  </url>
  <url>
   <loc>https://dadaromeo.github.io/archive.html</loc>
-  <lastmod>2016-10-08T14:07:00Z</lastmod>
+  <lastmod>2016-10-09T05:53:00Z</lastmod>
  </url>
  <url>
   <loc>https://dadaromeo.github.io/categories/</loc>
-  <lastmod>2016-10-05T15:07:00Z</lastmod>
+  <lastmod>2016-10-09T05:53:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dadaromeo.github.io/categories/altair/</loc>
+  <lastmod>2016-10-09T05:53:00Z</lastmod>
  </url>
  <url>
   <loc>https://dadaromeo.github.io/categories/bayesian/</loc>
@@ -28,6 +32,10 @@
  <url>
   <loc>https://dadaromeo.github.io/categories/cat_bayesian-statistics/</loc>
   <lastmod>2016-10-05T15:07:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dadaromeo.github.io/categories/cat_visualization/</loc>
+  <lastmod>2016-10-09T05:53:00Z</lastmod>
  </url>
  <url>
   <loc>https://dadaromeo.github.io/categories/pymc3/</loc>
@@ -40,6 +48,10 @@
  <url>
   <loc>https://dadaromeo.github.io/categories/statistics/</loc>
   <lastmod>2016-10-05T15:07:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dadaromeo.github.io/categories/visualization/</loc>
+  <lastmod>2016-10-09T05:53:00Z</lastmod>
  </url>
  <url>
   <loc>https://dadaromeo.github.io/galleries/</loc>
