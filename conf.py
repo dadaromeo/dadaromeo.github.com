@@ -25,7 +25,7 @@ SITE_URL = "https://dadaromeo.github.io/"
 # This is the URL where Nikola's output will be deployed.
 # If not set, defaults to SITE_URL
 # BASE_URL = "https://dadaromeo.github.io/"
-BLOG_EMAIL = "dada.romy@gmail.com"
+BLOG_EMAIL = "info@getnikola.com"
 BLOG_DESCRIPTION = "Adventures in Dataland"  # (translatable)
 
 # Nikola is multilingual!
