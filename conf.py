@@ -17,8 +17,8 @@ import time
 
 
 # Data about this site
-BLOG_AUTHOR = "Romeo Dada"  # (translatable)
-BLOG_TITLE = "Romeo Dada"  # (translatable)
+BLOG_AUTHOR = "Dada Romeo"  # (translatable)
+BLOG_TITLE = "Adventures in Dataland"  # (translatable)
 # This is the main URL for your site. It will be used
 # in a prominent link. Don't forget the protocol (http/https)!
 SITE_URL = "https://dadaromeo.github.io/"
@@ -794,8 +794,8 @@ IMAGE_THUMBNAIL_SIZE = 240
 # Used to create favicon link like this:
 # <link rel="name" href="file" sizes="size"/>
 FAVICONS = (
-     ("icon", "/favicon-16x16.png", "16x16"),
-     ("icon", "/favicon-96x96.png", "96x96"),
+     ("icon", "/assets/img/favicon-16x16.png", "16x16"),
+     ("icon", "/assets/img/favicon-32x32.png", "32x32"),
 )
 
 # Show teasers (instead of full posts) in indexes? Defaults to False.
