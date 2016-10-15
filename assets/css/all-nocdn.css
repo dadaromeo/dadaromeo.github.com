@@ -7226,7 +7226,6 @@ body {
 }
 
 img.portrait {
-    padding: 5px;
     border: 2px solid #212121;
     border-radius: 50%;
 }
@@ -7235,8 +7234,9 @@ img.portrait {
 ** Navbar
 *******************************************************************************/
 .navbar {
-    background-image: url(../img/noisy-texture-128x128-o4-d10-c-373737-t0.png);
-    background-repeat: repeat;
+    /*background-image: url(../img/noisy-texture-128x128-o4-d10-c-373737-t0.png);
+    background-repeat: repeat;*/
+    background-color: #212121;
     border-left-width: 0;
     border-right-width: 0;
     border: 0;
