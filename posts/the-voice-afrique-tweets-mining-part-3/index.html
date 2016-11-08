@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html prefix="
+og: http://ogp.me/ns#
+article: http://ogp.me/ns/article#
+" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="text mining, topic modeling, text processing, gensim">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Voice Afrique Tweets Mining Part 3 | Adventures in Dataland</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<meta content="#5670d4" name="theme-color">
+<link rel="canonical" href="https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-3/">
+<link rel="icon" href="../../assets/img/favicon-16x16.png" sizes="16x16">
+<link rel="icon" href="../../assets/img/favicon-32x32.png" sizes="32x32">
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+     tex2jax: {
+         inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+         displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+         processEscapes: true
+     },
+     displayAlign: 'left', // Change this to 'center' to center equations.
+     "HTML-CSS": {
+         styles: {'.MathJax_Display': {"margin": 0}}
+     }
+ });
+ </script><!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="description" itemprop="description" content="text mining, topic modeling, text processing, gensim">
+<meta name="author" content="Dada Romeo">
+<link rel="prev" href="../the-voice-afrique-tweets-mining-part-2/" title="The Voice Afrique Tweets Mining Part 2" type="text/html">
+<link rel="next" href="../the-voice-afrique-tweets-mining-part-4/" title="The Voice Afrique Tweets Mining Part 4" type="text/html">
+<meta property="og:site_name" content="Adventures in Dataland">
+<meta property="og:title" content="The Voice Afrique Tweets Mining Part 3">
+<meta property="og:url" content="https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-3/">
+<meta property="og:description" content="text mining, topic modeling, text processing, gensim">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2016-11-08T14:10:58+01:00">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+</head>
+<body>
+
+
+<!-- BODY CONTAINER -->
+<div class="container" id="body_container">
+
+    <!-- HEADER -->
+    <header id="body_header"><a href="../../"><img class="portrait" src="../../assets/img/portrait-64x64.jpg"></a><br><em>Adventures in Dataland</em>
+    </header><!-- NAVBAR --><nav class="navbar navbar-default navbar-static"><div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+        </div>
+                
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false" role="navigation">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../"><i class="fa fa-lg fa-home"></i>  Home</a>
+                </li>
+<li>
+<a href="../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../categories/">Tags</a>
+                </li>
+<li>
+<a href="https://github.com/dadaromeo/adventures-in-dataland">GitHub</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right"></ul>
+</div>
+    </nav><!-- BODY CONTENT !! --><div class="container" id="body_content" role="main">
+
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><!--<h1 class="p-name entry-title" itemprop="headline name"><a href="/posts/the-voice-afrique-tweets-mining-part-3/" class="u-url">The Voice Afrique Tweets Mining Part 3</a></h1> --><h1 class="p-name entry-title" itemprop="headline name">The Voice Afrique Tweets Mining Part 3</h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">
+                    Dada Romeo
+            </span></p>
+            <p class="dateline"><time class="published dt-published" datetime="2016-11-08T14:10:58+01:00" itemprop="datePublished" title="November 08, 2016">November 08, 2016</time></p>
+                <p class="commentline">            <a href="#disqus_thread" data-disqus-identifier="cache/posts/the-voice-afrique-tweets-mining-part-3.html">Comments</a>
+
+
+            
+                <meta name="description" itemprop="description" content="text mining, topic modeling, text processing, gensim"></p>
+</div>
+        
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Topic-modeling">Topic modeling<a class="anchor-link" href="#Topic-modeling">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="https://dadaromeo.github.io/the-voice-tweets-mining-part-2">Previously</a>, we explored a model that exploits the links between the entities to help us find the key players in the data. Here, we will focus on the tweet’s text to better understand what the users are talking about. We move away from the network model we’ve used previously and discuss other methods for text analysis. We first explore <a href="https://en.wikipedia.org/wiki/Topic_model"><em>topic modeling</em></a>, an approach that finds natural topics within the text. We then move on to <a href="https://dadaromeo.github.io/the-voice-afrique-tweets-mining-part-4">sentiment analysis</a>, the practice of associating a document with a sentiment score</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Finding-topics">Finding topics<a class="anchor-link" href="#Finding-topics">¶</a>
+</h4>
+<p>The data we collected from Twitter is a relatively small sample, but attempting to read each individual tweet is a hopeless cause. A more reachable goal is to get a high-level understanding of what users are talking about. One way to do this is by understanding the topics the users are discussing in their tweets. In this section we discuss the automatic discovery of topics in the text through <em>topic modeling</em> with <a href="https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation">Latent Dirichlet allocation</a> (LDA), a popular topic modeling
+algorithm.</p>
+<p>Every topic in LDA is a collection of words. Each topic contains all of the words in the corpus with a probability of the word belonging to that topic. So, while all of the words in the topic are the same, the weight they are given differs between topics.</p>
+<p>LDA finds the most probable words for a topic, associating each topic with a theme is left to the user.</p>
+<!-- TEASER_END -->
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="LDA-with-Gensim">LDA with Gensim<a class="anchor-link" href="#LDA-with-Gensim">¶</a>
+</h4>
+<p>To perfom the LDA computation in Python, we will use the <code>gensim</code> library (<a href="https://radimrehurek.com/gensim/">topic modeling for human</a>). As we can see, most of the work is done for us, the real effort is in the preprocessing of the documents to get the documents ready. The preprocessing we will perfom are:</p>
+<ul>
+<li>
+<strong>Lowercasing</strong> - Strip casing of all words in the document (i.e: <code>"@thevoiceafrique #TheVoiceAfrique est SUPERB! :) https://t.co/2ty"</code> becomes <code>"#thevoiceafrique est superb! :) https://t.co/2ty"</code>)</li>
+</ul>
+<ul>
+<li>
+<strong>Tokenizing</strong> - Convert the string to a list of tokens based on whitespace. This process also removes punctuation marks from the text. This becomes the list <code>["@thevoiceafrique", "#thevoiceafrique", "est" "superb", ":)", "https://t.co/2ty"]</code>
+</li>
+</ul>
+<ul>
+<li>
+<strong>Stopword Removal</strong> - Remove <em>stopwords</em>, words so common that their presence does not tell us anything about the dataset. This also removes smileys, emoticons, mentions hashtags and links: <code>["@thevoiceafrique", "#thevoiceafrique", "superb"]</code>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">string</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">emoji</span>
+<span class="kn">from</span> <span class="nn">twitter.parse_tweet</span> <span class="k">import</span> <span class="n">Emoticons</span>
+<span class="kn">from</span> <span class="nn">pymongo</span> <span class="k">import</span> <span class="n">MongoClient</span>
+<span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="k">import</span> <span class="n">stopwords</span>
+<span class="kn">from</span> <span class="nn">nltk.tokenize</span> <span class="k">import</span> <span class="n">TweetTokenizer</span>
+<span class="kn">from</span> <span class="nn">gensim.models</span> <span class="k">import</span> <span class="n">LdaModel</span>
+<span class="kn">from</span> <span class="nn">gensim.corpora</span> <span class="k">import</span> <span class="n">TextCorpus</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">host</span> <span class="o">=</span> <span class="s2">"localhost"</span>
+<span class="n">port</span> <span class="o">=</span> <span class="mi">27017</span>
+
+<span class="n">db</span> <span class="o">=</span> <span class="n">MongoClient</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span><span class="o">.</span><span class="n">search</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">stop_words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">))</span>
+<span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s2">"french"</span><span class="p">))</span>
+<span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">Emoticons</span><span class="o">.</span><span class="n">POSITIVE</span><span class="p">)</span>
+<span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">Emoticons</span><span class="o">.</span><span class="n">NEGATIVE</span><span class="p">)</span>
+<span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">([</span><span class="s2">"’"</span><span class="p">,</span> <span class="s2">"…"</span><span class="p">,</span> <span class="s2">"ca"</span><span class="p">,</span> <span class="s2">"°"</span><span class="p">,</span> <span class="s2">"çà"</span><span class="p">,</span> <span class="s2">"»"</span><span class="p">,</span> <span class="s2">"«"</span><span class="p">,</span> <span class="s2">"•"</span><span class="p">,</span> <span class="s2">"the"</span><span class="p">,</span>
+                    <span class="s2">"voice"</span><span class="p">,</span> <span class="s2">"afrique"</span><span class="p">,</span> <span class="s2">"voix"</span><span class="p">,</span> <span class="s2">"–"</span><span class="p">,</span> <span class="s2">"::"</span><span class="p">,</span> <span class="s2">"“"</span><span class="p">,</span> <span class="s2">"₩"</span><span class="p">,</span> <span class="s2">"🤣"</span><span class="p">])</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"data/stopwords-fr.txt"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tokenize</span> <span class="o">=</span> <span class="n">TweetTokenizer</span><span class="p">()</span><span class="o">.</span><span class="n">tokenize</span>
+
+<span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">"..."</span><span class="p">)</span>
+    <span class="n">found</span> <span class="o">=</span> <span class="n">emoji</span><span class="o">.</span><span class="n">demojize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" "</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">found</span> <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="s2">"_"</span> <span class="ow">in</span> <span class="n">t</span><span class="p">)])</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r"\w*\d+\w*"</span><span class="p">,</span> <span class="n">text</span><span class="p">))</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
+        <span class="n">cond</span> <span class="o">=</span> <span class="p">(</span><span class="n">token</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">"#"</span><span class="p">,</span> <span class="s2">"@"</span><span class="p">,</span> <span class="s2">"http"</span><span class="p">,</span> <span class="s2">"www"</span><span class="p">))</span> <span class="ow">or</span>
+                <span class="s2">"."</span> <span class="ow">in</span> <span class="n">token</span> <span class="ow">or</span>
+                <span class="s2">"'"</span> <span class="ow">in</span> <span class="n">token</span>
+                <span class="p">)</span>
+                
+        <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">cond</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">token</span>
+
+<span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">parse</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">token</span> <span class="ow">in</span> <span class="n">stop_words</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">token</span>
+
+<span class="k">class</span> <span class="nc">Corpus</span><span class="p">(</span><span class="n">TextCorpus</span><span class="p">):</span>
+    
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">get_texts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">:</span>
+            <span class="n">tweet</span> <span class="o">=</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">tweet</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="nb">list</span><span class="p">(</span><span class="n">tweet</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tweets</span> <span class="o">=</span> <span class="p">[</span><span class="n">tweet</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span> <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">thevoice</span><span class="o">.</span><span class="n">find</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="s2">"retweeted_status"</span> <span class="ow">in</span> <span class="n">tweet</span><span class="o">.</span><span class="n">keys</span><span class="p">())]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">regexp</span> <span class="o">=</span> <span class="n">emoji</span><span class="o">.</span><span class="n">get_emoji_regexp</span><span class="p">()</span><span class="o">.</span><span class="n">findall</span>
+
+<span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">tweets</span><span class="p">:</span>
+    <span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">regexp</span><span class="p">(</span><span class="n">tweet</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">corpus</span> <span class="o">=</span> <span class="n">Corpus</span><span class="p">(</span><span class="n">tweets</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Number of documents: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">Number of tokens: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">corpus</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">corpus</span><span class="o">.</span><span class="n">dictionary</span><span class="p">)))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Number of documents: 2942
+Number of tokens: 4050
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># the choice of the number of topics is arbitrary</span>
+
+<span class="n">lda</span> <span class="o">=</span> <span class="n">LdaModel</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="n">num_topics</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">id2word</span><span class="o">=</span><span class="n">corpus</span><span class="o">.</span><span class="n">dictionary</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">show_topics</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n_words</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">"simple"</span><span class="p">):</span>
+    <span class="sd">"""Show `n` randomly selected topics and thier</span>
+<span class="sd">    top words.</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span> <span class="nn">tabulate</span> <span class="k">import</span> <span class="n">tabulate</span>
+    
+    <span class="n">topics</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">lda</span><span class="o">.</span><span class="n">num_topics</span><span class="p">)</span>
+    <span class="n">ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">:</span>
+        <span class="n">topic</span> <span class="o">=</span> <span class="n">lda</span><span class="o">.</span><span class="n">show_topic</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n_words</span><span class="p">)</span>
+        <span class="n">words</span><span class="p">,</span><span class="n">prop</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">topic</span><span class="p">)</span>
+        <span class="n">topics</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+    
+    <span class="n">tabular</span> <span class="o">=</span> <span class="n">tabulate</span><span class="p">(</span><span class="n">topics</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s2">"keys"</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="n">fmt</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="n">tabular</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">show_topics</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1         20         21         22         24           9           10       11         12        14
+--------  ---------  ---------  ---------  -----------  ----------  -------  ---------  --------  --------
+singuila  chante     go         asalfo     lokua        nadia       nadia    shayden    gars      chante
+mdrrr     congolais  charlotte  amy        out          fin         deh      chansons   frère     chanson
+connais   musique    locko      nadia      aime         titres      coach    mots       ans       jackson
+grave     locko      ndutu      place      candidat     ans         asalfo   candidats  grande    vraiment
+fille     voir       singuila   faut       grand        putain      mieux    grave      ariana    singui
+pd        normal     arrêtez    buzz       maman        choix       tuer     coachs     juges     déjà
+appuyer   lien       direct     retourne   famille      go          gar      aventure   petit     sort
+bidi      pourtant   asalfo     winehouse  lokoua       prestation  appuyé   cest       commence  love
+asalfo    jaime      hey        chante     concurrence  bonne       connait  yeux       grâce     marie
+chanson   savais     serieux    chanter    faut         buzzer      lol      vois       hamilton  truc
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The table above show the distribution of words within the different topics. From that, we can see that viewers are talking about the different candidates and coaches. In the <a href="https://dadaromeo.github.io/the-voice-afrique-tweets-mining-part-3">next</a> post, we will use <em>Sentiment Analysis</em> to see if we see what sentiment is the most present in the data.e</p>
+<p>Thanks for following.</p>
+
+</div>
+</div>
+</div>
+    </div>
+  </div>
+
+    </div>
+    <aside class="postpromonav"><nav><ul class="pager hidden-print">
+<li class="previous">
+                <a href="../the-voice-afrique-tweets-mining-part-2/" rel="prev" title="The Voice Afrique Tweets Mining Part 2"><i class="fa fa-arrow-left"></i>  Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../the-voice-afrique-tweets-mining-part-4/" rel="next" title="The Voice Afrique Tweets Mining Part 4">Next post  <i class="fa fa-arrow-right"></i></a>
+            </li>
+        </ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+                        <div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="dadaromeo",
+            disqus_url="https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-3/",
+        disqus_title="The Voice Afrique Tweets Mining Part 3",
+        disqus_identifier="cache/posts/the-voice-afrique-tweets-mining-part-3.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        </section><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script><script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+     tex2jax: {
+         inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+         displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+         processEscapes: true
+     },
+     displayAlign: 'left', // Change this to 'center' to center equations.
+     "HTML-CSS": {
+         styles: {'.MathJax_Display': {"margin": 0}}
+     }
+ });
+ </script></article><script>var disqus_shortname="dadaromeo";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div>
+</div>
+
+
+<!-- BODY FOOTER -->
+<div class="container">
+    <footer id="body_footer">
+
+        Contents © 2016         <a href="mailto:info@getnikola.com">Dada Romeo</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>    - Under    
+ <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+ <img alt="Creative Commons License BY-NC-SA" style="border-width:0; margin-bottom:12px;" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a>
+        
+
+
+    </footer>
+</div>
+
+
+<!-- SCRIPTS -->
+            <script src="../../assets/js/all-nocdn.js"></script><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+</script>
+</body>
+</html>

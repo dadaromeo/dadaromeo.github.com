@@ -15,6 +15,7 @@ article: http://ogp.me/ns/article#
 <link rel="canonical" href="https://dadaromeo.github.io/">
 <link rel="icon" href="assets/img/favicon-16x16.png" sizes="16x16">
 <link rel="icon" href="assets/img/favicon-32x32.png" sizes="32x32">
+<link rel="next" href="index-1.html" type="text/html">
 <script type="text/x-mathjax-config">
  MathJax.Hub.Config({
      tex2jax: {
@@ -27,7 +28,7 @@ article: http://ogp.me/ns/article#
          styles: {'.MathJax_Display': {"margin": 0}}
      }
  });
- </script><!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/movies-recommendation-with-hierarchical-poisson-factorization-in-pymc3/" type="text/html">
+ </script><!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/the-voice-afrique-tweets-mining-part-4/" type="text/html">
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 </head>
 <body>
@@ -72,7 +73,181 @@ article: http://ogp.me/ns/article#
         
     
 <div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/movies-recommendation-with-hierarchical-poisson-factorization-in-pymc3/" class="u-url">Movies recommendation with hierarchical poisson factorization in PyMC3</a></h1>
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/the-voice-afrique-tweets-mining-part-4/" class="u-url">The Voice Afrique Tweets Mining Part 4</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">
+                Dada Romeo
+            </span></p>
+            <p class="dateline"><a href="posts/the-voice-afrique-tweets-mining-part-4/" rel="bookmark"><time class="published dt-published" datetime="2016-11-08T14:12:59+01:00" title="November 08, 2016">November 08, 2016</time></a></p>
+                <p class="commentline">            <a href="posts/the-voice-afrique-tweets-mining-part-4/#disqus_thread" data-disqus-identifier="cache/posts/the-voice-afrique-tweets-mining-part-4.html">Comments</a>
+
+
+        </p>
+</div>
+    </header><div class="p-summary entry-summary">
+    <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Sentiment-Analysis">Sentiment Analysis<a class="anchor-link" href="posts/the-voice-afrique-tweets-mining-part-4/#Sentiment-Analysis">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="https://dadaromeo.github.io/the-voice-tweets-mining-part-4">Previously</a>, we explore <em>topic modeling</em> an algorithm used to discover what users are talking about. But often, its not important to know what users are saying, but how they are saying it. <a href="https://en.wikipedia.org/wiki/Sentiment_analysis"><em>Sentiment analysis</em></a> seeks to automatically associate a piece of text with a <em>sentiment score</em>, a positive or negative emotional score. Aggregating sentiment can give an idea of how people are responding to an event or a topic.</p>
+<p>The way this task is usually done is by using <a href="https://en.wikipedia.org/wiki/Supervised_learning"><em>Supervised learning</em></a> principles. First, we find a <em>lexicon</em>, a dictionary of sentences (tweets in this context) and thier <em>positive</em>, <em>neutral</em> or <em>negative</em> labels. We then use a <a href="https://en.wikipedia.org/wiki/Naive_Bayes_classifier">training algorithm</a> to learn the words - polarity association. It means the algorithm learns what words or features are associated with which labels. Finally, we pass to the algorithm our own (useen) tweets and it judges whether the text in the is positive or negative based on the likelihood for each possibility.</p>
+<p>For this to work properly, we need to be carefull about the source of the lexicon we're choosing. Words having different meaning in diffrent contexts. In this post, we don't have a lexicon nor want to build one. We will rely instead on the concept of <em>mutual information</em> to detect the polarity of the tweet.</p>
+<p class="more"><a href="posts/the-voice-afrique-tweets-mining-part-4/">Read more…</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/the-voice-afrique-tweets-mining-part-3/" class="u-url">The Voice Afrique Tweets Mining Part 3</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">
+                Dada Romeo
+            </span></p>
+            <p class="dateline"><a href="posts/the-voice-afrique-tweets-mining-part-3/" rel="bookmark"><time class="published dt-published" datetime="2016-11-08T14:10:58+01:00" title="November 08, 2016">November 08, 2016</time></a></p>
+                <p class="commentline">            <a href="posts/the-voice-afrique-tweets-mining-part-3/#disqus_thread" data-disqus-identifier="cache/posts/the-voice-afrique-tweets-mining-part-3.html">Comments</a>
+
+
+        </p>
+</div>
+    </header><div class="p-summary entry-summary">
+    <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Topic-modeling">Topic modeling<a class="anchor-link" href="posts/the-voice-afrique-tweets-mining-part-3/#Topic-modeling">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="https://dadaromeo.github.io/the-voice-tweets-mining-part-2">Previously</a>, we explored a model that exploits the links between the entities to help us find the key players in the data. Here, we will focus on the tweet’s text to better understand what the users are talking about. We move away from the network model we’ve used previously and discuss other methods for text analysis. We first explore <a href="https://en.wikipedia.org/wiki/Topic_model"><em>topic modeling</em></a>, an approach that finds natural topics within the text. We then move on to <a href="https://dadaromeo.github.io/the-voice-afrique-tweets-mining-part-4">sentiment analysis</a>, the practice of associating a document with a sentiment score</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Finding-topics">Finding topics<a class="anchor-link" href="posts/the-voice-afrique-tweets-mining-part-3/#Finding-topics">¶</a>
+</h4>
+<p>The data we collected from Twitter is a relatively small sample, but attempting to read each individual tweet is a hopeless cause. A more reachable goal is to get a high-level understanding of what users are talking about. One way to do this is by understanding the topics the users are discussing in their tweets. In this section we discuss the automatic discovery of topics in the text through <em>topic modeling</em> with <a href="https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation">Latent Dirichlet allocation</a> (LDA), a popular topic modeling
+algorithm.</p>
+<p>Every topic in LDA is a collection of words. Each topic contains all of the words in the corpus with a probability of the word belonging to that topic. So, while all of the words in the topic are the same, the weight they are given differs between topics.</p>
+<p>LDA finds the most probable words for a topic, associating each topic with a theme is left to the user.</p>
+<p class="more"><a href="posts/the-voice-afrique-tweets-mining-part-3/">Read more…</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/the-voice-afrique-tweets-mining-part-2/" class="u-url">The Voice Afrique Tweets Mining Part 2</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">
+                Dada Romeo
+            </span></p>
+            <p class="dateline"><a href="posts/the-voice-afrique-tweets-mining-part-2/" rel="bookmark"><time class="published dt-published" datetime="2016-11-08T14:08:00+01:00" title="November 08, 2016">November 08, 2016</time></a></p>
+                <p class="commentline">            <a href="posts/the-voice-afrique-tweets-mining-part-2/#disqus_thread" data-disqus-identifier="cache/posts/the-voice-afrique-tweets-mining-part-2.html">Comments</a>
+
+
+        </p>
+</div>
+    </header><div class="p-summary entry-summary">
+    <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Network-analysis">Network analysis<a class="anchor-link" href="posts/the-voice-afrique-tweets-mining-part-2/#Network-analysis">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In the <a href="https://dadaromeo.github.io/the-voice-tweets-mining-part-1">previous post</a>, we showed how to use Twitter API and the excellent Tweepy Python library to collect data and store them in a <a href="https://www.mongodb.com/">MongoDB</a> database. It's now time to start aking questions.</p>
+<p>Many of the questions that we ask of our tweets data can be answered through <a href="https://en.wikipedia.org/wiki/Social_network_analysis">network analysis</a>. Questions such as <em>who is important?</em>, <em>who talks to whom?</em>, and <em>what is important?</em> can all be answered through a network. Using proper network measures, we can find these important actors or topics in a network.</p>
+<p>A network (or graph) is a set of <em>vertices</em> linked by a set of <em>edges</em>. Vertices are the elements that comprise a network and edges join vertices. Undirected edges join vertices in a symmetric fashion. If two people engage in a conversation, then this is best represented by an undirected edge because for user <code>Alice</code> to converse with user <code>Bob</code>, <code>Bob</code> must also converse with <code>Alice</code>.</p>
+<p>Contrary to undirected edges are directed edges, which signify a one-way relationship between two users. <code>Alice</code> retweet relationship can be thought of as a directed edge because <code>Alice</code> can retweet <code>Bob</code> without <code>Bob</code> reciprocating.</p>
+<p>Another property to consider is <em>edge weight</em>. The weight of an edge signifies its importance when compared to other edges. One natural usage of weighted edges is in a user mention network, where the weight is the number of times the a user say <code>Alice</code> mentions another user, <code>Bob</code>.</p>
+<p class="more"><a href="posts/the-voice-afrique-tweets-mining-part-2/">Read more…</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/the-voice-afrique-tweets-mining-part-1/" class="u-url">The Voice Afrique Tweets Mining Part 1</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">
+                Dada Romeo
+            </span></p>
+            <p class="dateline"><a href="posts/the-voice-afrique-tweets-mining-part-1/" rel="bookmark"><time class="published dt-published" datetime="2016-11-08T13:57:08+01:00" title="November 08, 2016">November 08, 2016</time></a></p>
+                <p class="commentline">            <a href="posts/the-voice-afrique-tweets-mining-part-1/#disqus_thread" data-disqus-identifier="cache/posts/the-voice-afrique-tweets-mining-part-1.html">Comments</a>
+
+
+        </p>
+</div>
+    </header><div class="p-summary entry-summary">
+    <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Introduction">Introduction<a class="anchor-link" href="posts/the-voice-afrique-tweets-mining-part-1/#Introduction">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="http://www.voxafrica.com/thevoice/">The Voice Afrique francophone</a> (TVA) is a singing competition where contestants are chosen based on thier voice during a performance where the coaches face the public and can only hear them. The show started on Sturday, 15 October and will go until February, the 4th 2017. The show is broadcasted on <a href="http://www.voxafrica.com/thevoice/">Vox Africa</a>. For more information, you can look <a href="http://www.camerpost.com/cameroun-the-voice-afrique-francophone-postulants-donnent-de-voix/">here</a>.</p>
+<p>In this post series, we will use various <a href="https://en.wikipedia.org/wiki/Data_science">data sience</a> tools to analyse the tweets we collected about the event.</p>
+<p class="more"><a href="posts/the-voice-afrique-tweets-mining-part-1/">Read more…</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/movies-recommendation-with-hierarchical-poisson-factorization-in-pymc3/" class="u-url">Movies recommendation with hierarchical poisson factorization in PyMC3</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn">
                 Dada Romeo
@@ -100,148 +275,13 @@ article: http://ogp.me/ns/article#
 </div>
 </div>
     </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/global-shark-incidences/" class="u-url">Global shark incidences</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn">
-                Dada Romeo
-            </span></p>
-            <p class="dateline"><a href="posts/global-shark-incidences/" rel="bookmark"><time class="published dt-published" datetime="2016-10-08T15:05:12+01:00" title="October 08, 2016">October 08, 2016</time></a></p>
-                <p class="commentline">            <a href="posts/global-shark-incidences/#disqus_thread" data-disqus-identifier="cache/posts/global-shark-incidences.html">Comments</a>
-
-
-        </p>
-</div>
-    </header><div class="p-summary entry-summary">
-    <div tabindex="-1" id="notebook" class="border-box-sizing">
-    <div class="container" id="notebook-container">
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In this notebook, we're going to visualize shark's incidences over the course of years and by country. We're going to plot a heatmap where the rows are countries and the columns, years. We think this kind of chart will provide a visual trend of the countries involve in the attacks as well as the number of attacks.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>First, let's import some libraries: <code>pandas</code> will allow us to load the dataset and do some clean while <code>altair</code> is the library we will use for visualization.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [1]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">altair</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The data is available <a href="https://www.kaggle.com/teajay/global-shark-attacks/downloads/global-shark-attacks.zip">here</a>. You can do this:</p>
-<div class="highlight"><pre><span></span>wget https://www.kaggle.com/teajay/global-shark-attacks/downloads/global-shark-attacks.zip
-</pre></div>
-<p>and then, decompress it to your <code>data</code> directory:
-```shell
-unzip global-shark-attacks.zip -d data</p>
-<p class="more"><a href="posts/global-shark-incidences/">Read more…</a></p>
-</div>
-</div>
-</div>
-</div>
-</div>
-    </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/conway-maxwell-poisson-distribution-in-pymc3/" class="u-url">Conway-Maxwell-Poisson distribution in PyMC3</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn">
-                Dada Romeo
-            </span></p>
-            <p class="dateline"><a href="posts/conway-maxwell-poisson-distribution-in-pymc3/" rel="bookmark"><time class="published dt-published" datetime="2016-10-05T16:04:19+01:00" title="October 05, 2016">October 05, 2016</time></a></p>
-                <p class="commentline">            <a href="posts/conway-maxwell-poisson-distribution-in-pymc3/#disqus_thread" data-disqus-identifier="cache/posts/conway-maxwell-poisson-distribution-in-pymc3.html">Comments</a>
-
-
-        </p>
-</div>
-    </header><div class="p-summary entry-summary">
-    <div tabindex="-1" id="notebook" class="border-box-sizing">
-    <div class="container" id="notebook-container">
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>I recently came across a distribution for {inter,over}-dispersion and heavy tail count data. The <a href="https://en.wikipedia.org/wiki/Conway%E2%80%93Maxwell%E2%80%93Poisson_distribution">Conway-Maxwell-Poisson distribution</a>.</p>
-<p>In this notebook, the implementation of the log partition function is an approximation and the implementation of the random number gnerator follow the implementation in the package <a href="https://github.com/mathnet/mathnet-numerics/blob/master/src/Numerics/Distributions/ConwayMaxwellPoisson.cs">Numerics</a> in C#.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [2]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
-
-<span class="kn">from</span> <span class="nn">IPython.core.pylabtools</span> <span class="k">import</span> <span class="n">figsize</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">stats</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">theano</span>
-<span class="kn">import</span> <span class="nn">theano.tensor</span> <span class="k">as</span> <span class="nn">tt</span>
-<span class="kn">import</span> <span class="nn">pymc3</span> <span class="k">as</span> <span class="nn">pm</span>
-<span class="kn">from</span> <span class="nn">pymc3.distributions.discrete</span> <span class="k">import</span> <span class="n">Discrete</span><span class="p">,</span> <span class="n">bound</span><span class="p">,</span> <span class="n">draw_values</span><span class="p">,</span> <span class="n">generate_samples</span>
-
-<span class="n">theano</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">compute_test_value</span> <span class="o">=</span> <span class="s2">"ignore"</span>
-
-<span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">"talk"</span><span class="p">)</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">"darkgrid"</span><span class="p">)</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">set_palette</span><span class="p">(</span><span class="s2">"Set2"</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
-<span class="n">figsize</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Import-some-data">Import some data<a class="anchor-link" href="posts/conway-maxwell-poisson-distribution-in-pymc3/#Import-some-data">¶</a>
-</h4>
-<p class="more"><a href="posts/conway-maxwell-poisson-distribution-in-pymc3/">Read more…</a></p>
-</div>
-</div>
-</div>
-</div>
-</div>
-    </div>
     </article>
 </div>
-
-               <script>var disqus_shortname="dadaromeo";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script><script type="text/x-mathjax-config">
+        <nav class="postindexpager"><ul class="pager">
+<li class="next">
+                <a href="index-1.html" rel="next">Older posts</a>
+            </li>
+        </ul></nav><script>var disqus_shortname="dadaromeo";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script><script type="text/x-mathjax-config">
  MathJax.Hub.Config({
      tex2jax: {
          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
