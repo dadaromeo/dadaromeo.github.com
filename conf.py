@@ -133,6 +133,7 @@ TRANSLATIONS_PATTERN = "{path}.{lang}.{ext}"
 NAVIGATION_LINKS = {
     DEFAULT_LANG: (
         ('/', '<i class="fa fa-lg fa-home"></i>&nbsp; Home'),
+        ("/stories/about", "About"),
         ("/archive.html", "Archive"),
         ("/categories/", "Tags"),
         ("https://github.com/dadaromeo/adventures-in-dataland", "GitHub"),
