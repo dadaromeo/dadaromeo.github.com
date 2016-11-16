@@ -1163,7 +1163,7 @@ TWITTER_CARD = {
     'card': 'summary',          # Card type, you can also use 'summary_large_image',
                                    # see https://dev.twitter.com/cards/types
     'site': '@dadaromeo',         # twitter nick for the website
-    'creator': '@dadaromeo',     # Username for the content creator / author.
+#    'creator': '@dadaromeo',     # Username for the content creator / author.
 }
 
 # If webassets is installed, bundle JS and CSS into single files to make
