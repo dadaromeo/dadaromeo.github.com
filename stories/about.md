@@ -13,6 +13,4 @@
 
 - Location: Douala, Cameroon
 - Twitter: [@dadaromeo](https://twitter.com/dadaromeo)
-- Tel:
-    - (+237) 671361316
-    - (+237) 697468237
+- Email: dada[dot]romy[at]gmail[dot]com
