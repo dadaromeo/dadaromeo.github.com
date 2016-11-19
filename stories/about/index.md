@@ -13,4 +13,4 @@
 
 - Location: Douala, Cameroon
 - Twitter: [@dadaromeo](https://twitter.com/dadaromeo)
-- Email: dada[dot]romy[at]gmail[dot]com
+- Email: dada.romy[at]gmail[dot]com
