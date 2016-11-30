@@ -780,7 +780,7 @@ IMAGE_THUMBNAIL_SIZE = 240
 # vs
 # xcode
 # This list MAY be incomplete since pygments adds styles every now and then.
-COLOR_CODE_SCHEME = 'xcode'
+COLOR_CODE_SCHEME = 'fruity'
 
 # If you use 'site-reveal' theme you can select several subthemes
 # THEME_REVEAL_CONFIG_SUBTHEME = 'sky'
