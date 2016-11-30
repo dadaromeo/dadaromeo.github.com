@@ -5,7 +5,6 @@ article: http://ogp.me/ns/article#
 " lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="description" content="text mining, topic modeling, text processing, gensim">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Voice Afrique Tweets Mining Part 3 | Adventures in Dataland</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
@@ -27,16 +26,28 @@ article: http://ogp.me/ns/article#
          styles: {'.MathJax_Display': {"margin": 0}}
      }
  });
- </script><!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="description" itemprop="description" content="text mining, topic modeling, text processing, gensim">
-<meta name="author" content="Dada Romeo">
+ </script><!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Dada Romeo">
 <link rel="prev" href="../the-voice-afrique-tweets-mining-part-2/" title="The Voice Afrique Tweets Mining Part 2" type="text/html">
 <link rel="next" href="../the-voice-afrique-tweets-mining-part-4/" title="The Voice Afrique Tweets Mining Part 4" type="text/html">
 <meta property="og:site_name" content="Adventures in Dataland">
 <meta property="og:title" content="The Voice Afrique Tweets Mining Part 3">
 <meta property="og:url" content="https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-3/">
-<meta property="og:description" content="text mining, topic modeling, text processing, gensim">
+<meta property="og:description" content="Topic modeling¶
+
+
+
+
+
+
+
+
+Previously, we explored a model that exploits the links between the entities to help us find the key players in the data. Here, we will focus on the tweet’s text to better unde">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2016-11-08T14:10:58+01:00">
+<meta property="article:tag" content="gensim">
+<meta property="article:tag" content="text mining">
+<meta property="article:tag" content="text processing">
+<meta property="article:tag" content="topic modeling">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@dadaromeo">
 <meta name="twitter:creator" content="@dadaromeo">
@@ -96,7 +107,7 @@ article: http://ogp.me/ns/article#
 
 
             
-                <meta name="description" itemprop="description" content="text mining, topic modeling, text processing, gensim"></p>
+        </p>
 </div>
         
     </header><div class="e-content entry-content" itemprop="articleBody text">
@@ -439,7 +450,13 @@ nadia      filles     rehab        locko      svp
   </div>
 
     </div>
-    <aside class="postpromonav"><nav><ul class="pager hidden-print">
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/gensim/" rel="tag">gensim</a></li>
+            <li><a class="tag p-category" href="../../categories/text-mining/" rel="tag">text mining</a></li>
+            <li><a class="tag p-category" href="../../categories/text-processing/" rel="tag">text processing</a></li>
+            <li><a class="tag p-category" href="../../categories/topic-modeling/" rel="tag">topic modeling</a></li>
+        </ul>
+<ul class="pager hidden-print">
 <li class="previous">
                 <a href="../the-voice-afrique-tweets-mining-part-2/" rel="prev" title="The Voice Afrique Tweets Mining Part 2"><i class="fa fa-arrow-left"></i>  Previous post</a>
             </li>
