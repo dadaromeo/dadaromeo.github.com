@@ -7,142 +7,42 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>https://dadaromeo.github.io/</loc>
-  <lastmod>2016-11-10T16:22:00Z</lastmod>
+  <lastmod>2017-01-25T17:14:00Z</lastmod>
  </url>
  <url>
   <loc>https://dadaromeo.github.io/2016/</loc>
-  <lastmod>2016-10-05T15:07:00Z</lastmod>
+  <lastmod>2017-01-25T17:14:00Z</lastmod>
  </url>
  <url>
   <loc>https://dadaromeo.github.io/archive.html</loc>
-  <lastmod>2016-11-30T11:21:00Z</lastmod>
+  <lastmod>2017-01-25T17:31:00Z</lastmod>
  </url>
  <url>
   <loc>https://dadaromeo.github.io/categories/</loc>
-  <lastmod>2016-11-30T11:21:00Z</lastmod>
- </url>
- <url>
-  <loc>https://dadaromeo.github.io/categories/agent-based-modeling/</loc>
-  <lastmod>2016-11-30T11:21:00Z</lastmod>
- </url>
- <url>
-  <loc>https://dadaromeo.github.io/categories/altair/</loc>
-  <lastmod>2016-10-09T05:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://dadaromeo.github.io/categories/bayesian-statistics/</loc>
-  <lastmod>2016-11-30T11:21:00Z</lastmod>
+  <lastmod>2017-01-25T17:14:00Z</lastmod>
  </url>
  <url>
   <loc>https://dadaromeo.github.io/categories/data-collection/</loc>
-  <lastmod>2016-11-08T13:16:00Z</lastmod>
+  <lastmod>2017-01-25T17:14:00Z</lastmod>
  </url>
  <url>
   <loc>https://dadaromeo.github.io/categories/data-mining/</loc>
-  <lastmod>2016-11-08T13:16:00Z</lastmod>
- </url>
- <url>
-  <loc>https://dadaromeo.github.io/categories/gensim/</loc>
-  <lastmod>2016-11-30T11:21:00Z</lastmod>
- </url>
- <url>
-  <loc>https://dadaromeo.github.io/categories/graph-tool/</loc>
-  <lastmod>2016-11-08T13:16:00Z</lastmod>
- </url>
- <url>
-  <loc>https://dadaromeo.github.io/categories/matrix-factorization/</loc>
-  <lastmod>2016-10-24T16:19:00Z</lastmod>
- </url>
- <url>
-  <loc>https://dadaromeo.github.io/categories/mesa/</loc>
-  <lastmod>2016-11-30T11:21:00Z</lastmod>
- </url>
- <url>
-  <loc>https://dadaromeo.github.io/categories/probability-distribution/</loc>
-  <lastmod>2016-11-30T11:21:00Z</lastmod>
- </url>
- <url>
-  <loc>https://dadaromeo.github.io/categories/pymc3/</loc>
-  <lastmod>2016-10-05T15:07:00Z</lastmod>
- </url>
- <url>
-  <loc>https://dadaromeo.github.io/categories/recommender-systems/</loc>
-  <lastmod>2016-10-24T16:19:00Z</lastmod>
- </url>
- <url>
-  <loc>https://dadaromeo.github.io/categories/sentiment-analysis/</loc>
-  <lastmod>2016-11-30T11:21:00Z</lastmod>
- </url>
- <url>
-  <loc>https://dadaromeo.github.io/categories/social-network-analysis/</loc>
-  <lastmod>2016-11-08T13:16:00Z</lastmod>
- </url>
- <url>
-  <loc>https://dadaromeo.github.io/categories/text-mining/</loc>
-  <lastmod>2016-11-30T11:21:00Z</lastmod>
- </url>
- <url>
-  <loc>https://dadaromeo.github.io/categories/text-processing/</loc>
-  <lastmod>2016-11-30T11:21:00Z</lastmod>
- </url>
- <url>
-  <loc>https://dadaromeo.github.io/categories/topic-modeling/</loc>
-  <lastmod>2016-11-30T11:21:00Z</lastmod>
+  <lastmod>2017-01-25T17:14:00Z</lastmod>
  </url>
  <url>
   <loc>https://dadaromeo.github.io/categories/tweepy/</loc>
-  <lastmod>2016-11-08T13:16:00Z</lastmod>
- </url>
- <url>
-  <loc>https://dadaromeo.github.io/categories/visualization/</loc>
-  <lastmod>2016-10-09T05:53:00Z</lastmod>
+  <lastmod>2017-01-25T17:14:00Z</lastmod>
  </url>
  <url>
   <loc>https://dadaromeo.github.io/galleries/</loc>
-  <lastmod>2016-10-15T23:00:00Z</lastmod>
- </url>
- <url>
-  <loc>https://dadaromeo.github.io/index-1.html</loc>
-  <lastmod>2016-11-30T11:21:00Z</lastmod>
+  <lastmod>2017-01-25T17:14:00Z</lastmod>
  </url>
  <url>
   <loc>https://dadaromeo.github.io/listings/</loc>
-  <lastmod>2016-10-05T15:07:00Z</lastmod>
- </url>
- <url>
-  <loc>https://dadaromeo.github.io/posts/conway-maxwell-poisson-distribution-in-pymc3/</loc>
-  <lastmod>2016-11-09T07:55:00Z</lastmod>
- </url>
- <url>
-  <loc>https://dadaromeo.github.io/posts/global-shark-incidences/</loc>
-  <lastmod>2016-11-09T07:55:00Z</lastmod>
- </url>
- <url>
-  <loc>https://dadaromeo.github.io/posts/mesa-a-library-for-agent-based-modeling-in-python/</loc>
-  <lastmod>2016-11-30T11:21:00Z</lastmod>
- </url>
- <url>
-  <loc>https://dadaromeo.github.io/posts/movies-recommendation-with-hierarchical-poisson-factorization-in-pymc3/</loc>
-  <lastmod>2016-11-09T07:55:00Z</lastmod>
+  <lastmod>2017-01-25T17:14:00Z</lastmod>
  </url>
  <url>
   <loc>https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-1/</loc>
-  <lastmod>2016-11-09T07:55:00Z</lastmod>
- </url>
- <url>
-  <loc>https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-2/</loc>
-  <lastmod>2016-11-09T07:55:00Z</lastmod>
- </url>
- <url>
-  <loc>https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-3/</loc>
-  <lastmod>2016-11-09T07:55:00Z</lastmod>
- </url>
- <url>
-  <loc>https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-4/</loc>
-  <lastmod>2016-11-09T07:55:00Z</lastmod>
- </url>
- <url>
-  <loc>https://dadaromeo.github.io/stories/about/</loc>
-  <lastmod>2016-11-10T16:22:00Z</lastmod>
+  <lastmod>2017-01-25T17:14:00Z</lastmod>
  </url>
 </urlset>
