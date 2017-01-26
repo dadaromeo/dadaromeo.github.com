@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Voice Afrique Tweets Mining Part 3 | Dada Romeo</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-3/">
+<link rel="icon" href="../../favicon.ico" sizes="16x16">
+<link rel="icon" href="../../favicon-16x16.png" sizes="16x16">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.css">
+<meta name="author" content="Dada Romeo">
+<link rel="prev" href="../the-voice-afrique-tweets-mining-part-2/" title="The Voice Afrique Tweets Mining Part 2" type="text/html">
+<link rel="next" href="../the-voice-afrique-tweets-mining-part-4/" title="The Voice Afrique Tweets Mining Part 4" type="text/html">
+<meta property="og:site_name" content="Dada Romeo">
+<meta property="og:title" content="The Voice Afrique Tweets Mining Part 3">
+<meta property="og:url" content="https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-3/">
+<meta property="og:description" content="Topic modeling
+Previously, we
+explored a model that exploits the links between the entities to help us find the
+key players in the data. Here, we will focus on the tweet’s text to better
+understand wh">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2016-11-08T14:10:58+01:00">
+<meta property="article:tag" content="gensim">
+<meta property="article:tag" content="text mining">
+<meta property="article:tag" content="text processing">
+<meta property="article:tag" content="topic modeling">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@dadaromeo">
+<meta name="twitter:creator" content="@dadaromeo">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<div class="blog-masthead">
+    <div class="container">
+<!-- This keeps the margins nice -->
+        <nav class="blog-nav" role="navigation"><a href="../../" class="blog-nav-item">Home</a>
+            <a href="../../archive.html" class="blog-nav-item">Archive</a>
+            <a href="../../categories/" class="blog-nav-item">Tags</a>
+            <a href="../../rss.xml" class="blog-nav-item">RSS feed</a>
+
+            
+
+                
+                
+                
+            
+        </nav>
+</div>
+<!-- /.container -->
+</div>
+<!-- End of Menubar -->
+
+<div class="container" id="content" role="main">
+    <div class="body-content">
+        <div class="blog-header">
+            <h1 class="blog-title">
+                <a href="https://dadaromeo.github.io/">
+
+                </a>
+            </h1>
+            <p class="lead blog-description">Adventures in Dataland</p>
+            
+        </div>
+        <!--Body content-->
+        <div class="row">
+            <div class="col-sm-8 blog-main">
+                
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h2 class="p-name entry-title blog-post-title" itemprop="headline name"><a href="." class="u-url">The Voice Afrique Tweets Mining Part 3</a></h2>
+
+        <div class="metadata blog-post-meta">
+            <p class="byline author vcard"><span class="byline-name fn">Dada Romeo</span></p>
+            <p class="dateline"><a href="." rel="bookmark"><time class="published dt-published" datetime="2016-11-08T14:10:58+01:00" itemprop="datePublished" title="2016-11-08 14:10">2016-11-08 14:10</time></a></p>
+                <p class="commentline">
+        
+    <a href="#disqus_thread" data-disqus-identifier="cache/posts/the-voice-afrique-tweets-mining-part-3.html">Comments</a>
+
+
+            
+
+        </p>
+</div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div>
+<div class="section" id="topic-modeling">
+<h2>Topic modeling</h2>
+<p><a class="reference external" href="https://dadaromeo.github.io/the-voice-tweets-mining-part-2">Previously</a>, we
+explored a model that exploits the links between the entities to help us find the
+key players in the data. Here, we will focus on the tweet’s text to better
+understand what the users are talking about. We move away from the network model
+we’ve used previously and discuss other methods for text analysis. We first
+explore <a class="reference external" href="https://en.wikipedia.org/wiki/Topic_model">*topic modeling*</a>, an
+approach that finds natural topics within the text. We then move on to
+<a class="reference external" href="https://dadaromeo.github.io/the-voice-afrique-tweets-mining-part-4">sentiment analysis</a>,
+the practice of associating a document with a sentiment score</p>
+<!-- TEASER_END -->
+</div>
+<div class="section" id="finding-topics">
+<h2>Finding topics</h2>
+<p>The data we collected from Twitter is a relatively small sample, but attempting
+to read each individual tweet is a hopeless cause. A more reachable goal is to get
+a high-level understanding of what users are talking about. One way to do this is
+by understanding the topics the users are discussing in their tweets. In this
+section we discuss the automatic discovery of topics in the text through <em>topic modeling</em>
+with <a class="reference external" href="https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation">Latent Dirichlet allocation</a>
+(LDA), a popular topic modeling algorithm.</p>
+<p>Every topic in LDA is a collection of words. Each topic contains all of the words
+in the corpus with a probability of the word belonging to that topic. So, while all
+of the words in the topic are the same, the weight they are given differs between topics.</p>
+<p>LDA finds the most probable words for a topic, associating each topic with a theme is left to the user.</p>
+</div>
+<div class="section" id="lda-with-gensim">
+<h2>LDA with Gensim</h2>
+<p>To perfom the LDA computation in Python, we will use the <code>gensim</code> library
+(<a class="reference external" href="https://radimrehurek.com/gensim/">topic modeling for human</a>). As we can see,
+most of the work is done for us, the real effort is in the preprocessing of the
+documents to get the documents ready. The preprocessing we will perfom are:</p>
+<ul class="simple">
+<li>
+<strong>Lowercasing</strong> - Strip casing of all words in the document
+(i.e: <code>"@thevoiceafrique #TheVoiceAfrique est SUPERB! :) https://t.co/2ty"</code>
+becomes <code>"#thevoiceafrique est superb! :) https://t.co/2ty"</code>)</li>
+<li>
+<strong>Tokenizing</strong> - Convert the string to a list of tokens based on whitespace.
+This process also removes punctuation marks from the text. This becomes the list
+<code>["@thevoiceafrique", "#thevoiceafrique", "est" "superb", ":)", "https://t.co/2ty"]</code>
+</li>
+<li>
+<strong>Stopword Removal</strong> - Remove <em>stopwords</em>, words so common that their presence
+does not tell us anything about the dataset. This also removes smileys, emoticons,
+mentions hashtags and links: <code>["@thevoiceafrique", "#thevoiceafrique", "superb"]</code>
+</li>
+</ul>
+<pre class="code python"><a name="rest_code_537168ed67164423894bc40c3e58d72b-1"></a><span class="kn">import</span> <span class="nn">re</span>
+<a name="rest_code_537168ed67164423894bc40c3e58d72b-2"></a><span class="kn">import</span> <span class="nn">string</span>
+<a name="rest_code_537168ed67164423894bc40c3e58d72b-3"></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<a name="rest_code_537168ed67164423894bc40c3e58d72b-4"></a><span class="kn">import</span> <span class="nn">emoji</span>
+<a name="rest_code_537168ed67164423894bc40c3e58d72b-5"></a><span class="kn">from</span> <span class="nn">twitter.parse_tweet</span> <span class="kn">import</span> <span class="n">Emoticons</span>
+<a name="rest_code_537168ed67164423894bc40c3e58d72b-6"></a><span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>
+<a name="rest_code_537168ed67164423894bc40c3e58d72b-7"></a><span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">stopwords</span>
+<a name="rest_code_537168ed67164423894bc40c3e58d72b-8"></a><span class="kn">from</span> <span class="nn">nltk.tokenize</span> <span class="kn">import</span> <span class="n">TweetTokenizer</span>
+<a name="rest_code_537168ed67164423894bc40c3e58d72b-9"></a><span class="kn">from</span> <span class="nn">gensim.models</span> <span class="kn">import</span> <span class="n">LdaModel</span>
+<a name="rest_code_537168ed67164423894bc40c3e58d72b-10"></a><span class="kn">from</span> <span class="nn">gensim.corpora</span> <span class="kn">import</span> <span class="n">TextCorpus</span>
+<a name="rest_code_537168ed67164423894bc40c3e58d72b-11"></a>
+<a name="rest_code_537168ed67164423894bc40c3e58d72b-12"></a><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<a name="rest_code_537168ed67164423894bc40c3e58d72b-13"></a>
+<a name="rest_code_537168ed67164423894bc40c3e58d72b-14"></a><span class="n">host</span> <span class="o">=</span> <span class="s2">"localhost"</span>
+<a name="rest_code_537168ed67164423894bc40c3e58d72b-15"></a><span class="n">port</span> <span class="o">=</span> <span class="mi">27017</span>
+<a name="rest_code_537168ed67164423894bc40c3e58d72b-16"></a>
+<a name="rest_code_537168ed67164423894bc40c3e58d72b-17"></a><span class="n">db</span> <span class="o">=</span> <span class="n">MongoClient</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span><span class="o">.</span><span class="n">search</span>
+</pre>
+<p>The <code>stopwords-fr.txt</code> file is downloaded <a class="reference external" href="https://github.com/stopwords-iso/stopwords-fr">here</a>.</p>
+<pre class="code python"><a name="rest_code_5d9de83c542f4f489d1d2ed4b7bcf9b1-1"></a><span class="n">stop_words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<a name="rest_code_5d9de83c542f4f489d1d2ed4b7bcf9b1-2"></a><span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">))</span>
+<a name="rest_code_5d9de83c542f4f489d1d2ed4b7bcf9b1-3"></a><span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s2">"french"</span><span class="p">))</span>
+<a name="rest_code_5d9de83c542f4f489d1d2ed4b7bcf9b1-4"></a><span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">Emoticons</span><span class="o">.</span><span class="n">POSITIVE</span><span class="p">)</span>
+<a name="rest_code_5d9de83c542f4f489d1d2ed4b7bcf9b1-5"></a><span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">Emoticons</span><span class="o">.</span><span class="n">NEGATIVE</span><span class="p">)</span>
+<a name="rest_code_5d9de83c542f4f489d1d2ed4b7bcf9b1-6"></a><span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">([</span><span class="s2">"’"</span><span class="p">,</span> <span class="s2">"…"</span><span class="p">,</span> <span class="s2">"ca"</span><span class="p">,</span> <span class="s2">"°"</span><span class="p">,</span> <span class="s2">"çà"</span><span class="p">,</span> <span class="s2">"»"</span><span class="p">,</span> <span class="s2">"«"</span><span class="p">,</span> <span class="s2">"•"</span><span class="p">,</span> <span class="s2">"the"</span><span class="p">,</span>
+<a name="rest_code_5d9de83c542f4f489d1d2ed4b7bcf9b1-7"></a>                   <span class="s2">"voice"</span><span class="p">,</span> <span class="s2">"afrique"</span><span class="p">,</span> <span class="s2">"voix"</span><span class="p">,</span> <span class="s2">"–"</span><span class="p">,</span> <span class="s2">"::"</span><span class="p">,</span> <span class="s2">"“"</span><span class="p">,</span> <span class="s2">"₩"</span><span class="p">,</span> <span class="s2">"🤣"</span><span class="p">])</span>
+<a name="rest_code_5d9de83c542f4f489d1d2ed4b7bcf9b1-8"></a>
+<a name="rest_code_5d9de83c542f4f489d1d2ed4b7bcf9b1-9"></a><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"data/stopwords-fr.txt"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<a name="rest_code_5d9de83c542f4f489d1d2ed4b7bcf9b1-10"></a>    <span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()))</span>
+<a name="rest_code_5d9de83c542f4f489d1d2ed4b7bcf9b1-11"></a>
+<a name="rest_code_5d9de83c542f4f489d1d2ed4b7bcf9b1-12"></a><span class="n">tokenize</span> <span class="o">=</span> <span class="n">TweetTokenizer</span><span class="p">()</span><span class="o">.</span><span class="n">tokenize</span>
+</pre>
+<p>Little helpers</p>
+<pre class="code python"><a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-1"></a><span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-2"></a>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-3"></a>    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-4"></a>    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">"..."</span><span class="p">)</span>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-5"></a>    <span class="n">found</span> <span class="o">=</span> <span class="n">emoji</span><span class="o">.</span><span class="n">demojize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" "</span><span class="p">)</span>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-6"></a>    <span class="n">text</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">found</span> <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="s2">"_"</span> <span class="ow">in</span> <span class="n">t</span><span class="p">)])</span>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-7"></a>    <span class="n">text</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r"\w*\d+\w*"</span><span class="p">,</span> <span class="n">text</span><span class="p">))</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-8"></a>    <span class="n">tokens</span> <span class="o">=</span> <span class="n">tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-9"></a>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-10"></a>    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-11"></a>        <span class="n">cond</span> <span class="o">=</span> <span class="p">(</span><span class="n">token</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">"#"</span><span class="p">,</span> <span class="s2">"@"</span><span class="p">,</span> <span class="s2">"http"</span><span class="p">,</span> <span class="s2">"www"</span><span class="p">))</span> <span class="ow">or</span>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-12"></a>                <span class="s2">"."</span> <span class="ow">in</span> <span class="n">token</span> <span class="ow">or</span>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-13"></a>                <span class="s2">"'"</span> <span class="ow">in</span> <span class="n">token</span>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-14"></a>                <span class="p">)</span>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-15"></a>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-16"></a>        <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">cond</span><span class="p">):</span>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-17"></a>            <span class="k">yield</span> <span class="n">token</span>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-18"></a>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-19"></a><span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-20"></a>    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-21"></a>    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">parse</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-22"></a>        <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">token</span> <span class="ow">in</span> <span class="n">stop_words</span><span class="p">):</span>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-23"></a>            <span class="k">yield</span> <span class="n">token</span>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-24"></a>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-25"></a><span class="k">class</span> <span class="nc">Corpus</span><span class="p">(</span><span class="n">TextCorpus</span><span class="p">):</span>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-26"></a>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-27"></a>    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-28"></a>        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">)</span>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-29"></a>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-30"></a>    <span class="k">def</span> <span class="nf">get_texts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-31"></a>        <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">:</span>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-32"></a>            <span class="n">tweet</span> <span class="o">=</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">tweet</span><span class="p">)</span>
+<a name="rest_code_8e9e58aa93084c668762b7bb2e64b493-33"></a>            <span class="k">yield</span> <span class="nb">list</span><span class="p">(</span><span class="n">tweet</span><span class="p">)</span>
+</pre>
+<p>Load the tweets.</p>
+<pre class="code python"><a name="rest_code_74c7d75cfe124001a433bdd66bb68847-1"></a><span class="n">tweets</span> <span class="o">=</span> <span class="p">[</span><span class="n">tweet</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span> <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">thevoice</span><span class="o">.</span><span class="n">find</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="s2">"retweeted_status"</span> <span class="ow">in</span> <span class="n">tweet</span><span class="o">.</span><span class="n">keys</span><span class="p">())]</span>
+</pre>
+<p>Enrich the stopwords set.</p>
+<pre class="code python"><a name="rest_code_0dfc237c27ee40178aaa3c11c12a7a9e-1"></a><span class="n">regexp</span> <span class="o">=</span> <span class="n">emoji</span><span class="o">.</span><span class="n">get_emoji_regexp</span><span class="p">()</span><span class="o">.</span><span class="n">findall</span>
+<a name="rest_code_0dfc237c27ee40178aaa3c11c12a7a9e-2"></a>
+<a name="rest_code_0dfc237c27ee40178aaa3c11c12a7a9e-3"></a><span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">tweets</span><span class="p">:</span>
+<a name="rest_code_0dfc237c27ee40178aaa3c11c12a7a9e-4"></a>    <span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">regexp</span><span class="p">(</span><span class="n">tweet</span><span class="p">))</span>
+</pre>
+<p>Build the corpus.</p>
+<pre class="code python"><a name="rest_code_46b0112897be41639251b60297b3d2a1-1"></a><span class="n">corpus</span> <span class="o">=</span> <span class="n">Corpus</span><span class="p">(</span><span class="n">tweets</span><span class="p">)</span>
+<a name="rest_code_46b0112897be41639251b60297b3d2a1-2"></a>
+<a name="rest_code_46b0112897be41639251b60297b3d2a1-3"></a><span class="k">print</span><span class="p">(</span><span class="s2">"Number of documents: {}</span><span class="se">\n</span><span class="s2">Number of tokens: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">corpus</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">corpus</span><span class="o">.</span><span class="n">dictionary</span><span class="p">)))</span>
+</pre>
+<p>Build the model.</p>
+<pre class="code python"><a name="rest_code_7fe3bebbd176413d8aa23726ec7add34-1"></a><span class="n">lda</span> <span class="o">=</span> <span class="n">LdaModel</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="n">num_topics</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">id2word</span><span class="o">=</span><span class="n">corpus</span><span class="o">.</span><span class="n">dictionary</span><span class="p">)</span>
+</pre>
+<p>A helper for printing the topics</p>
+<pre class="code python"><a name="rest_code_4d25ef9f38b84a34a9ae71041c1dc6c6-1"></a><span class="k">def</span> <span class="nf">show_topics</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">n_words</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">"simple"</span><span class="p">):</span>
+<a name="rest_code_4d25ef9f38b84a34a9ae71041c1dc6c6-2"></a>    <span class="sd">"""Show `n` randomly selected topics and thier</span>
+<a name="rest_code_4d25ef9f38b84a34a9ae71041c1dc6c6-3"></a><span class="sd">    top words.</span>
+<a name="rest_code_4d25ef9f38b84a34a9ae71041c1dc6c6-4"></a><span class="sd">    """</span>
+<a name="rest_code_4d25ef9f38b84a34a9ae71041c1dc6c6-5"></a>    <span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span>
+<a name="rest_code_4d25ef9f38b84a34a9ae71041c1dc6c6-6"></a>
+<a name="rest_code_4d25ef9f38b84a34a9ae71041c1dc6c6-7"></a>    <span class="n">topics</span> <span class="o">=</span> <span class="p">{}</span>
+<a name="rest_code_4d25ef9f38b84a34a9ae71041c1dc6c6-8"></a>    <span class="n">ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">lda</span><span class="o">.</span><span class="n">num_topics</span><span class="p">)</span>
+<a name="rest_code_4d25ef9f38b84a34a9ae71041c1dc6c6-9"></a>    <span class="n">ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<a name="rest_code_4d25ef9f38b84a34a9ae71041c1dc6c6-10"></a>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">:</span>
+<a name="rest_code_4d25ef9f38b84a34a9ae71041c1dc6c6-11"></a>        <span class="n">topic</span> <span class="o">=</span> <span class="n">lda</span><span class="o">.</span><span class="n">show_topic</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n_words</span><span class="p">)</span>
+<a name="rest_code_4d25ef9f38b84a34a9ae71041c1dc6c6-12"></a>        <span class="n">words</span><span class="p">,</span><span class="n">prop</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">topic</span><span class="p">)</span>
+<a name="rest_code_4d25ef9f38b84a34a9ae71041c1dc6c6-13"></a>        <span class="n">topics</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+<a name="rest_code_4d25ef9f38b84a34a9ae71041c1dc6c6-14"></a>
+<a name="rest_code_4d25ef9f38b84a34a9ae71041c1dc6c6-15"></a>    <span class="n">tabular</span> <span class="o">=</span> <span class="n">tabulate</span><span class="p">(</span><span class="n">topics</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s2">"keys"</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="n">fmt</span><span class="p">)</span>
+<a name="rest_code_4d25ef9f38b84a34a9ae71041c1dc6c6-16"></a>
+<a name="rest_code_4d25ef9f38b84a34a9ae71041c1dc6c6-17"></a>    <span class="k">print</span><span class="p">(</span><span class="n">tabular</span><span class="p">)</span>
+</pre>
+<p>Show the topics</p>
+<pre class="code python"><a name="rest_code_dea88ff134334469a187e28c769868c6-1"></a><span class="n">show_topics</span><span class="p">()</span>
+</pre>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%">
+<col width="20%">
+<col width="22%">
+<col width="20%">
+<col width="18%">
+</colgroup>
+<thead valign="bottom"><tr>
+<th class="head">1</th>
+<th class="head">2</th>
+<th class="head">3</th>
+<th class="head">4</th>
+<th class="head">5</th>
+</tr></thead>
+<tbody valign="top">
+<tr>
+<td>singuila</td>
+<td>gars</td>
+<td>chante</td>
+<td>asalfo</td>
+<td>fire</td>
+</tr>
+<tr>
+<td>coachs</td>
+<td>lokua</td>
+<td>nadia</td>
+<td>shayden</td>
+<td>famille</td>
+</tr>
+<tr>
+<td>chante</td>
+<td>charlotte</td>
+<td>pub</td>
+<td>singuila</td>
+<td>faut</td>
+</tr>
+<tr>
+<td>lol</td>
+<td>go</td>
+<td>chanson</td>
+<td>grâce</td>
+<td>vrai</td>
+</tr>
+<tr>
+<td>congolais</td>
+<td>soir</td>
+<td>grace</td>
+<td>deh</td>
+<td>retourne</td>
+</tr>
+<tr>
+<td>asalfo</td>
+<td>asalfo</td>
+<td>choix</td>
+<td>belle</td>
+<td>faire</td>
+</tr>
+<tr>
+<td>charlotte</td>
+<td>super</td>
+<td>candidats</td>
+<td>talent</td>
+<td>pro</td>
+</tr>
+<tr>
+<td>talent</td>
+<td>déjà</td>
+<td>belle</td>
+<td>soir</td>
+<td>coach</td>
+</tr>
+<tr>
+<td>albert</td>
+<td>ndem</td>
+<td>heroine</td>
+<td>ans</td>
+<td>nadia</td>
+</tr>
+<tr>
+<td>frère</td>
+<td>chante</td>
+<td>soirée</td>
+<td>soeur</td>
+<td>gars</td>
+</tr>
+</tbody>
+</table>
+<p>The table above show the distribution of words within the different topics. From
+that, we can see that viewers are talking about the different candidates and
+coaches. In the <a class="reference external" href="https://dadaromeo.github.io/the-voice-afrique-tweets-mining-part-3">next</a>
+post, we will use <em>Sentiment Analysis</em> to see if we see what sentiment is the most
+present in the data.</p>
+<p>Thanks for following.</p>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/gensim/" rel="tag">gensim</a></li>
+            <li><a class="tag p-category" href="../../categories/text-mining/" rel="tag">text mining</a></li>
+            <li><a class="tag p-category" href="../../categories/text-processing/" rel="tag">text processing</a></li>
+            <li><a class="tag p-category" href="../../categories/topic-modeling/" rel="tag">topic modeling</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../the-voice-afrique-tweets-mining-part-2/" rel="prev" title="The Voice Afrique Tweets Mining Part 2">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../the-voice-afrique-tweets-mining-part-4/" rel="next" title="The Voice Afrique Tweets Mining Part 4">Next post</a>
+            </li>
+        </ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+        
+        
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="dadaromeo",
+            disqus_url="https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-3/",
+        disqus_title="The Voice Afrique Tweets Mining Part 3",
+        disqus_identifier="cache/posts/the-voice-afrique-tweets-mining-part-3.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        </section></article><script>var disqus_shortname="dadaromeo";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div>
+            <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+                <div class="sidebar-module sidebar-module-inset">
+    <div class="thumbnail">
+        <img src="../../galleries/portrait.jpg" class="img-thumbnail" alt="Dada Romeo"><div class="caption">
+        <h4>About</h4>
+        <p>Data Analyst with interest in Statistical Modeling, Machine Learning and Network Science.</p>
+    </div>
+    </div>
+</div>
+<div class="sidebar-module">
+    <h4>Social Media</h4>
+    <ul class="list-group">
+<li class="list-group-item">
+<strong>Twitter:</strong> <a href="https://twitter.com/dadaromeo">@dadaromeo</a>
+</li>
+        <li class="list-group-item">
+<strong>GitHub:</strong> <a href="https://github.com/dadaromeo">dadaromeo</a>
+</li>
+    </ul>
+</div>
+
+            </div>
+        <!--End of body content-->
+        </div>
+    </div>
+</div>
+
+<footer class="blog-footer" id="footer">
+    Contents © 2017         <a href="mailto:dada.romy@gmail.com">Dada Romeo</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+    
+</footer><script src="../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>
