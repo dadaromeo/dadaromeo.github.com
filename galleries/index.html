@@ -2,15 +2,23 @@
 <html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="description" content="Tags">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tags | Dada Romeo</title>
+<title>galleries | Dada Romeo</title>
 <link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
-<link rel="canonical" href="https://dadaromeo.github.io/categories/">
+<link rel="canonical" href="https://dadaromeo.github.io/galleries/">
 <link rel="icon" href="../favicon.ico" sizes="16x16">
 <link rel="icon" href="../favicon-16x16.png" sizes="16x16">
 <!--[if lt IE 9]><script src="../assets/js/html5.js"></script><![endif]--><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<style type="text/css">
+    .image-block {
+        display: inline-block;
+    }
+    .flowr_row {
+        width: 100%;
+    }
+    </style>
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -22,7 +30,7 @@
 <!-- This keeps the margins nice -->
         <nav class="blog-nav" role="navigation"><a href="../" class="blog-nav-item">Home</a>
             <a href="../archive.html" class="blog-nav-item">Archive</a>
-            <a href="." class="blog-nav-item active">Tags <span class="sr-only">(active)</span></a>
+            <a href="../categories/" class="blog-nav-item">Tags</a>
             <a href="../rss.xml" class="blog-nav-item">RSS feed</a>
 
             
@@ -52,26 +60,24 @@
         <div class="row">
             <div class="col-sm-8 blog-main">
                 
-<h1>Tags</h1>
-    <ul class="list-inline">
-<li><a class="reference badge" href="agent-based-modeling/">agent-based modeling</a></li>
-            <li><a class="reference badge" href="data-collection/">data collection</a></li>
-            <li><a class="reference badge" href="data-mining/">data mining</a></li>
-            <li><a class="reference badge" href="gensim/">gensim</a></li>
-            <li><a class="reference badge" href="graph-tool/">graph-tool</a></li>
-            <li><a class="reference badge" href="mesa/">mesa</a></li>
-            <li><a class="reference badge" href="sentiment-analysis/">sentiment analysis</a></li>
-            <li><a class="reference badge" href="social-network-analysis/">social network analysis</a></li>
-            <li><a class="reference badge" href="text-mining/">text mining</a></li>
-            <li><a class="reference badge" href="text-processing/">text processing</a></li>
-            <li><a class="reference badge" href="topic-modeling/">topic modeling</a></li>
-            <li><a class="reference badge" href="tweepy/">tweepy</a></li>
-    </ul>
-</div>
+    
+<nav class="breadcrumbs"><ul class="breadcrumb">
+<li>galleries</li>
+</ul></nav><h1>galleries</h1>
+
+<div id="gallery_container"></div>
+<noscript>
+<ul class="thumbnails"><li>
+<a href="portrait.jpg" class="thumbnail image-reference" title="Portrait">
+            <img src="portrait.thumbnail.jpg" alt="Portrait"></a>
+</li></ul>
+</noscript>
+
+            </div>
             <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
                 <div class="sidebar-module sidebar-module-inset">
     <div class="thumbnail">
-        <img src="../galleries/portrait.jpg" class="img-thumbnail" alt="Dada Romeo"><div class="caption">
+        <img src="portrait.jpg" class="img-thumbnail" alt="Dada Romeo"><div class="caption">
         <h4>About</h4>
         <p>Data Analyst with interest in Statistical Modeling, Machine Learning and Network Science.</p>
     </div>
@@ -101,6 +107,43 @@
 </footer><script src="../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
     moment.locale("en");
     fancydates(0, "YYYY-MM-DD HH:mm");
-    </script><!-- end fancy dates -->
+    </script><!-- end fancy dates --><script src="../assets/js/flowr.plugin.js"></script><script>
+jsonContent = [{"size": {"h": 128, "w": 128}, "title": "Portrait", "url": "portrait.jpg", "url_thumb": "portrait.thumbnail.jpg"}];
+$("#gallery_container").flowr({
+        data : jsonContent,
+        height : 180*.6,
+        padding: 5,
+        rows: -1,
+        render : function(params) {
+            // Just return a div, string or a dom object, anything works fine
+            img = $("<img />").attr({
+                'src': params.itemData.url_thumb,
+                'width' : params.width,
+                'height' : params.height
+            }).css('max-width', '100%');
+            link = $( "<a></a>").attr({
+                'href': params.itemData.url,
+                'class': 'image-reference'
+            });
+            div = $("<div />").addClass('image-block').attr({
+                'title': params.itemData.title,
+                'data-toggle': "tooltip",
+            });
+            link.append(img);
+            div.append(link);
+            div.hover(div.tooltip());
+            return div;
+        },
+        itemWidth : function(data) { return data.size.w; },
+        itemHeight : function(data) { return data.size.h; },
+        complete : function(params) {
+            if( jsonContent.length > params.renderedItems ) {
+                nextRenderList = jsonContent.slice( params.renderedItems );
+            }
+        }
+    });
+$("a.image-reference").colorbox({rel:"gal", maxWidth:"100%",maxHeight:"100%",scalePhotos:true});
+$('a.image-reference[href="'+window.location.hash.substring(1,1000)+'"]').click();
+</script>
 </body>
 </html>

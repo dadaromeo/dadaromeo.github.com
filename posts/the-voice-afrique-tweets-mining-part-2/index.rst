@@ -179,6 +179,7 @@ The figure below shows such a network with our tweets data.
               )
 
 .. image:: /images/retweet_net_in_centrality.png
+    :alt: retweet network in-degree centrality
 
 .. code-block:: python
     
@@ -241,6 +242,7 @@ With Degree Centrality the key question was "how many people retweeted this node
               )
 
 .. image:: /images/retweet_net_eig_centality.png
+    :alt: retweet network eigenvalue centrality
 
 .. code-block:: python
     
@@ -330,6 +332,7 @@ With that,
               )
 
 .. image:: /images/mention_net.png
+    :alt: mention network
 
 .. code-block:: python
     
@@ -421,7 +424,8 @@ We need to remove those parallel edges.
              )
 
 .. image:: /images/hashtag_net.png
-    
+    :alt: hashtag network
+
 That's all for this post. In the `next <https://dadaromeo.gihub.io/the-voice-tweets-mining-part-3>`_ 
 post, we will explore *topic modeling* a powerful tool to uncover hidden within a corpus 
 of documents. Thanks for following.

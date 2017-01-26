@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mesa: A Library for Agent-Based Modeling in Python | Dada Romeo</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://dadaromeo.github.io/posts/mesa-a-library-for-agent-based-modeling-in-python/">
+<link rel="icon" href="../../favicon.ico" sizes="16x16">
+<link rel="icon" href="../../favicon-16x16.png" sizes="16x16">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.css">
+<meta name="author" content="Dada Romeo">
+<link rel="prev" href="../the-voice-afrique-tweets-mining-part-4/" title="The Voice Afrique Tweets Mining Part 4" type="text/html">
+<meta property="og:site_name" content="Dada Romeo">
+<meta property="og:title" content="Mesa: A Library for Agent-Based Modeling in Python">
+<meta property="og:url" content="https://dadaromeo.github.io/posts/mesa-a-library-for-agent-based-modeling-in-python/">
+<meta property="og:description" content="Introduction
+In this post, we introduce Mesa a library
+written in Python3 for Agent-Based Modeling (ABM). Agent-based modeling
+is a growing topic of interest in many scientific disciplines, due to its">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2016-11-30T12:18:31+01:00">
+<meta property="article:tag" content="agent-based modeling">
+<meta property="article:tag" content="mesa">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@dadaromeo">
+<meta name="twitter:creator" content="@dadaromeo">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<div class="blog-masthead">
+    <div class="container">
+<!-- This keeps the margins nice -->
+        <nav class="blog-nav" role="navigation"><a href="../../" class="blog-nav-item">Home</a>
+            <a href="../../archive.html" class="blog-nav-item">Archive</a>
+            <a href="../../categories/" class="blog-nav-item">Tags</a>
+            <a href="../../rss.xml" class="blog-nav-item">RSS feed</a>
+
+            
+
+                
+                
+                
+            
+        </nav>
+</div>
+<!-- /.container -->
+</div>
+<!-- End of Menubar -->
+
+<div class="container" id="content" role="main">
+    <div class="body-content">
+        <div class="blog-header">
+            <h1 class="blog-title">
+                <a href="https://dadaromeo.github.io/">
+
+                </a>
+            </h1>
+            <p class="lead blog-description">Adventures in Dataland</p>
+            
+        </div>
+        <!--Body content-->
+        <div class="row">
+            <div class="col-sm-8 blog-main">
+                
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h2 class="p-name entry-title blog-post-title" itemprop="headline name"><a href="." class="u-url">Mesa: A Library for Agent-Based Modeling in Python</a></h2>
+
+        <div class="metadata blog-post-meta">
+            <p class="byline author vcard"><span class="byline-name fn">Dada Romeo</span></p>
+            <p class="dateline"><a href="." rel="bookmark"><time class="published dt-published" datetime="2016-11-30T12:18:31+01:00" itemprop="datePublished" title="2016-11-30 12:18">2016-11-30 12:18</time></a></p>
+                <p class="commentline">
+        
+    <a href="#disqus_thread" data-disqus-identifier="cache/posts/mesa-a-library-for-agent-based-modeling-in-python.html">Comments</a>
+
+
+            
+
+        </p>
+</div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div>
+<div class="section" id="introduction">
+<h2>Introduction</h2>
+<p>In this post, we introduce <a class="reference external" href="https://github.com/projectmesa/mesa">Mesa</a> a library
+written in Python3 for Agent-Based Modeling (ABM). <a class="reference external" href="https://en.wikipedia.org/wiki/Agent-based_model">Agent-based modeling</a>
+is a growing topic of interest in many scientific disciplines, due to its flexibility
+for modeling complex dynamical systems. Agent-based models (ABMs) consist of autnomous,
+interacting computational objets, called agents within a given environment.</p>
+<!-- TEASER_END -->
+<p>We will introduce the components of of Mesa through a simple foraging model. In this model,
+a forager (a bug) walks around, searching for foods. We have three different kind
+of food resources: bean, corn and soy. Foods differ from their growth rate, density
+on the landscape, and thier starting energy level.</p>
+<p>A Mesa model consists of different modules. Here is how the model folder might look:</p>
+<blockquote>
+<pre class="code bash"><a name="rest_code_97729b2a46914fbc953bf7f95148f156-1"></a>foraging/
+<a name="rest_code_97729b2a46914fbc953bf7f95148f156-2"></a><span class="p">|</span>
+<a name="rest_code_97729b2a46914fbc953bf7f95148f156-3"></a><span class="p">|</span>---- __init__.py
+<a name="rest_code_97729b2a46914fbc953bf7f95148f156-4"></a><span class="p">|</span>
+<a name="rest_code_97729b2a46914fbc953bf7f95148f156-5"></a><span class="p">|</span>---- agents.py
+<a name="rest_code_97729b2a46914fbc953bf7f95148f156-6"></a><span class="p">|</span>
+<a name="rest_code_97729b2a46914fbc953bf7f95148f156-7"></a><span class="p">|</span>---- model.py
+<a name="rest_code_97729b2a46914fbc953bf7f95148f156-8"></a><span class="p">|</span>
+<a name="rest_code_97729b2a46914fbc953bf7f95148f156-9"></a><span class="p">|</span>---- resources.py
+<a name="rest_code_97729b2a46914fbc953bf7f95148f156-10"></a><span class="p">|</span>
+<a name="rest_code_97729b2a46914fbc953bf7f95148f156-11"></a><span class="p">|</span>---- server.py
+<a name="rest_code_97729b2a46914fbc953bf7f95148f156-12"></a><span class="p">|</span>
+<a name="rest_code_97729b2a46914fbc953bf7f95148f156-13"></a><span class="p">|</span>---- utils.py
+</pre>
+</blockquote>
+<p>Without further ado, we specify the components of our foraging model.</p>
+<div class="section" id="environment">
+<h3>Environment</h3>
+<p>One of the component of an ABM system is the <em>Environment</em>. The environment is
+where global variables are set up and managed like the number of agents, the scheduler,
+or the space where the simulation takes place. In Mesa, the environment is handle
+by a the <code class="python"><span class="n">Model</span></code> class. This class takes a seed keyword.
+We inherit that class to create our own environment.</p>
+<pre class="code bash"><a name="rest_code_1462d687e04c4b56ab0499a60ad31b61-1"></a>foraging/model.py
+</pre>
+<pre class="code python"><a name="rest_code_cd632c80690a40518cfe58a82152abc1-1"></a><span class="kn">from</span> <span class="nn">mesa.model</span> <span class="kn">import</span> <span class="n">Model</span>
+<a name="rest_code_cd632c80690a40518cfe58a82152abc1-2"></a>
+<a name="rest_code_cd632c80690a40518cfe58a82152abc1-3"></a><span class="k">class</span> <span class="nc">Foraging</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+<a name="rest_code_cd632c80690a40518cfe58a82152abc1-4"></a>
+<a name="rest_code_cd632c80690a40518cfe58a82152abc1-5"></a>    <span class="n">number_of_bean</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_cd632c80690a40518cfe58a82152abc1-6"></a>    <span class="n">number_of_corn</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_cd632c80690a40518cfe58a82152abc1-7"></a>    <span class="n">number_of_soy</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_cd632c80690a40518cfe58a82152abc1-8"></a>
+<a name="rest_code_cd632c80690a40518cfe58a82152abc1-9"></a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_bug</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<a name="rest_code_cd632c80690a40518cfe58a82152abc1-10"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+<a name="rest_code_cd632c80690a40518cfe58a82152abc1-11"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">number_of_bug</span> <span class="o">=</span> <span class="n">num_bug</span>
+<a name="rest_code_cd632c80690a40518cfe58a82152abc1-12"></a>        <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">strategy</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"stick"</span><span class="p">,</span> <span class="s2">"switch"</span><span class="p">]):</span>
+<a name="rest_code_cd632c80690a40518cfe58a82152abc1-13"></a>            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"'strategy' must be one of {stick, switch}"</span><span class="p">)</span>
+<a name="rest_code_cd632c80690a40518cfe58a82152abc1-14"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">strategy</span>
+</pre>
+<p>The environment defines the <em>space</em> where the agents evolve. The space range from
+simple square grid to complex geospatial space. In this post, the agents evolve
+within a simple square grid where each colored cell indicades the presence of an
+agent and the color indicates the type of agent (we will come to that later).
+We add the space in our environment.</p>
+<pre class="code bash"><a name="rest_code_55e343c6f3144abb9629c70561c240ff-1"></a>foraging/model.py
+</pre>
+<pre class="code python"><a name="rest_code_5a7018b6606944b6ac7f87b0993447de-1"></a><span class="kn">from</span> <span class="nn">mesa.model</span> <span class="kn">import</span> <span class="n">Model</span>
+<a name="rest_code_5a7018b6606944b6ac7f87b0993447de-2"></a><span class="kn">from</span> <span class="nn">mesa.space</span> <span class="kn">import</span> <span class="n">SingleGrid</span>
+<a name="rest_code_5a7018b6606944b6ac7f87b0993447de-3"></a>
+<a name="rest_code_5a7018b6606944b6ac7f87b0993447de-4"></a><span class="k">class</span> <span class="nc">Foraging</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+<a name="rest_code_5a7018b6606944b6ac7f87b0993447de-5"></a>
+<a name="rest_code_5a7018b6606944b6ac7f87b0993447de-6"></a>    <span class="n">number_of_bean</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_5a7018b6606944b6ac7f87b0993447de-7"></a>    <span class="n">number_of_corn</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_5a7018b6606944b6ac7f87b0993447de-8"></a>    <span class="n">number_of_soy</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_5a7018b6606944b6ac7f87b0993447de-9"></a>
+<a name="rest_code_5a7018b6606944b6ac7f87b0993447de-10"></a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">torus</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">num_bug</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<a name="rest_code_5a7018b6606944b6ac7f87b0993447de-11"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+<a name="rest_code_5a7018b6606944b6ac7f87b0993447de-12"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">number_of_bug</span> <span class="o">=</span> <span class="n">num_bug</span>
+<a name="rest_code_5a7018b6606944b6ac7f87b0993447de-13"></a>        <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">strategy</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"stick"</span><span class="p">,</span> <span class="s2">"switch"</span><span class="p">]):</span>
+<a name="rest_code_5a7018b6606944b6ac7f87b0993447de-14"></a>            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"'strategy' must be one of {stick, switch}"</span><span class="p">)</span>
+<a name="rest_code_5a7018b6606944b6ac7f87b0993447de-15"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">strategy</span>
+<a name="rest_code_5a7018b6606944b6ac7f87b0993447de-16"></a>
+<a name="rest_code_5a7018b6606944b6ac7f87b0993447de-17"></a>        <span class="n">sefl</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">SingleGrid</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">torus</span><span class="p">)</span>
+</pre>
+<p>The environment also defines a <em>scheduler</em> that manages the agents at every time step.
+The choice of the type of scheduler is very important since it specifies how
+(in which order) the state of the agents is updated. In this post, we use a random
+scheduler. It means that at every time step, agents are choose at random at thier
+state is updated.</p>
+<pre class="code bash"><a name="rest_code_2d51042819884477a0e1bdf88cb877f4-1"></a>foraging/model.py
+</pre>
+<pre class="code python"><a name="rest_code_8d445350442641c9ab925e05adc5b559-1"></a><span class="kn">from</span> <span class="nn">mesa.model</span> <span class="kn">import</span> <span class="n">Model</span>
+<a name="rest_code_8d445350442641c9ab925e05adc5b559-2"></a><span class="kn">from</span> <span class="nn">mesa.space</span> <span class="kn">import</span> <span class="n">SingleGrid</span>
+<a name="rest_code_8d445350442641c9ab925e05adc5b559-3"></a><span class="kn">from</span> <span class="nn">mesa.time</span> <span class="kn">import</span> <span class="n">RandomActivation</span>
+<a name="rest_code_8d445350442641c9ab925e05adc5b559-4"></a>
+<a name="rest_code_8d445350442641c9ab925e05adc5b559-5"></a><span class="k">class</span> <span class="nc">Foraging</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+<a name="rest_code_8d445350442641c9ab925e05adc5b559-6"></a>
+<a name="rest_code_8d445350442641c9ab925e05adc5b559-7"></a>    <span class="n">number_of_bean</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_8d445350442641c9ab925e05adc5b559-8"></a>    <span class="n">number_of_corn</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_8d445350442641c9ab925e05adc5b559-9"></a>    <span class="n">number_of_soy</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_8d445350442641c9ab925e05adc5b559-10"></a>
+<a name="rest_code_8d445350442641c9ab925e05adc5b559-11"></a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">torus</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">num_bug</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<a name="rest_code_8d445350442641c9ab925e05adc5b559-12"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+<a name="rest_code_8d445350442641c9ab925e05adc5b559-13"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">number_of_bug</span> <span class="o">=</span> <span class="n">num_bug</span>
+<a name="rest_code_8d445350442641c9ab925e05adc5b559-14"></a>        <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">strategy</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"stick"</span><span class="p">,</span> <span class="s2">"switch"</span><span class="p">]):</span>
+<a name="rest_code_8d445350442641c9ab925e05adc5b559-15"></a>            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"'strategy' must be one of {stick, switch}"</span><span class="p">)</span>
+<a name="rest_code_8d445350442641c9ab925e05adc5b559-16"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">strategy</span>
+<a name="rest_code_8d445350442641c9ab925e05adc5b559-17"></a>
+<a name="rest_code_8d445350442641c9ab925e05adc5b559-18"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">SingleGrid</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">torus</span><span class="p">)</span>
+<a name="rest_code_8d445350442641c9ab925e05adc5b559-19"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">schedule</span> <span class="o">=</span> <span class="n">RandomActivation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</pre>
+<p>Since the purpose of an ABM is to study the behaviour of a system under different
+conditions, we need a way to collect the relevant data of the system while it is
+running. The relevent data in this example being the number of food resources (bean, corn, soy)
+and the number of foragers (bug) at each time step. This is handle in Mesa with the
+<code class="python"><span class="n">DataCollector</span></code> class.</p>
+<pre class="code bash"><a name="rest_code_7d610d5f4d724daa81696b64b4207c55-1"></a>foraging/model.py
+</pre>
+<pre class="code python"><a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-1"></a><span class="kn">from</span> <span class="nn">mesa.model</span> <span class="kn">import</span> <span class="n">Model</span>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-2"></a><span class="kn">from</span> <span class="nn">mesa.space</span> <span class="kn">import</span> <span class="n">SingleGrid</span>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-3"></a><span class="kn">from</span> <span class="nn">mesa.time</span> <span class="kn">import</span> <span class="n">RandomActivation</span>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-4"></a><span class="kn">from</span> <span class="nn">mesa.datacollection</span> <span class="kn">import</span> <span class="n">DataCollector</span>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-5"></a>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-6"></a><span class="k">class</span> <span class="nc">Foraging</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-7"></a>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-8"></a>    <span class="n">number_of_bean</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-9"></a>    <span class="n">number_of_corn</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-10"></a>    <span class="n">number_of_soy</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-11"></a>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-12"></a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">torus</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">num_bug</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-13"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-14"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">number_of_bug</span> <span class="o">=</span> <span class="n">num_bug</span>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-15"></a>        <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">strategy</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"stick"</span><span class="p">,</span> <span class="s2">"switch"</span><span class="p">]):</span>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-16"></a>            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"'strategy' must be one of {stick, switch}"</span><span class="p">)</span>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-17"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">strategy</span>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-18"></a>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-19"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">SingleGrid</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">torus</span><span class="p">)</span>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-20"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">schedule</span> <span class="o">=</span> <span class="n">RandomActivation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-21"></a>        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Bean"</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">number_of_bean</span><span class="p">,</span>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-22"></a>                <span class="s2">"Corn"</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">number_of_corn</span><span class="p">,</span>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-23"></a>                <span class="s2">"Soy"</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">number_of_soy</span><span class="p">,</span>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-24"></a>                <span class="s2">"Bug"</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">number_of_bug</span><span class="p">,</span>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-25"></a>                <span class="p">}</span>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-26"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">datacollector</span> <span class="o">=</span> <span class="n">DataCollector</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-27"></a>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-28"></a>    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-29"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">schedule</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-30"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">datacollector</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-31"></a>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-32"></a>        <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">exists_empty_cells</span><span class="p">()):</span>
+<a name="rest_code_fd94c737a53f41df990d7b4a8fc4c2d2-33"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="bp">False</span>
+</pre>
+<p>The <code class="python"><span class="n">step</span></code> method of the environment run the model by calling the <code class="python"><span class="n">step</span></code>
+method of the scheduler which in turn call the <code class="python"><span class="n">step</span></code> method of every agent
+which is where the behaviour of the agent is defined.</p>
+</div>
+<div class="section" id="agents">
+<h3>Agents</h3>
+<div class="section" id="food">
+<h4>Food</h4>
+<p>On of the agent in this example is the food resource. In this section, we describe
+the behaiour of a food resource.</p>
+<p>A food resource starts with a fixed ernergy and grows at a fixed rate. When the
+resource is fully frown, it starts to wilt at fixed wilt rate. If the food is fully
+grown and its energy reachs a certain treshold, the food replicate itself in an empty
+cell in the neighborhood if there is one, otherwise, nothing is done. If a food has
+no more energy, it is removed from the environemnt.</p>
+<pre class="code bash"><a name="rest_code_43bff5f5aa08415da37e56171e17028e-1"></a>foraging/resources.py
+</pre>
+<pre class="code python"><a name="rest_code_2972291d38454bae8254c3a6c84e57fd-1"></a><span class="kn">import</span> <span class="nn">random</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-2"></a>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-3"></a><span class="kn">from</span> <span class="nn">mesa.agent</span> <span class="kn">import</span> <span class="n">Agent</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-4"></a>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-5"></a><span class="k">class</span> <span class="nc">Food</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-6"></a>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-7"></a>    <span class="n">fully_grown</span> <span class="o">=</span> <span class="bp">False</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-8"></a>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-9"></a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unique_id</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-10"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">unique_id</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-11"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="n">pos</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-12"></a>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-13"></a>    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-14"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fully_grown</span><span class="p">:</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-15"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">energy</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wilt_rate</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-16"></a>        <span class="k">else</span><span class="p">:</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-17"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">energy</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">growth_rate</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-18"></a>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-19"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">energy</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_growth</span><span class="p">:</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-20"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">fully_grown</span> <span class="o">=</span> <span class="bp">True</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-21"></a>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-22"></a>        <span class="c1"># new Food</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-23"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fully_grown</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">energy</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_growth</span><span class="p">):</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-24"></a>            <span class="n">neig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">get_neighborhood</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-25"></a>            <span class="n">is_empty</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">is_cell_empty</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-26"></a>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-27"></a>            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">is_empty</span><span class="p">,</span> <span class="n">neig</span><span class="p">)):</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-28"></a>                <span class="n">empty</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="n">is_empty</span><span class="p">,</span> <span class="n">neig</span><span class="p">))</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-29"></a>                <span class="n">pos</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">empty</span><span class="p">)</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-30"></a>                <span class="n">food_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-31"></a>                <span class="n">attr_name</span> <span class="o">=</span> <span class="s2">"number_of_{}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">food_name</span><span class="p">)</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-32"></a>                <span class="n">last</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">)</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-33"></a>                <span class="n">new_food</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)(</span><span class="n">last</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-34"></a>                <span class="bp">self</span><span class="o">.</span><span class="n">energy</span> <span class="o">-=</span> <span class="n">new_food</span><span class="o">.</span><span class="n">energy</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-35"></a>                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">last</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-36"></a>                <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">place_agent</span><span class="p">(</span><span class="n">new_food</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-37"></a>                <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">schedule</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_food</span><span class="p">)</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-38"></a>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-39"></a>        <span class="c1"># Death</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-40"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">energy</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-41"></a>            <span class="n">food_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-42"></a>            <span class="n">attr_name</span> <span class="o">=</span> <span class="s2">"number_of_{}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">food_name</span><span class="p">)</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-43"></a>            <span class="n">last</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">)</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-44"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">_remove_agent</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-45"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">schedule</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<a name="rest_code_2972291d38454bae8254c3a6c84e57fd-46"></a>            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">last</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</pre>
+</div>
+<div class="section" id="forager">
+<h4>Forager</h4>
+<p>In this section, we describe the behavior of the forager (bug) in this example.</p>
+<p>Each forager borns with a fixed amount of energy, searches for foods in its neighborhood
+and moves according to the given strategy (describe below). When a forager moves,
+its energy decrease proportionally to the distance between its current position and
+the targeted position. When a forager gets old, its energy decreases by a fixed
+amount. If a forager is adult (is at a certain age), and its energy level is above a
+certain threshold, the forager gives birth in an empty cell in the neighborhood if
+there is one, otherwise, moves to a random empty cell eslsewhere if possible. If a
+forager has no more energy, it dies (i.e. it's removed from the environment).</p>
+<p>In the follwing, is the description of each strategy.</p>
+<ul class="simple">
+<li>
+<strong>Stick</strong>: In this strategy, a forager moves to a random location if there is
+nothing around him (no neighbors). Otherwise, stay at its current location.</li>
+<li>
+<strong>Switch</strong>: In this strategy, at each time step, a forager moves to an empty
+location in its neighborhood if there is one, otherwise stay at ist current location.</li>
+</ul>
+<pre class="code bash"><a name="rest_code_7486aabdf98748d197ec21bd43f580a5-1"></a>foraging/agents.py
+</pre>
+<pre class="code python"><a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-1"></a><span class="kn">import</span> <span class="nn">random</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-2"></a>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-3"></a><span class="kn">from</span> <span class="nn">mesa.agent</span> <span class="kn">import</span> <span class="n">Agent</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-4"></a>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-5"></a><span class="kn">from</span> <span class="nn">foraging.utils</span> <span class="kn">import</span> <span class="n">euclidean</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-6"></a><span class="kn">from</span> <span class="nn">foraging.resources</span> <span class="kn">import</span> <span class="n">Food</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-7"></a>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-8"></a><span class="k">class</span> <span class="nc">Bug</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-9"></a>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-10"></a>    <span class="n">treshold</span> <span class="o">=</span> <span class="mi">15</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-11"></a>    <span class="n">metabolism</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-12"></a>    <span class="n">energy</span> <span class="o">=</span> <span class="mi">10</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-13"></a>    <span class="n">strategy</span> <span class="o">=</span> <span class="bp">None</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-14"></a>    <span class="n">age</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-15"></a>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-16"></a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unique_id</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-17"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">unique_id</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-18"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="n">pos</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-19"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">move</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"stick"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">stick</span><span class="p">,</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-20"></a>                    <span class="s2">"switch"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">switch</span><span class="p">,</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-21"></a>                    <span class="p">}</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-22"></a>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-23"></a><span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-24"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">+=</span> <span class="mi">1</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-25"></a>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-26"></a>    <span class="n">adult</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">&gt;</span> <span class="mi">5</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-27"></a>    <span class="n">old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">&gt;</span> <span class="mi">50</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-28"></a>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-29"></a>    <span class="k">if</span> <span class="n">old</span><span class="p">:</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-30"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">energy</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metabolism</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-31"></a>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-32"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">find_food</span><span class="p">()</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-33"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">move</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">strategy</span><span class="p">]()</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-34"></a>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-35"></a>    <span class="c1"># new Bug</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-36"></a>    <span class="n">has_energy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">energy</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">treshold</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-37"></a>    <span class="k">if</span> <span class="n">has_energy</span> <span class="ow">and</span> <span class="p">(</span><span class="n">adult</span><span class="p">):</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-38"></a>        <span class="n">neig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">get_neighborhood</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-39"></a>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-40"></a>        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">is_cell_empty</span><span class="p">,</span> <span class="n">neig</span><span class="p">)):</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-41"></a>            <span class="n">empty</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">is_cell_empty</span><span class="p">,</span> <span class="n">neig</span><span class="p">))</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-42"></a>            <span class="n">pos</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">empty</span><span class="p">)</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-43"></a>            <span class="n">last</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">number_of_bug</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-44"></a>            <span class="n">new_bug</span> <span class="o">=</span> <span class="n">Bug</span><span class="p">(</span><span class="n">last</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-45"></a>            <span class="n">new_bug</span><span class="o">.</span><span class="n">strategy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-46"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">energy</span> <span class="o">-=</span> <span class="n">new_bug</span><span class="o">.</span><span class="n">energy</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-47"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">place_agent</span><span class="p">(</span><span class="n">new_bug</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-48"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">schedule</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_bug</span><span class="p">)</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-49"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">number_of_bug</span> <span class="o">+=</span> <span class="mi">1</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-50"></a>        <span class="k">else</span><span class="p">:</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-51"></a>            <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">find_empty</span><span class="p">()</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-52"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">move_to</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-53"></a>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-54"></a>    <span class="c1"># Death</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-55"></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">energy</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-56"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">die</span><span class="p">()</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-57"></a>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-58"></a><span class="k">def</span> <span class="nf">switch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-59"></a>    <span class="n">neig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">get_neighborhood</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-60"></a>    <span class="n">pos</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">neig</span><span class="p">)</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-61"></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">is_cell_empty</span><span class="p">(</span><span class="n">pos</span><span class="p">):</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-62"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">move_to</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-63"></a>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-64"></a><span class="k">def</span> <span class="nf">stick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-65"></a>    <span class="n">neig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">get_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-66"></a>    <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">neig</span><span class="p">):</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-67"></a>        <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">find_empty</span><span class="p">()</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-68"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">move_to</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-69"></a>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-70"></a><span class="k">def</span> <span class="nf">move_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-71"></a>    <span class="n">distance</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">euclidean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="n">pos</span><span class="p">))</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-72"></a>    <span class="n">cost</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metabolism</span> <span class="o">*</span> <span class="n">distance</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-73"></a>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-74"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">move_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-75"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">energy</span> <span class="o">-=</span> <span class="n">cost</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-76"></a>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-77"></a><span class="k">def</span> <span class="nf">find_food</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-78"></a>    <span class="n">neig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">get_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-79"></a>    <span class="k">if</span> <span class="n">neig</span><span class="p">:</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-80"></a>        <span class="n">agent</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">neig</span><span class="p">)</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-81"></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">Food</span><span class="p">):</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-82"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">eat</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-83"></a>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-84"></a><span class="k">def</span> <span class="nf">eat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">food</span><span class="p">):</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-85"></a>    <span class="n">gain</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">metabolism</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-86"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">energy</span> <span class="o">+=</span> <span class="n">gain</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-87"></a>    <span class="n">food</span><span class="o">.</span><span class="n">energy</span> <span class="o">-=</span> <span class="n">gain</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-88"></a>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-89"></a><span class="k">def</span> <span class="nf">die</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-90"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">_remove_agent</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-91"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">schedule</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-92"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">number_of_bug</span> <span class="o">-=</span> <span class="mi">1</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-93"></a>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-94"></a><span class="k">class</span> <span class="nc">Bean</span><span class="p">(</span><span class="n">Food</span><span class="p">):</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-95"></a>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-96"></a>    <span class="n">density</span> <span class="o">=</span> <span class="mf">0.005</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-97"></a>    <span class="n">growth_rate</span> <span class="o">=</span> <span class="mi">4</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-98"></a>    <span class="n">wilt_rate</span> <span class="o">=</span> <span class="mi">2</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-99"></a>    <span class="n">max_growth</span> <span class="o">=</span> <span class="mi">20</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-100"></a>    <span class="n">energy</span> <span class="o">=</span> <span class="mi">4</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-101"></a>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-102"></a><span class="k">class</span> <span class="nc">Corn</span><span class="p">(</span><span class="n">Food</span><span class="p">):</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-103"></a>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-104"></a>    <span class="n">density</span> <span class="o">=</span> <span class="mf">0.01</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-105"></a>    <span class="n">growth_rate</span> <span class="o">=</span> <span class="mi">2</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-106"></a>    <span class="n">wilt_rate</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-107"></a>    <span class="n">max_growth</span> <span class="o">=</span> <span class="mi">10</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-108"></a>    <span class="n">energy</span> <span class="o">=</span> <span class="mi">2</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-109"></a>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-110"></a><span class="k">class</span> <span class="nc">Soy</span><span class="p">(</span><span class="n">Food</span><span class="p">):</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-111"></a>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-112"></a>    <span class="n">density</span> <span class="o">=</span> <span class="mf">0.001</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-113"></a>    <span class="n">growth_rate</span> <span class="o">=</span> <span class="mi">20</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-114"></a>    <span class="n">wilt_rate</span> <span class="o">=</span> <span class="mi">10</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-115"></a>    <span class="n">max_growth</span> <span class="o">=</span> <span class="mi">100</span>
+<a name="rest_code_a050be4c2e5441bd9c22f1b8f245b747-116"></a>    <span class="n">energy</span> <span class="o">=</span> <span class="mi">20</span>
+</pre>
+<p>We can now finish to implement our envionment class with the methods to populate agents.</p>
+<pre class="code bash"><a name="rest_code_644612f4d6ad4355acd7efbebbd071df-1"></a>foraging/model.py
+</pre>
+<pre class="code python"><a name="rest_code_9adadcba2c87402a9f056f17df9eb194-1"></a><span class="kn">from</span> <span class="nn">mesa.model</span> <span class="kn">import</span> <span class="n">Model</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-2"></a><span class="kn">from</span> <span class="nn">mesa.space</span> <span class="kn">import</span> <span class="n">SingleGrid</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-3"></a><span class="kn">from</span> <span class="nn">mesa.time</span> <span class="kn">import</span> <span class="n">RandomActivation</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-4"></a><span class="kn">from</span> <span class="nn">mesa.datacollection</span> <span class="kn">import</span> <span class="n">DataCollector</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-5"></a>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-6"></a><span class="kn">from</span> <span class="nn">foraging.agents</span> <span class="kn">import</span> <span class="n">Bean</span><span class="p">,</span> <span class="n">Corn</span><span class="p">,</span> <span class="n">Soy</span><span class="p">,</span> <span class="n">Bug</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-7"></a>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-8"></a><span class="k">class</span> <span class="nc">Foraging</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-9"></a>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-10"></a>    <span class="n">number_of_bean</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-11"></a>    <span class="n">number_of_corn</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-12"></a>    <span class="n">number_of_soy</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-13"></a>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-14"></a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">torus</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">num_bug</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-15"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-16"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">number_of_bug</span> <span class="o">=</span> <span class="n">num_bug</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-17"></a>        <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">strategy</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"stick"</span><span class="p">,</span> <span class="s2">"switch"</span><span class="p">]):</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-18"></a>            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"'strategy' must be one of {stick, switch}"</span><span class="p">)</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-19"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">strategy</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-20"></a>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-21"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">SingleGrid</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">torus</span><span class="p">)</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-22"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">schedule</span> <span class="o">=</span> <span class="n">RandomActivation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-23"></a>        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Bean"</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">number_of_bean</span><span class="p">,</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-24"></a>                <span class="s2">"Corn"</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">number_of_corn</span><span class="p">,</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-25"></a>                <span class="s2">"Soy"</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">number_of_soy</span><span class="p">,</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-26"></a>                <span class="s2">"Bug"</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">number_of_bug</span><span class="p">,</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-27"></a>                <span class="p">}</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-28"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">datacollector</span> <span class="o">=</span> <span class="n">DataCollector</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-29"></a>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-30"></a>        <span class="c1"># create foods</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-31"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_populate</span><span class="p">(</span><span class="n">Bean</span><span class="p">)</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-32"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_populate</span><span class="p">(</span><span class="n">Corn</span><span class="p">)</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-33"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_populate</span><span class="p">(</span><span class="n">Soy</span><span class="p">)</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-34"></a>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-35"></a>        <span class="c1"># create bugs</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-36"></a>        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number_of_bug</span><span class="p">):</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-37"></a>            <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">find_empty</span><span class="p">()</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-38"></a>            <span class="n">bug</span> <span class="o">=</span> <span class="n">Bug</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-39"></a>            <span class="n">bug</span><span class="o">.</span><span class="n">strategy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-40"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">place_agent</span><span class="p">(</span><span class="n">bug</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-41"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">schedule</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">bug</span><span class="p">)</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-42"></a>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-43"></a>    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-44"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">schedule</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-45"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">datacollector</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-46"></a>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-47"></a>        <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">exists_empty_cells</span><span class="p">()):</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-48"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="bp">False</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-49"></a>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-50"></a>    <span class="k">def</span> <span class="nf">_populate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">food_type</span><span class="p">):</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-51"></a>        <span class="n">prefix</span> <span class="o">=</span> <span class="s2">"number_of_{}"</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-52"></a>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-53"></a>        <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-54"></a>        <span class="k">while</span> <span class="n">counter</span> <span class="o">&lt;</span> <span class="n">food_type</span><span class="o">.</span><span class="n">density</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">height</span><span class="p">):</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-55"></a>            <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">find_empty</span><span class="p">()</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-56"></a>            <span class="n">food</span> <span class="o">=</span> <span class="n">food_type</span><span class="p">(</span><span class="n">counter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-57"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">place_agent</span><span class="p">(</span><span class="n">food</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-58"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">schedule</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">food</span><span class="p">)</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-59"></a>            <span class="n">food_name</span> <span class="o">=</span> <span class="n">food_type</span><span class="o">.</span><span class="n">__name__</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-60"></a>            <span class="n">attr_name</span> <span class="o">=</span> <span class="n">prefix</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">food_name</span><span class="p">)</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-61"></a>            <span class="n">val</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">)</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-62"></a>            <span class="n">val</span> <span class="o">+=</span> <span class="mi">1</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-63"></a>            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+<a name="rest_code_9adadcba2c87402a9f056f17df9eb194-64"></a>            <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre>
+<p>With all this, we can run our model and examine the results. The way we run a model
+with different staring point in Mesa is trough the <code class="python"><span class="n">BactchRunner</span></code> class which
+take a model constructor and a dictionnary of the different parameters to run the
+model with. But in this post, we will manually run the model and collect the result.</p>
+<pre class="code python"><a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-1"></a><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-2"></a>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-3"></a><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-4"></a><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-5"></a>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-6"></a><span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm_notebook</span>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-7"></a><span class="kn">from</span> <span class="nn">foraging.model</span> <span class="kn">import</span> <span class="n">Foraging</span>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-8"></a>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-9"></a><span class="n">time</span> <span class="o">=</span> <span class="mi">250</span>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-10"></a>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-11"></a><span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">stragegy</span><span class="p">):</span>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-12"></a>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-13"></a>    <span class="k">with</span> <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">context</span><span class="p">(</span><span class="s2">"fivethirtyeight"</span><span class="p">):</span>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-14"></a>        <span class="n">ax</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">"line"</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-15"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Run"</span><span class="p">)</span>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-16"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Population size"</span><span class="p">)</span>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-17"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Evolution of bug's population with '{}' strategy"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">strategy</span><span class="p">))</span>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-18"></a>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-19"></a><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-20"></a>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-21"></a>    <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Bean"</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">"Corn"</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">"Soy"</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">"Bug"</span><span class="p">:</span> <span class="p">[]}</span>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-22"></a>    <span class="n">model</span> <span class="o">=</span> <span class="n">Foraging</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-23"></a>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-24"></a>    <span class="n">progress</span> <span class="o">=</span> <span class="n">tqdm_notebook</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-25"></a>    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">time</span><span class="p">):</span>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-26"></a>        <span class="n">model</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-27"></a>        <span class="n">result</span><span class="p">[</span><span class="s2">"Bean"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">number_of_bean</span><span class="p">)</span>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-28"></a>        <span class="n">result</span><span class="p">[</span><span class="s2">"Corn"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">number_of_corn</span><span class="p">)</span>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-29"></a>        <span class="n">result</span><span class="p">[</span><span class="s2">"Soy"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">number_of_soy</span><span class="p">)</span>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-30"></a>        <span class="n">result</span><span class="p">[</span><span class="s2">"Bug"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">number_of_bug</span><span class="p">)</span>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-31"></a>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-32"></a>        <span class="n">progress</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-33"></a>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-34"></a>    <span class="n">progress</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-35"></a>
+<a name="rest_code_af1d234c976846daaa3e30fccb7f70cd-36"></a>    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre>
+<p>Run the model with <code class="bash">stick</code> strategy</p>
+<pre class="code python"><a name="rest_code_e3e6f14757664880acec40de7300873e-1"></a><span class="n">strategy</span> <span class="o">=</span> <span class="s2">"stick"</span>
+<a name="rest_code_e3e6f14757664880acec40de7300873e-2"></a><span class="n">result</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="n">strategy</span><span class="p">)</span>
+<a name="rest_code_e3e6f14757664880acec40de7300873e-3"></a>
+<a name="rest_code_e3e6f14757664880acec40de7300873e-4"></a><span class="n">show</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">strategy</span><span class="p">)</span>
+</pre>
+<img alt="/images/foraging_stick.png" src="../../images/foraging_stick.png"><p>Run the model with <code class="bash">switch</code> strategy</p>
+<pre class="code python"><a name="rest_code_a6712d3edc6f4102a5eb9c66651d8d2e-1"></a><span class="n">strategy</span> <span class="o">=</span> <span class="s2">"switch"</span>
+<a name="rest_code_a6712d3edc6f4102a5eb9c66651d8d2e-2"></a><span class="n">result</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="n">strategy</span><span class="p">)</span>
+<a name="rest_code_a6712d3edc6f4102a5eb9c66651d8d2e-3"></a>
+<a name="rest_code_a6712d3edc6f4102a5eb9c66651d8d2e-4"></a><span class="n">show</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">strategy</span><span class="p">)</span>
+</pre>
+<img alt="/images/foraging_switch.png" src="../../images/foraging_switch.png"><p>Mesa has an in-browser visualization feature that allows the user to see the model
+at running in the browser. To use that functionality in our example, we add what
+follows in our directory.</p>
+<pre class="code bash"><a name="rest_code_a8d182156c8e48bb81185e5bd722a63a-1"></a>foraging/server.py
+</pre>
+<pre class="code python"><a name="rest_code_1a0aedfdc86249009d098e037ba7311d-1"></a><span class="kn">from</span> <span class="nn">mesa.visualization.modules</span> <span class="kn">import</span> <span class="n">CanvasGrid</span><span class="p">,</span> <span class="n">ChartModule</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-2"></a><span class="kn">from</span> <span class="nn">mesa.visualization.ModularVisualization</span> <span class="kn">import</span> <span class="n">ModularServer</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-3"></a>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-4"></a><span class="kn">from</span> <span class="nn">foraging.agents</span> <span class="kn">import</span> <span class="n">Bean</span><span class="p">,</span> <span class="n">Corn</span><span class="p">,</span> <span class="n">Soy</span><span class="p">,</span> <span class="n">Bug</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-5"></a><span class="kn">from</span> <span class="nn">foraging.model</span> <span class="kn">import</span> <span class="n">Foraging</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-6"></a>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-7"></a><span class="n">width</span> <span class="o">=</span> <span class="mi">50</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-8"></a><span class="n">height</span> <span class="o">=</span> <span class="mi">50</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-9"></a>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-10"></a><span class="k">def</span> <span class="nf">food_portrayal</span><span class="p">(</span><span class="n">agent</span><span class="p">):</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-11"></a>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-12"></a>    <span class="k">if</span> <span class="n">agent</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-13"></a>        <span class="k">return</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-14"></a>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-15"></a>    <span class="n">portrayal</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Shape"</span><span class="p">:</span> <span class="s2">"rect"</span><span class="p">,</span> <span class="s2">"Filled"</span><span class="p">:</span> <span class="s2">"true"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">,</span> <span class="s2">"h"</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">,</span> <span class="s2">"Layer"</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-16"></a>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-17"></a>    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Bean</span><span class="p">:</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-18"></a>        <span class="n">portrayal</span><span class="p">[</span><span class="s2">"Color"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"cornflowerblue"</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-19"></a>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-20"></a>    <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Corn</span><span class="p">:</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-21"></a>        <span class="n">portrayal</span><span class="p">[</span><span class="s2">"Color"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"blueviolet"</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-22"></a>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-23"></a>    <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Soy</span><span class="p">:</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-24"></a>        <span class="n">portrayal</span><span class="p">[</span><span class="s2">"Color"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"forestgreen"</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-25"></a>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-26"></a>    <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Bug</span><span class="p">:</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-27"></a>        <span class="n">portrayal</span><span class="p">[</span><span class="s2">"Shape"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"circle"</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-28"></a>        <span class="n">portrayal</span><span class="p">[</span><span class="s2">"Color"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"tomato"</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-29"></a>        <span class="n">portrayal</span><span class="p">[</span><span class="s2">"r"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-30"></a>        <span class="n">portrayal</span><span class="p">[</span><span class="s2">"Layer"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-31"></a>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-32"></a>    <span class="k">return</span> <span class="n">portrayal</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-33"></a>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-34"></a><span class="n">bean</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Label"</span><span class="p">:</span> <span class="s2">"Bean"</span><span class="p">,</span> <span class="s2">"Color"</span><span class="p">:</span> <span class="s2">"cornflowerblue"</span><span class="p">}</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-35"></a><span class="n">corn</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Label"</span><span class="p">:</span> <span class="s2">"Corn"</span><span class="p">,</span> <span class="s2">"Color"</span><span class="p">:</span> <span class="s2">"blueviolet"</span><span class="p">}</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-36"></a><span class="n">soy</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Label"</span><span class="p">:</span> <span class="s2">"Soy"</span><span class="p">,</span> <span class="s2">"Color"</span><span class="p">:</span> <span class="s2">"forestgreen"</span><span class="p">}</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-37"></a><span class="n">bug</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Label"</span><span class="p">:</span> <span class="s2">"Bug"</span><span class="p">,</span> <span class="s2">"Color"</span><span class="p">:</span> <span class="s2">"tomato"</span><span class="p">}</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-38"></a>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-39"></a><span class="n">canvas</span> <span class="o">=</span> <span class="n">CanvasGrid</span><span class="p">(</span><span class="n">food_portrayal</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-40"></a><span class="n">chart_count</span> <span class="o">=</span> <span class="n">ChartModule</span><span class="p">([</span><span class="n">bean</span><span class="p">,</span> <span class="n">corn</span><span class="p">,</span> <span class="n">soy</span><span class="p">,</span> <span class="n">bug</span><span class="p">])</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-41"></a>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-42"></a><span class="n">server</span> <span class="o">=</span> <span class="n">ModularServer</span><span class="p">(</span><span class="n">Foraging</span><span class="p">,</span> <span class="p">[</span><span class="n">canvas</span><span class="p">,</span> <span class="n">chart_count</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s2">"Foraging"</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s2">"stick"</span><span class="p">)</span>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-43"></a>
+<a name="rest_code_1a0aedfdc86249009d098e037ba7311d-44"></a><span class="n">server</span><span class="o">.</span><span class="n">launch</span><span class="p">()</span>
+</pre>
+<p>Once added, we launch the model at the console like this:</p>
+<pre class="code bash"><a name="rest_code_0484f91c721a46739659846007c0921a-1"></a>$ python3 foraging/server.py
+</pre>
+<p>When launch, something like the figure below opens up in your browser and you
+can press the run button to run the model.</p>
+<img alt="/images/foraging.png" src="../../images/foraging.png">
+</div>
+</div>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion</h2>
+<p>In this post, we introduce Mesa, an agent-based modeling framework through a
+simple foraging model. Mesa is still in its infancy but in the near future,
+itends to have the power of a full featured ABM's framework. To have an idea of
+what is coming next, you can watch this presentation by <a class="reference external" href="https://twitter.com/JackieKazil">Jackie</a> at PyDataDC 2016.</p>
+<div class="youtube-video align-center">
+<iframe width="425" height="344" src="https://www.youtube.com/embed/bjjoHji8KUQ?rel=0&amp;hd=1&amp;wmode=transparent"></iframe>
+</div>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/agent-based-modeling/" rel="tag">agent-based modeling</a></li>
+            <li><a class="tag p-category" href="../../categories/mesa/" rel="tag">mesa</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../the-voice-afrique-tweets-mining-part-4/" rel="prev" title="The Voice Afrique Tweets Mining Part 4">Previous post</a>
+            </li>
+        </ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+        
+        
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="dadaromeo",
+            disqus_url="https://dadaromeo.github.io/posts/mesa-a-library-for-agent-based-modeling-in-python/",
+        disqus_title="Mesa: A Library for Agent-Based Modeling in Python",
+        disqus_identifier="cache/posts/mesa-a-library-for-agent-based-modeling-in-python.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        </section></article><script>var disqus_shortname="dadaromeo";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div>
+            <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+                <div class="sidebar-module sidebar-module-inset">
+    <div class="thumbnail">
+        <img src="../../galleries/portrait.jpg" class="img-thumbnail" alt="Dada Romeo"><div class="caption">
+        <h4>About</h4>
+        <p>Data Analyst with interest in Statistical Modeling, Machine Learning and Network Science.</p>
+    </div>
+    </div>
+</div>
+<div class="sidebar-module">
+    <h4>Social Media</h4>
+    <ul class="list-group">
+<li class="list-group-item">
+<strong>Twitter:</strong> <a href="https://twitter.com/dadaromeo">@dadaromeo</a>
+</li>
+        <li class="list-group-item">
+<strong>GitHub:</strong> <a href="https://github.com/dadaromeo">dadaromeo</a>
+</li>
+    </ul>
+</div>
+
+            </div>
+        <!--End of body content-->
+        </div>
+    </div>
+</div>
+
+<footer class="blog-footer" id="footer">
+    Contents © 2017         <a href="mailto:dada.romy@gmail.com">Dada Romeo</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+    
+</footer><script src="../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>
