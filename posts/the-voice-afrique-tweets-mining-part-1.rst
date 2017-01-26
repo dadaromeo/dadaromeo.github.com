@@ -17,7 +17,7 @@ The show started on Sturday, 15 October and will go until February, the 4th 2017
 The show is broadcasted on `Vox Africa <http://www.voxafrica.com/thevoice/>`_. 
 For more information, you can look `here <http://www.camerpost.com/cameroun-the-voice-afrique-francophone-postulants-donnent-de-voix/)>`_.
 
-In this post series, we will use various `data sience <https://en.wikipedia.org/wiki/Data_science>`_ 
+In this post series, we will use various `data science <https://en.wikipedia.org/wiki/Data_science>`_ 
 tools to analyse the tweets we collected about the event.
 
 .. TEASER_END

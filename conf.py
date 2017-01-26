@@ -843,8 +843,8 @@ CODE_COLOR_SCHEME = 'tango'
 # Used to create favicon link like this:
 # <link rel="name" href="file" sizes="size"/>
 FAVICONS = (
-     ("icon", "/images/favicon-16x16.png", "16x16"),
-#     ("icon", "/icon_128x128.png", "128x128"),
+     ("icon", "/favicon.ico", "16x16"),
+     ("icon", "/favicon-16x16.png", "16x16"),
 )
 
 # Show teasers (instead of full posts) in indexes? Defaults to False.
@@ -1005,7 +1005,7 @@ PRETTY_URLS = True
 #         displayMath: [ ['$$','$$'], ["\\\[","\\\]"] ],
 #         processEscapes: true
 #     },
-#     displayAlign: 'left', // Change this to 'center' to center equations.
+#     displayAlign: 'center', // Change this to 'center' to center equations.
 #     "HTML-CSS": {
 #         styles: {'.MathJax_Display': {"margin": 0}}
 #     }
@@ -1017,8 +1017,8 @@ PRETTY_URLS = True
 # it's faster and the output looks better.
 # If you set USE_KATEX to True, you also need to add an extra CSS file
 # like this:
-# EXTRA_HEAD_DATA = """<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.css">"""
-# USE_KATEX = False
+EXTRA_HEAD_DATA = """<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.css">"""
+USE_KATEX = True
 
 # If you want to use the old (buggy) inline math $.$ with KaTeX, then
 # you might want to use this feature.
@@ -1217,13 +1217,13 @@ UNSLUGIFY_TITLES = True
 # Uncomment and modify to following lines to match your accounts.
 # Images displayed come from the `previewimage` meta tag.
 # You can specify the card type by using the `card` parameter in TWITTER_CARD.
-# TWITTER_CARD = {
-#     # 'use_twitter_cards': True,  # enable Twitter Cards
-#     # 'card': 'summary',          # Card type, you can also use 'summary_large_image',
+TWITTER_CARD = {
+      'use_twitter_cards': True,  # enable Twitter Cards
+      'card': 'summary',          # Card type, you can also use 'summary_large_image',
 #                                   # see https://dev.twitter.com/cards/types
-#     # 'site': '@website',         # twitter nick for the website
-#     # 'creator': '@username',     # Username for the content creator / author.
-# }
+      'site': '@dadaromeo',         # twitter nick for the website
+      'creator': '@dadaromeo',     # Username for the content creator / author.
+ }
 
 # If webassets is installed, bundle JS and CSS into single files to make
 # site loading faster in a HTTP/1.1 environment but is not recommended for
@@ -1231,7 +1231,7 @@ UNSLUGIFY_TITLES = True
 # USE_BUNDLES = True
 
 # Plugins you don't want to use. Be careful :-)
-# DISABLED_PLUGINS = ["render_galleries"]
+DISABLED_PLUGINS = ["render_galleries"]
 
 # Special settings to disable only parts of the indexes plugin (to allow RSS
 # but no blog indexes, or to allow blog indexes and Atom but no site-wide RSS).
