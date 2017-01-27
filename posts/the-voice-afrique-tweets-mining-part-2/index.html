@@ -9,18 +9,17 @@
 <link rel="canonical" href="https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-2/">
 <link rel="icon" href="../../favicon.ico" sizes="16x16">
 <link rel="icon" href="../../favicon-16x16.png" sizes="16x16">
-<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.css">
-<meta name="author" content="Dada Romeo">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Dada Romeo">
 <link rel="prev" href="../the-voice-afrique-tweets-mining-part-1/" title="The Voice Afrique Tweets Mining Part 1" type="text/html">
 <link rel="next" href="../the-voice-afrique-tweets-mining-part-3/" title="The Voice Afrique Tweets Mining Part 3" type="text/html">
 <meta property="og:site_name" content="Dada Romeo">
 <meta property="og:title" content="The Voice Afrique Tweets Mining Part 2">
 <meta property="og:url" content="https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-2/">
-<meta property="og:description" content="Network Analysis
-In the previous post,
+<meta property="og:description" content="In the previous post,
 we showed how to use Twitter API and the excellent Tweepy Python library to collect
 data and store them in a MongoDB database.
-It's now time to start aking quest">
+It's now time to start aking questions.
+Many of the">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2016-11-08T14:08:00+01:00">
 <meta property="article:tag" content="graph-tool">
@@ -87,14 +86,12 @@ It's now time to start aking quest">
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
-<div class="section" id="network-analysis">
-<h2>Network Analysis</h2>
 <p>In the <a class="reference external" href="https://dadaromeo.github.io/the-voice-tweets-mining-part-1">previous post</a>,
 we showed how to use Twitter API and the excellent Tweepy Python library to collect
 data and store them in a <a class="reference external" href="https://www.mongodb.com/">MongoDB</a> database.
 It's now time to start aking questions.</p>
 <p>Many of the questions that we ask of our tweets data can be answered through
-<a class="reference external" href="https://en.wikipedia.org/wiki/Social_network_analysis">network analysis</a>.
+<a class="reference external" href="https://en.wikipedia.org/wiki/Social_network_analysis">social network analysis</a>.
 Questions such as <em>who is important?</em>, <em>who talks to whom?</em>, and <em>what is important?</em>
 can all be answered through a network. Using proper network measures, we can find
 these important actors or topics in a network.</p>
@@ -112,7 +109,7 @@ importance when compared to other edges. One natural usage of weighted edges is 
 a user mention network, where the weight is the number of times the a user say
 <code>Alice</code> mentions another user, <code>Bob</code>.</p>
 <div class="section" id="networks-from-tweets-data">
-<h3>Networks from tweets data</h3>
+<h2>Networks from tweets data</h2>
 <p>We begin by constructing a retweet network because it carries a very intuitive meaning.
 The nodes are individual users. The <em>directed</em> edges indicate the flow of information in the network.
 An edge from node <span class="math">\(A\)</span> to node <span class="math">\(B\)</span> indicates that <span class="math">\(A\)</span> has retweeted <span class="math">\(B\)</span>, forwarding <span class="math">\(B\)</span>’s
@@ -120,91 +117,91 @@ information to his followers. Studying the structure of this network yields info
 about the ways the users communicate, and how highly they value each others’ information.</p>
 <p>We use <a class="reference external" href="https://graph-tool.skewed.de/">Graph-tool</a>, an efficient Python module
 for manipulation and statistical analysis of graphs.</p>
-<pre class="code python"><a name="rest_code_38cf8f622cb5447586d13bfaf405e838-1"></a><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
-<a name="rest_code_38cf8f622cb5447586d13bfaf405e838-2"></a>
-<a name="rest_code_38cf8f622cb5447586d13bfaf405e838-3"></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<a name="rest_code_38cf8f622cb5447586d13bfaf405e838-4"></a><span class="kn">import</span> <span class="nn">graph_tool.all</span> <span class="kn">as</span> <span class="nn">gt</span>
-<a name="rest_code_38cf8f622cb5447586d13bfaf405e838-5"></a><span class="kn">import</span> <span class="nn">pymongo</span>
-<a name="rest_code_38cf8f622cb5447586d13bfaf405e838-6"></a>
-<a name="rest_code_38cf8f622cb5447586d13bfaf405e838-7"></a><span class="n">host</span> <span class="o">=</span> <span class="s2">"localhost"</span>
-<a name="rest_code_38cf8f622cb5447586d13bfaf405e838-8"></a><span class="n">port</span> <span class="o">=</span> <span class="mi">27017</span>
-<a name="rest_code_38cf8f622cb5447586d13bfaf405e838-9"></a>
-<a name="rest_code_38cf8f622cb5447586d13bfaf405e838-10"></a><span class="n">db</span> <span class="o">=</span> <span class="n">pymongo</span><span class="o">.</span><span class="n">MongoClient</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span><span class="o">.</span><span class="n">search</span>
+<pre class="code python"><a name="rest_code_e7cf50fb04be4190b60a54a9b0c844ef-1"></a><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<a name="rest_code_e7cf50fb04be4190b60a54a9b0c844ef-2"></a>
+<a name="rest_code_e7cf50fb04be4190b60a54a9b0c844ef-3"></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<a name="rest_code_e7cf50fb04be4190b60a54a9b0c844ef-4"></a><span class="kn">import</span> <span class="nn">graph_tool.all</span> <span class="kn">as</span> <span class="nn">gt</span>
+<a name="rest_code_e7cf50fb04be4190b60a54a9b0c844ef-5"></a><span class="kn">import</span> <span class="nn">pymongo</span>
+<a name="rest_code_e7cf50fb04be4190b60a54a9b0c844ef-6"></a>
+<a name="rest_code_e7cf50fb04be4190b60a54a9b0c844ef-7"></a><span class="n">host</span> <span class="o">=</span> <span class="s2">"localhost"</span>
+<a name="rest_code_e7cf50fb04be4190b60a54a9b0c844ef-8"></a><span class="n">port</span> <span class="o">=</span> <span class="mi">27017</span>
+<a name="rest_code_e7cf50fb04be4190b60a54a9b0c844ef-9"></a>
+<a name="rest_code_e7cf50fb04be4190b60a54a9b0c844ef-10"></a><span class="n">db</span> <span class="o">=</span> <span class="n">pymongo</span><span class="o">.</span><span class="n">MongoClient</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span><span class="o">.</span><span class="n">search</span>
 </pre>
 <p>The <code>create_network</code> function will help us create different kind of networks (retweet,
 mention, hashtag coccurence) during this analysis. It takes a set of vertices and
 edges and a keyword indicating the type (directed, undirected) of network.</p>
-<pre class="code python"><a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-1"></a><span class="n">font_family</span> <span class="o">=</span> <span class="s2">"Lato Medium"</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-2"></a><span class="n">output_size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-3"></a>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-4"></a><span class="k">def</span> <span class="nf">create_network</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-5"></a>    <span class="n">net</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">directed</span><span class="o">=</span><span class="n">directed</span><span class="p">)</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-6"></a>    <span class="n">label</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">"string"</span><span class="p">)</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-7"></a>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-8"></a>    <span class="n">vertices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-9"></a>    <span class="n">net</span><span class="o">.</span><span class="n">add_vertex</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vertices</span><span class="p">))</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-10"></a>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-11"></a>    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">vertices</span><span class="p">()):</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-12"></a>        <span class="n">label</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-13"></a>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-14"></a>    <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">net</span><span class="o">.</span><span class="n">vertices</span><span class="p">():</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-15"></a>        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">net</span><span class="o">.</span><span class="n">vertices</span><span class="p">():</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-16"></a>            <span class="n">e</span> <span class="o">=</span> <span class="p">(</span><span class="n">label</span><span class="p">[</span><span class="n">u</span><span class="p">],</span> <span class="n">label</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-17"></a>            <span class="k">if</span> <span class="n">edges</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-18"></a>                <span class="n">net</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-19"></a>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-20"></a>    <span class="n">net</span><span class="o">.</span><span class="n">vertex_properties</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-21"></a>    <span class="n">gt</span><span class="o">.</span><span class="n">remove_self_loops</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-22"></a>    <span class="k">return</span> <span class="n">net</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-23"></a>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-24"></a><span class="k">def</span> <span class="nf">weight_from</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-25"></a>    <span class="n">weight</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">new_edge_property</span><span class="p">(</span><span class="s2">"float"</span><span class="p">)</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-26"></a>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-27"></a>    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">net</span><span class="o">.</span><span class="n">edges</span><span class="p">():</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-28"></a>        <span class="n">s</span> <span class="o">=</span> <span class="n">label</span><span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">source</span><span class="p">()]</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-29"></a>        <span class="n">t</span> <span class="o">=</span> <span class="n">label</span><span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">target</span><span class="p">()]</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-30"></a>        <span class="n">k</span> <span class="o">=</span> <span class="n">edges</span><span class="p">[(</span><span class="n">s</span><span class="p">,</span><span class="n">t</span><span class="p">)]</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-31"></a>        <span class="n">weight</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="n">k</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-32"></a>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-33"></a>    <span class="k">return</span> <span class="n">weight</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-34"></a>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-35"></a><span class="k">def</span> <span class="nf">pprint</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">"simple"</span><span class="p">):</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-36"></a>    <span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-37"></a>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-38"></a>    <span class="n">most</span> <span class="o">=</span> <span class="p">{}</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-39"></a>    <span class="n">label</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">vertex_properties</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-40"></a>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-41"></a>    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">retweet_net</span><span class="o">.</span><span class="n">vertices</span><span class="p">():</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-42"></a>        <span class="n">d</span> <span class="o">=</span> <span class="n">metric</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-43"></a>        <span class="n">l</span> <span class="o">=</span> <span class="n">label</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-44"></a>        <span class="n">most</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-45"></a>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-46"></a>    <span class="n">users</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">most</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="n">most</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)[:</span><span class="n">n</span><span class="p">]</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-47"></a>    <span class="n">top</span> <span class="o">=</span> <span class="p">{</span><span class="s2">""</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">title</span><span class="p">:</span> <span class="n">users</span><span class="p">}</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-48"></a>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-49"></a>    <span class="n">tabular</span> <span class="o">=</span> <span class="n">tabulate</span><span class="p">(</span><span class="n">top</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s2">"keys"</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="n">fmt</span><span class="p">)</span>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-50"></a>
-<a name="rest_code_ea2261d94cf14377bcdecba5ec7b6910-51"></a>    <span class="k">print</span><span class="p">(</span><span class="n">tabular</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-1"></a><span class="n">font_family</span> <span class="o">=</span> <span class="s2">"Lato Medium"</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-2"></a><span class="n">output_size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-3"></a>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-4"></a><span class="k">def</span> <span class="nf">create_network</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-5"></a>    <span class="n">net</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">directed</span><span class="o">=</span><span class="n">directed</span><span class="p">)</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-6"></a>    <span class="n">label</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">"string"</span><span class="p">)</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-7"></a>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-8"></a>    <span class="n">vertices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-9"></a>    <span class="n">net</span><span class="o">.</span><span class="n">add_vertex</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vertices</span><span class="p">))</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-10"></a>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-11"></a>    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">vertices</span><span class="p">()):</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-12"></a>        <span class="n">label</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-13"></a>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-14"></a>    <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">net</span><span class="o">.</span><span class="n">vertices</span><span class="p">():</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-15"></a>        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">net</span><span class="o">.</span><span class="n">vertices</span><span class="p">():</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-16"></a>            <span class="n">e</span> <span class="o">=</span> <span class="p">(</span><span class="n">label</span><span class="p">[</span><span class="n">u</span><span class="p">],</span> <span class="n">label</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-17"></a>            <span class="k">if</span> <span class="n">edges</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-18"></a>                <span class="n">net</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-19"></a>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-20"></a>    <span class="n">net</span><span class="o">.</span><span class="n">vertex_properties</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-21"></a>    <span class="n">gt</span><span class="o">.</span><span class="n">remove_self_loops</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-22"></a>    <span class="k">return</span> <span class="n">net</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-23"></a>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-24"></a><span class="k">def</span> <span class="nf">weight_from</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-25"></a>    <span class="n">weight</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">new_edge_property</span><span class="p">(</span><span class="s2">"float"</span><span class="p">)</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-26"></a>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-27"></a>    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">net</span><span class="o">.</span><span class="n">edges</span><span class="p">():</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-28"></a>        <span class="n">s</span> <span class="o">=</span> <span class="n">label</span><span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">source</span><span class="p">()]</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-29"></a>        <span class="n">t</span> <span class="o">=</span> <span class="n">label</span><span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">target</span><span class="p">()]</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-30"></a>        <span class="n">k</span> <span class="o">=</span> <span class="n">edges</span><span class="p">[(</span><span class="n">s</span><span class="p">,</span><span class="n">t</span><span class="p">)]</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-31"></a>        <span class="n">weight</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="n">k</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-32"></a>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-33"></a>    <span class="k">return</span> <span class="n">weight</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-34"></a>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-35"></a><span class="k">def</span> <span class="nf">pprint</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">"simple"</span><span class="p">):</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-36"></a>    <span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-37"></a>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-38"></a>    <span class="n">most</span> <span class="o">=</span> <span class="p">{}</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-39"></a>    <span class="n">label</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">vertex_properties</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-40"></a>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-41"></a>    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">retweet_net</span><span class="o">.</span><span class="n">vertices</span><span class="p">():</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-42"></a>        <span class="n">d</span> <span class="o">=</span> <span class="n">metric</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-43"></a>        <span class="n">l</span> <span class="o">=</span> <span class="n">label</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-44"></a>        <span class="n">most</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-45"></a>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-46"></a>    <span class="n">users</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">most</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="n">most</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)[:</span><span class="n">n</span><span class="p">]</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-47"></a>    <span class="n">top</span> <span class="o">=</span> <span class="p">{</span><span class="s2">""</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">title</span><span class="p">:</span> <span class="n">users</span><span class="p">}</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-48"></a>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-49"></a>    <span class="n">tabular</span> <span class="o">=</span> <span class="n">tabulate</span><span class="p">(</span><span class="n">top</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s2">"keys"</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="n">fmt</span><span class="p">)</span>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-50"></a>
+<a name="rest_code_0987f46fb81345539cc47fa3c1ee1a1e-51"></a>    <span class="k">print</span><span class="p">(</span><span class="n">tabular</span><span class="p">)</span>
 </pre>
 </div>
 <div class="section" id="retweet-network">
-<h3>Retweet network</h3>
-<pre class="code python"><a name="rest_code_f99fbf795f4548a9a1a3e83e10e37914-1"></a><span class="n">vertices</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-<a name="rest_code_f99fbf795f4548a9a1a3e83e10e37914-2"></a><span class="n">edges</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-<a name="rest_code_f99fbf795f4548a9a1a3e83e10e37914-3"></a>
-<a name="rest_code_f99fbf795f4548a9a1a3e83e10e37914-4"></a><span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">thevoice</span><span class="o">.</span><span class="n">find</span><span class="p">():</span>
-<a name="rest_code_f99fbf795f4548a9a1a3e83e10e37914-5"></a>    <span class="k">if</span> <span class="s2">"retweeted_status"</span> <span class="ow">in</span> <span class="n">tweet</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-<a name="rest_code_f99fbf795f4548a9a1a3e83e10e37914-6"></a>        <span class="n">s</span> <span class="o">=</span> <span class="s2">"@"</span> <span class="o">+</span> <span class="n">tweet</span><span class="p">[</span><span class="s2">"user"</span><span class="p">][</span><span class="s2">"screen_name"</span><span class="p">]</span>
-<a name="rest_code_f99fbf795f4548a9a1a3e83e10e37914-7"></a>        <span class="n">vertices</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-<a name="rest_code_f99fbf795f4548a9a1a3e83e10e37914-8"></a>        <span class="n">t</span> <span class="o">=</span> <span class="s2">"@"</span> <span class="o">+</span> <span class="n">tweet</span><span class="p">[</span><span class="s2">"retweeted_status"</span><span class="p">][</span><span class="s2">"user"</span><span class="p">][</span><span class="s2">"screen_name"</span><span class="p">]</span>
-<a name="rest_code_f99fbf795f4548a9a1a3e83e10e37914-9"></a>        <span class="n">vertices</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-<a name="rest_code_f99fbf795f4548a9a1a3e83e10e37914-10"></a>        <span class="n">e</span> <span class="o">=</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
-<a name="rest_code_f99fbf795f4548a9a1a3e83e10e37914-11"></a>        <span class="n">edges</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-<a name="rest_code_f99fbf795f4548a9a1a3e83e10e37914-12"></a>
-<a name="rest_code_f99fbf795f4548a9a1a3e83e10e37914-13"></a><span class="n">retweet_net</span> <span class="o">=</span> <span class="n">create_network</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span>
+<h2>Retweet network</h2>
+<pre class="code python"><a name="rest_code_2fa5b8df232f4049a2a6adce8b25e0ea-1"></a><span class="n">vertices</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<a name="rest_code_2fa5b8df232f4049a2a6adce8b25e0ea-2"></a><span class="n">edges</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<a name="rest_code_2fa5b8df232f4049a2a6adce8b25e0ea-3"></a>
+<a name="rest_code_2fa5b8df232f4049a2a6adce8b25e0ea-4"></a><span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">thevoice</span><span class="o">.</span><span class="n">find</span><span class="p">():</span>
+<a name="rest_code_2fa5b8df232f4049a2a6adce8b25e0ea-5"></a>    <span class="k">if</span> <span class="s2">"retweeted_status"</span> <span class="ow">in</span> <span class="n">tweet</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+<a name="rest_code_2fa5b8df232f4049a2a6adce8b25e0ea-6"></a>        <span class="n">s</span> <span class="o">=</span> <span class="s2">"@"</span> <span class="o">+</span> <span class="n">tweet</span><span class="p">[</span><span class="s2">"user"</span><span class="p">][</span><span class="s2">"screen_name"</span><span class="p">]</span>
+<a name="rest_code_2fa5b8df232f4049a2a6adce8b25e0ea-7"></a>        <span class="n">vertices</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<a name="rest_code_2fa5b8df232f4049a2a6adce8b25e0ea-8"></a>        <span class="n">t</span> <span class="o">=</span> <span class="s2">"@"</span> <span class="o">+</span> <span class="n">tweet</span><span class="p">[</span><span class="s2">"retweeted_status"</span><span class="p">][</span><span class="s2">"user"</span><span class="p">][</span><span class="s2">"screen_name"</span><span class="p">]</span>
+<a name="rest_code_2fa5b8df232f4049a2a6adce8b25e0ea-9"></a>        <span class="n">vertices</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<a name="rest_code_2fa5b8df232f4049a2a6adce8b25e0ea-10"></a>        <span class="n">e</span> <span class="o">=</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+<a name="rest_code_2fa5b8df232f4049a2a6adce8b25e0ea-11"></a>        <span class="n">edges</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+<a name="rest_code_2fa5b8df232f4049a2a6adce8b25e0ea-12"></a>
+<a name="rest_code_2fa5b8df232f4049a2a6adce8b25e0ea-13"></a><span class="n">retweet_net</span> <span class="o">=</span> <span class="n">create_network</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span>
 </pre>
 <div class="section" id="centrality">
-<h4>Centrality</h4>
+<h3>Centrality</h3>
 <p>Often, we want to know who is the most important person in the network. The question
 of importance may not be as straightforward as it seems. There are several dimensions
 along which one may be considered important. Measures of importance in social networks
@@ -212,11 +209,8 @@ are called <em>centrality measures</em>. Three (<em>degree centrality</em>, <em>
 and <em>betweeness centrality</em>) of these measures are the most frequently used in social
 media analysis. Here, we discuss the first two of them. Each provides a different view
 of who is important in the network. We will use the retweet network for the purpose.</p>
-</div>
-</div>
-</div>
 <div class="section" id="in-degree-centrality-who-is-the-most-retweeted">
-<h2>In degree centrality - Who is the most retweeted?</h2>
+<h4>In degree centrality - Who is the most retweeted?</h4>
 <p>One of the most commonly used centrality measures is <em>degree centrality</em>. The calculation
 is simple: count the number of links attached to the node, this is their degree centrality.
 In the case of a directed graph, there are two interpretations: <em>In-Degree Centrality</em>, the
@@ -224,26 +218,26 @@ number of edges entering the node, and <em>Out-Degree</em>, the number of edges 
 node. In the context of our retweet networks, <em>In-Degree Centrality</em> is the number of users
 that retweet the node, and <em>Out-Degree Centrality</em> is the number of users the node retweets.
 The figure below shows such a network with our tweets data.</p>
-<pre class="code python"><a name="rest_code_08f868d92c6e48948979e6992d8e2ae5-1"></a><span class="n">deg</span> <span class="o">=</span> <span class="n">retweet_net</span><span class="o">.</span><span class="n">degree_property_map</span><span class="p">(</span><span class="s2">"in"</span><span class="p">)</span>
-<a name="rest_code_08f868d92c6e48948979e6992d8e2ae5-2"></a><span class="n">label</span> <span class="o">=</span> <span class="n">retweet_net</span><span class="o">.</span><span class="n">vertex_properties</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span>
-<a name="rest_code_08f868d92c6e48948979e6992d8e2ae5-3"></a>
-<a name="rest_code_08f868d92c6e48948979e6992d8e2ae5-4"></a><span class="n">vsize</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">prop_to_size</span><span class="p">(</span><span class="n">deg</span><span class="p">,</span> <span class="n">ma</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<a name="rest_code_08f868d92c6e48948979e6992d8e2ae5-5"></a><span class="n">vfsize</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">prop_to_size</span><span class="p">(</span><span class="n">deg</span><span class="p">,</span> <span class="n">ma</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-<a name="rest_code_08f868d92c6e48948979e6992d8e2ae5-6"></a>
-<a name="rest_code_08f868d92c6e48948979e6992d8e2ae5-7"></a><span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">arf_layout</span><span class="p">(</span><span class="n">retweet_net</span><span class="p">)</span>
-<a name="rest_code_08f868d92c6e48948979e6992d8e2ae5-8"></a>
-<a name="rest_code_08f868d92c6e48948979e6992d8e2ae5-9"></a><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">retweet_net</span><span class="p">,</span>
-<a name="rest_code_08f868d92c6e48948979e6992d8e2ae5-10"></a>          <span class="n">pos</span><span class="p">,</span>
-<a name="rest_code_08f868d92c6e48948979e6992d8e2ae5-11"></a>          <span class="n">vertex_size</span><span class="o">=</span><span class="n">vsize</span><span class="p">,</span>
-<a name="rest_code_08f868d92c6e48948979e6992d8e2ae5-12"></a>          <span class="n">vertex_text</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
-<a name="rest_code_08f868d92c6e48948979e6992d8e2ae5-13"></a>          <span class="n">vertex_font_size</span><span class="o">=</span><span class="n">vfsize</span><span class="p">,</span>
-<a name="rest_code_08f868d92c6e48948979e6992d8e2ae5-14"></a>          <span class="n">vertex_fill_color</span><span class="o">=</span><span class="n">deg</span><span class="p">,</span>
-<a name="rest_code_08f868d92c6e48948979e6992d8e2ae5-15"></a>          <span class="n">vertex_font_family</span><span class="o">=</span><span class="n">font_family</span><span class="p">,</span>
-<a name="rest_code_08f868d92c6e48948979e6992d8e2ae5-16"></a>          <span class="n">output_size</span><span class="o">=</span><span class="n">output_size</span><span class="p">,</span>
-<a name="rest_code_08f868d92c6e48948979e6992d8e2ae5-17"></a>          <span class="n">output</span><span class="o">=</span><span class="s2">"images/retweet_net_in_centrality.png"</span><span class="p">,</span>
-<a name="rest_code_08f868d92c6e48948979e6992d8e2ae5-18"></a>          <span class="p">)</span>
+<pre class="code python"><a name="rest_code_8ffd88bfb86d42fc96d37d24f159eb0b-1"></a><span class="n">deg</span> <span class="o">=</span> <span class="n">retweet_net</span><span class="o">.</span><span class="n">degree_property_map</span><span class="p">(</span><span class="s2">"in"</span><span class="p">)</span>
+<a name="rest_code_8ffd88bfb86d42fc96d37d24f159eb0b-2"></a><span class="n">label</span> <span class="o">=</span> <span class="n">retweet_net</span><span class="o">.</span><span class="n">vertex_properties</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span>
+<a name="rest_code_8ffd88bfb86d42fc96d37d24f159eb0b-3"></a>
+<a name="rest_code_8ffd88bfb86d42fc96d37d24f159eb0b-4"></a><span class="n">vsize</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">prop_to_size</span><span class="p">(</span><span class="n">deg</span><span class="p">,</span> <span class="n">ma</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<a name="rest_code_8ffd88bfb86d42fc96d37d24f159eb0b-5"></a><span class="n">vfsize</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">prop_to_size</span><span class="p">(</span><span class="n">deg</span><span class="p">,</span> <span class="n">ma</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<a name="rest_code_8ffd88bfb86d42fc96d37d24f159eb0b-6"></a>
+<a name="rest_code_8ffd88bfb86d42fc96d37d24f159eb0b-7"></a><span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">arf_layout</span><span class="p">(</span><span class="n">retweet_net</span><span class="p">)</span>
+<a name="rest_code_8ffd88bfb86d42fc96d37d24f159eb0b-8"></a>
+<a name="rest_code_8ffd88bfb86d42fc96d37d24f159eb0b-9"></a><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">retweet_net</span><span class="p">,</span>
+<a name="rest_code_8ffd88bfb86d42fc96d37d24f159eb0b-10"></a>          <span class="n">pos</span><span class="p">,</span>
+<a name="rest_code_8ffd88bfb86d42fc96d37d24f159eb0b-11"></a>          <span class="n">vertex_size</span><span class="o">=</span><span class="n">vsize</span><span class="p">,</span>
+<a name="rest_code_8ffd88bfb86d42fc96d37d24f159eb0b-12"></a>          <span class="n">vertex_text</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+<a name="rest_code_8ffd88bfb86d42fc96d37d24f159eb0b-13"></a>          <span class="n">vertex_font_size</span><span class="o">=</span><span class="n">vfsize</span><span class="p">,</span>
+<a name="rest_code_8ffd88bfb86d42fc96d37d24f159eb0b-14"></a>          <span class="n">vertex_fill_color</span><span class="o">=</span><span class="n">deg</span><span class="p">,</span>
+<a name="rest_code_8ffd88bfb86d42fc96d37d24f159eb0b-15"></a>          <span class="n">vertex_font_family</span><span class="o">=</span><span class="n">font_family</span><span class="p">,</span>
+<a name="rest_code_8ffd88bfb86d42fc96d37d24f159eb0b-16"></a>          <span class="n">output_size</span><span class="o">=</span><span class="n">output_size</span><span class="p">,</span>
+<a name="rest_code_8ffd88bfb86d42fc96d37d24f159eb0b-17"></a>          <span class="n">output</span><span class="o">=</span><span class="s2">"images/retweet_net_in_centrality.png"</span><span class="p">,</span>
+<a name="rest_code_8ffd88bfb86d42fc96d37d24f159eb0b-18"></a>          <span class="p">)</span>
 </pre>
-<img alt="retweet network in-degree centrality" src="../../images/retweet_net_in_centrality.png"><pre class="code python"><a name="rest_code_6b8eb11477874065a56bdc6d0551fba9-1"></a><span class="n">pprint</span><span class="p">(</span><span class="n">retweet_net</span><span class="p">,</span> <span class="n">deg</span><span class="p">,</span> <span class="s2">"Most retweeted"</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<img alt="retweet network in-degree centrality" src="../../images/retweet_net_in_centrality.png"><pre class="code python"><a name="rest_code_ebbe37f4dc2a471f91a84ce03399c6db-1"></a><span class="n">pprint</span><span class="p">(</span><span class="n">retweet_net</span><span class="p">,</span> <span class="n">deg</span><span class="p">,</span> <span class="s2">"Most retweeted"</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 </pre>
 <table border="1" class="docutils">
 <colgroup>
@@ -304,29 +298,29 @@ and <a class="reference external" href="https://dadaromeo.github.io/the-voice-af
 post, we will see if we can tell more about that.</p>
 </div>
 <div class="section" id="egeinvector-centrality-who-is-the-most-influencial">
-<h2>Egeinvector centrality - Who is the most influencial?</h2>
+<h4>Egeinvector centrality - Who is the most influencial?</h4>
 <p>With Degree Centrality the key question was "how many people retweeted this node?"
 <em>Eigenvector Centrality</em> builds upon this to ask "how important are these retweeters?"</p>
-<pre class="code python"><a name="rest_code_6598e789f6674baa9053158b7acc1faf-1"></a><span class="n">eig</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">eigenvector</span><span class="p">(</span><span class="n">retweet_net</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-<a name="rest_code_6598e789f6674baa9053158b7acc1faf-2"></a><span class="n">label</span> <span class="o">=</span> <span class="n">retweet_net</span><span class="o">.</span><span class="n">vertex_properties</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span>
-<a name="rest_code_6598e789f6674baa9053158b7acc1faf-3"></a>
-<a name="rest_code_6598e789f6674baa9053158b7acc1faf-4"></a><span class="n">vsize</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">prop_to_size</span><span class="p">(</span><span class="n">eig</span><span class="p">,</span> <span class="n">ma</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<a name="rest_code_6598e789f6674baa9053158b7acc1faf-5"></a><span class="n">vfsize</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">prop_to_size</span><span class="p">(</span><span class="n">eig</span><span class="p">,</span> <span class="n">ma</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-<a name="rest_code_6598e789f6674baa9053158b7acc1faf-6"></a>
-<a name="rest_code_6598e789f6674baa9053158b7acc1faf-7"></a><span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">arf_layout</span><span class="p">(</span><span class="n">retweet_net</span><span class="p">)</span>
-<a name="rest_code_6598e789f6674baa9053158b7acc1faf-8"></a>
-<a name="rest_code_6598e789f6674baa9053158b7acc1faf-9"></a><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">retweet_net</span><span class="p">,</span>
-<a name="rest_code_6598e789f6674baa9053158b7acc1faf-10"></a>          <span class="n">pos</span><span class="p">,</span>
-<a name="rest_code_6598e789f6674baa9053158b7acc1faf-11"></a>          <span class="n">vertex_size</span><span class="o">=</span><span class="n">vsize</span><span class="p">,</span>
-<a name="rest_code_6598e789f6674baa9053158b7acc1faf-12"></a>          <span class="n">vertex_text</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
-<a name="rest_code_6598e789f6674baa9053158b7acc1faf-13"></a>          <span class="n">vertex_font_size</span><span class="o">=</span><span class="n">vfsize</span><span class="p">,</span>
-<a name="rest_code_6598e789f6674baa9053158b7acc1faf-14"></a>          <span class="n">vertex_fill_color</span><span class="o">=</span><span class="n">eig</span><span class="p">,</span>
-<a name="rest_code_6598e789f6674baa9053158b7acc1faf-15"></a>          <span class="n">vertex_font_family</span><span class="o">=</span><span class="n">font_family</span><span class="p">,</span>
-<a name="rest_code_6598e789f6674baa9053158b7acc1faf-16"></a>          <span class="n">output_size</span><span class="o">=</span><span class="n">output_size</span><span class="p">,</span>
-<a name="rest_code_6598e789f6674baa9053158b7acc1faf-17"></a>          <span class="n">output</span><span class="o">=</span><span class="s2">"images/retweet_net_eig_centrality.png"</span><span class="p">,</span>
-<a name="rest_code_6598e789f6674baa9053158b7acc1faf-18"></a>          <span class="p">)</span>
+<pre class="code python"><a name="rest_code_3abfc568a759478e8d38495b0ca79ced-1"></a><span class="n">eig</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">eigenvector</span><span class="p">(</span><span class="n">retweet_net</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+<a name="rest_code_3abfc568a759478e8d38495b0ca79ced-2"></a><span class="n">label</span> <span class="o">=</span> <span class="n">retweet_net</span><span class="o">.</span><span class="n">vertex_properties</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span>
+<a name="rest_code_3abfc568a759478e8d38495b0ca79ced-3"></a>
+<a name="rest_code_3abfc568a759478e8d38495b0ca79ced-4"></a><span class="n">vsize</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">prop_to_size</span><span class="p">(</span><span class="n">eig</span><span class="p">,</span> <span class="n">ma</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<a name="rest_code_3abfc568a759478e8d38495b0ca79ced-5"></a><span class="n">vfsize</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">prop_to_size</span><span class="p">(</span><span class="n">eig</span><span class="p">,</span> <span class="n">ma</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<a name="rest_code_3abfc568a759478e8d38495b0ca79ced-6"></a>
+<a name="rest_code_3abfc568a759478e8d38495b0ca79ced-7"></a><span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">arf_layout</span><span class="p">(</span><span class="n">retweet_net</span><span class="p">)</span>
+<a name="rest_code_3abfc568a759478e8d38495b0ca79ced-8"></a>
+<a name="rest_code_3abfc568a759478e8d38495b0ca79ced-9"></a><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">retweet_net</span><span class="p">,</span>
+<a name="rest_code_3abfc568a759478e8d38495b0ca79ced-10"></a>          <span class="n">pos</span><span class="p">,</span>
+<a name="rest_code_3abfc568a759478e8d38495b0ca79ced-11"></a>          <span class="n">vertex_size</span><span class="o">=</span><span class="n">vsize</span><span class="p">,</span>
+<a name="rest_code_3abfc568a759478e8d38495b0ca79ced-12"></a>          <span class="n">vertex_text</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+<a name="rest_code_3abfc568a759478e8d38495b0ca79ced-13"></a>          <span class="n">vertex_font_size</span><span class="o">=</span><span class="n">vfsize</span><span class="p">,</span>
+<a name="rest_code_3abfc568a759478e8d38495b0ca79ced-14"></a>          <span class="n">vertex_fill_color</span><span class="o">=</span><span class="n">eig</span><span class="p">,</span>
+<a name="rest_code_3abfc568a759478e8d38495b0ca79ced-15"></a>          <span class="n">vertex_font_family</span><span class="o">=</span><span class="n">font_family</span><span class="p">,</span>
+<a name="rest_code_3abfc568a759478e8d38495b0ca79ced-16"></a>          <span class="n">output_size</span><span class="o">=</span><span class="n">output_size</span><span class="p">,</span>
+<a name="rest_code_3abfc568a759478e8d38495b0ca79ced-17"></a>          <span class="n">output</span><span class="o">=</span><span class="s2">"images/retweet_net_eig_centrality.png"</span><span class="p">,</span>
+<a name="rest_code_3abfc568a759478e8d38495b0ca79ced-18"></a>          <span class="p">)</span>
 </pre>
-<img alt="retweet network eigenvalue centrality" src="../../images/retweet_net_eig_centality.png"><pre class="code python"><a name="rest_code_f5b1be8a74ed46c4a70107b8749084a5-1"></a><span class="n">pprint</span><span class="p">(</span><span class="n">retweet_net</span> <span class="n">eig</span><span class="p">,</span> <span class="s2">"Most influencial"</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<img alt="retweet network eigenvalue centrality" src="../../images/retweet_net_eig_centality.png"><pre class="code python"><a name="rest_code_4a03778e63704023aa986ff3f361343f-1"></a><span class="n">pprint</span><span class="p">(</span><span class="n">retweet_net</span> <span class="n">eig</span><span class="p">,</span> <span class="s2">"Most influencial"</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 </pre>
 <table border="1" class="docutils">
 <colgroup>
@@ -384,55 +378,58 @@ post, we will see if we can tell more about that.</p>
 ranking have changed. Some users kept thier position, other downweighted, and other
 upweighted. We see that there are new "players" in the ranking table while others who where previously in the degree centrality table, went away,
 like <code>@L_ebene</code> and <code>@_Coriet_</code>.</p>
+</div>
+</div>
+</div>
 <div class="section" id="mentions-network">
-<h3>Mentions network</h3>
+<h2>Mentions network</h2>
 <p>In the mention network the edges are weighted to answer the question who mentions who the most?</p>
-<pre class="code python"><a name="rest_code_cdc853a309f445fb9f74bdcd638ee6ad-1"></a><span class="n">vertices</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-<a name="rest_code_cdc853a309f445fb9f74bdcd638ee6ad-2"></a><span class="n">edges</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-<a name="rest_code_cdc853a309f445fb9f74bdcd638ee6ad-3"></a>
-<a name="rest_code_cdc853a309f445fb9f74bdcd638ee6ad-4"></a><span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">thevoice</span><span class="o">.</span><span class="n">find</span><span class="p">():</span>
-<a name="rest_code_cdc853a309f445fb9f74bdcd638ee6ad-5"></a>    <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="s2">"retweeted_status"</span> <span class="ow">in</span> <span class="n">tweet</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
-<a name="rest_code_cdc853a309f445fb9f74bdcd638ee6ad-6"></a>        <span class="n">mentions</span> <span class="o">=</span> <span class="n">tweet</span><span class="p">[</span><span class="s2">"entities"</span><span class="p">][</span><span class="s2">"user_mentions"</span><span class="p">]</span>
-<a name="rest_code_cdc853a309f445fb9f74bdcd638ee6ad-7"></a>        <span class="k">if</span> <span class="n">mentions</span><span class="p">:</span>
-<a name="rest_code_cdc853a309f445fb9f74bdcd638ee6ad-8"></a>            <span class="n">s</span> <span class="o">=</span> <span class="s2">"@"</span> <span class="o">+</span> <span class="n">tweet</span><span class="p">[</span><span class="s2">"user"</span><span class="p">][</span><span class="s2">"screen_name"</span><span class="p">]</span>
-<a name="rest_code_cdc853a309f445fb9f74bdcd638ee6ad-9"></a>            <span class="n">vertices</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-<a name="rest_code_cdc853a309f445fb9f74bdcd638ee6ad-10"></a>            <span class="k">for</span> <span class="n">ment</span> <span class="ow">in</span> <span class="n">mentions</span><span class="p">:</span>
-<a name="rest_code_cdc853a309f445fb9f74bdcd638ee6ad-11"></a>                <span class="n">t</span> <span class="o">=</span> <span class="s2">"@"</span> <span class="o">+</span> <span class="n">ment</span><span class="p">[</span><span class="s2">"screen_name"</span><span class="p">]</span>
-<a name="rest_code_cdc853a309f445fb9f74bdcd638ee6ad-12"></a>                <span class="n">vertices</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-<a name="rest_code_cdc853a309f445fb9f74bdcd638ee6ad-13"></a>                <span class="n">e</span> <span class="o">=</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
-<a name="rest_code_cdc853a309f445fb9f74bdcd638ee6ad-14"></a>                <span class="n">edges</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-<a name="rest_code_cdc853a309f445fb9f74bdcd638ee6ad-15"></a>
-<a name="rest_code_cdc853a309f445fb9f74bdcd638ee6ad-16"></a><span class="n">mention_net</span> <span class="o">=</span> <span class="n">create_network</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_2e3ea40e5c134550b479bc5bde0ddcbf-1"></a><span class="n">vertices</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<a name="rest_code_2e3ea40e5c134550b479bc5bde0ddcbf-2"></a><span class="n">edges</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<a name="rest_code_2e3ea40e5c134550b479bc5bde0ddcbf-3"></a>
+<a name="rest_code_2e3ea40e5c134550b479bc5bde0ddcbf-4"></a><span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">thevoice</span><span class="o">.</span><span class="n">find</span><span class="p">():</span>
+<a name="rest_code_2e3ea40e5c134550b479bc5bde0ddcbf-5"></a>    <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="s2">"retweeted_status"</span> <span class="ow">in</span> <span class="n">tweet</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+<a name="rest_code_2e3ea40e5c134550b479bc5bde0ddcbf-6"></a>        <span class="n">mentions</span> <span class="o">=</span> <span class="n">tweet</span><span class="p">[</span><span class="s2">"entities"</span><span class="p">][</span><span class="s2">"user_mentions"</span><span class="p">]</span>
+<a name="rest_code_2e3ea40e5c134550b479bc5bde0ddcbf-7"></a>        <span class="k">if</span> <span class="n">mentions</span><span class="p">:</span>
+<a name="rest_code_2e3ea40e5c134550b479bc5bde0ddcbf-8"></a>            <span class="n">s</span> <span class="o">=</span> <span class="s2">"@"</span> <span class="o">+</span> <span class="n">tweet</span><span class="p">[</span><span class="s2">"user"</span><span class="p">][</span><span class="s2">"screen_name"</span><span class="p">]</span>
+<a name="rest_code_2e3ea40e5c134550b479bc5bde0ddcbf-9"></a>            <span class="n">vertices</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<a name="rest_code_2e3ea40e5c134550b479bc5bde0ddcbf-10"></a>            <span class="k">for</span> <span class="n">ment</span> <span class="ow">in</span> <span class="n">mentions</span><span class="p">:</span>
+<a name="rest_code_2e3ea40e5c134550b479bc5bde0ddcbf-11"></a>                <span class="n">t</span> <span class="o">=</span> <span class="s2">"@"</span> <span class="o">+</span> <span class="n">ment</span><span class="p">[</span><span class="s2">"screen_name"</span><span class="p">]</span>
+<a name="rest_code_2e3ea40e5c134550b479bc5bde0ddcbf-12"></a>                <span class="n">vertices</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<a name="rest_code_2e3ea40e5c134550b479bc5bde0ddcbf-13"></a>                <span class="n">e</span> <span class="o">=</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+<a name="rest_code_2e3ea40e5c134550b479bc5bde0ddcbf-14"></a>                <span class="n">edges</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+<a name="rest_code_2e3ea40e5c134550b479bc5bde0ddcbf-15"></a>
+<a name="rest_code_2e3ea40e5c134550b479bc5bde0ddcbf-16"></a><span class="n">mention_net</span> <span class="o">=</span> <span class="n">create_network</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span>
 </pre>
 <p>With that,</p>
-<pre class="code python"><a name="rest_code_1ee96836421e4a3691a072445d3cb2e3-1"></a><span class="n">mention_net</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">GraphView</span><span class="p">(</span><span class="n">mention_net</span><span class="p">,</span> <span class="n">vfilt</span><span class="o">=</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="ow">not</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">in_degree</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">out_degree</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
-<a name="rest_code_1ee96836421e4a3691a072445d3cb2e3-2"></a>
-<a name="rest_code_1ee96836421e4a3691a072445d3cb2e3-3"></a><span class="n">vbet</span><span class="p">,</span> <span class="n">ebet</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">betweenness</span><span class="p">(</span><span class="n">mention_net</span><span class="p">)</span>
-<a name="rest_code_1ee96836421e4a3691a072445d3cb2e3-4"></a><span class="n">label</span> <span class="o">=</span> <span class="n">mention_net</span><span class="o">.</span><span class="n">vertex_properties</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span>
-<a name="rest_code_1ee96836421e4a3691a072445d3cb2e3-5"></a><span class="n">deg</span> <span class="o">=</span> <span class="n">mention_net</span><span class="o">.</span><span class="n">degree_property_map</span><span class="p">(</span><span class="s2">"in"</span><span class="p">)</span>
-<a name="rest_code_1ee96836421e4a3691a072445d3cb2e3-6"></a>
-<a name="rest_code_1ee96836421e4a3691a072445d3cb2e3-7"></a><span class="n">vsize</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">prop_to_size</span><span class="p">(</span><span class="n">deg</span><span class="p">,</span> <span class="n">ma</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<a name="rest_code_1ee96836421e4a3691a072445d3cb2e3-8"></a><span class="n">vfsize</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">prop_to_size</span><span class="p">(</span><span class="n">deg</span><span class="p">,</span> <span class="n">ma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<a name="rest_code_1ee96836421e4a3691a072445d3cb2e3-9"></a>
-<a name="rest_code_1ee96836421e4a3691a072445d3cb2e3-10"></a><span class="n">weight</span> <span class="o">=</span> <span class="n">weight_from</span><span class="p">(</span><span class="n">mention_net</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
-<a name="rest_code_1ee96836421e4a3691a072445d3cb2e3-11"></a>
-<a name="rest_code_1ee96836421e4a3691a072445d3cb2e3-12"></a><span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">arf_layout</span><span class="p">(</span><span class="n">mention_net</span><span class="p">)</span>
-<a name="rest_code_1ee96836421e4a3691a072445d3cb2e3-13"></a>
-<a name="rest_code_1ee96836421e4a3691a072445d3cb2e3-14"></a><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">mention_net</span><span class="p">,</span>
-<a name="rest_code_1ee96836421e4a3691a072445d3cb2e3-15"></a>          <span class="n">pos</span><span class="p">,</span>
-<a name="rest_code_1ee96836421e4a3691a072445d3cb2e3-16"></a>          <span class="n">vertex_size</span><span class="o">=</span><span class="n">vsize</span><span class="p">,</span>
-<a name="rest_code_1ee96836421e4a3691a072445d3cb2e3-17"></a>          <span class="n">vertex_text</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
-<a name="rest_code_1ee96836421e4a3691a072445d3cb2e3-18"></a>          <span class="n">vertex_fill_color</span><span class="o">=</span><span class="n">vbet</span><span class="p">,</span>
-<a name="rest_code_1ee96836421e4a3691a072445d3cb2e3-19"></a>          <span class="n">vertex_font_size</span><span class="o">=</span><span class="n">vfsize</span><span class="p">,</span>
-<a name="rest_code_1ee96836421e4a3691a072445d3cb2e3-20"></a>          <span class="n">vertex_font_family</span><span class="o">=</span><span class="n">font_family</span><span class="p">,</span>
-<a name="rest_code_1ee96836421e4a3691a072445d3cb2e3-21"></a>          <span class="n">edge_pen_width</span><span class="o">=</span><span class="n">weight</span><span class="p">,</span>
-<a name="rest_code_1ee96836421e4a3691a072445d3cb2e3-22"></a>          <span class="n">edge_color</span><span class="o">=</span><span class="n">ebet</span><span class="p">,</span>
-<a name="rest_code_1ee96836421e4a3691a072445d3cb2e3-23"></a>          <span class="n">output_size</span><span class="o">=</span><span class="n">output_size</span><span class="p">,</span>
-<a name="rest_code_1ee96836421e4a3691a072445d3cb2e3-24"></a>          <span class="n">vorder</span><span class="o">=</span><span class="n">vbet</span><span class="p">,</span>
-<a name="rest_code_1ee96836421e4a3691a072445d3cb2e3-25"></a>          <span class="n">output</span><span class="o">=</span><span class="s2">"images/mention_net.png"</span><span class="p">,</span>
-<a name="rest_code_1ee96836421e4a3691a072445d3cb2e3-26"></a>          <span class="p">)</span>
+<pre class="code python"><a name="rest_code_a2c1b359c8d243369ef906d2d54b6b2d-1"></a><span class="n">mention_net</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">GraphView</span><span class="p">(</span><span class="n">mention_net</span><span class="p">,</span> <span class="n">vfilt</span><span class="o">=</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="ow">not</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">in_degree</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">out_degree</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
+<a name="rest_code_a2c1b359c8d243369ef906d2d54b6b2d-2"></a>
+<a name="rest_code_a2c1b359c8d243369ef906d2d54b6b2d-3"></a><span class="n">vbet</span><span class="p">,</span> <span class="n">ebet</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">betweenness</span><span class="p">(</span><span class="n">mention_net</span><span class="p">)</span>
+<a name="rest_code_a2c1b359c8d243369ef906d2d54b6b2d-4"></a><span class="n">label</span> <span class="o">=</span> <span class="n">mention_net</span><span class="o">.</span><span class="n">vertex_properties</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span>
+<a name="rest_code_a2c1b359c8d243369ef906d2d54b6b2d-5"></a><span class="n">deg</span> <span class="o">=</span> <span class="n">mention_net</span><span class="o">.</span><span class="n">degree_property_map</span><span class="p">(</span><span class="s2">"in"</span><span class="p">)</span>
+<a name="rest_code_a2c1b359c8d243369ef906d2d54b6b2d-6"></a>
+<a name="rest_code_a2c1b359c8d243369ef906d2d54b6b2d-7"></a><span class="n">vsize</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">prop_to_size</span><span class="p">(</span><span class="n">deg</span><span class="p">,</span> <span class="n">ma</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<a name="rest_code_a2c1b359c8d243369ef906d2d54b6b2d-8"></a><span class="n">vfsize</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">prop_to_size</span><span class="p">(</span><span class="n">deg</span><span class="p">,</span> <span class="n">ma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<a name="rest_code_a2c1b359c8d243369ef906d2d54b6b2d-9"></a>
+<a name="rest_code_a2c1b359c8d243369ef906d2d54b6b2d-10"></a><span class="n">weight</span> <span class="o">=</span> <span class="n">weight_from</span><span class="p">(</span><span class="n">mention_net</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+<a name="rest_code_a2c1b359c8d243369ef906d2d54b6b2d-11"></a>
+<a name="rest_code_a2c1b359c8d243369ef906d2d54b6b2d-12"></a><span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">arf_layout</span><span class="p">(</span><span class="n">mention_net</span><span class="p">)</span>
+<a name="rest_code_a2c1b359c8d243369ef906d2d54b6b2d-13"></a>
+<a name="rest_code_a2c1b359c8d243369ef906d2d54b6b2d-14"></a><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">mention_net</span><span class="p">,</span>
+<a name="rest_code_a2c1b359c8d243369ef906d2d54b6b2d-15"></a>          <span class="n">pos</span><span class="p">,</span>
+<a name="rest_code_a2c1b359c8d243369ef906d2d54b6b2d-16"></a>          <span class="n">vertex_size</span><span class="o">=</span><span class="n">vsize</span><span class="p">,</span>
+<a name="rest_code_a2c1b359c8d243369ef906d2d54b6b2d-17"></a>          <span class="n">vertex_text</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+<a name="rest_code_a2c1b359c8d243369ef906d2d54b6b2d-18"></a>          <span class="n">vertex_fill_color</span><span class="o">=</span><span class="n">vbet</span><span class="p">,</span>
+<a name="rest_code_a2c1b359c8d243369ef906d2d54b6b2d-19"></a>          <span class="n">vertex_font_size</span><span class="o">=</span><span class="n">vfsize</span><span class="p">,</span>
+<a name="rest_code_a2c1b359c8d243369ef906d2d54b6b2d-20"></a>          <span class="n">vertex_font_family</span><span class="o">=</span><span class="n">font_family</span><span class="p">,</span>
+<a name="rest_code_a2c1b359c8d243369ef906d2d54b6b2d-21"></a>          <span class="n">edge_pen_width</span><span class="o">=</span><span class="n">weight</span><span class="p">,</span>
+<a name="rest_code_a2c1b359c8d243369ef906d2d54b6b2d-22"></a>          <span class="n">edge_color</span><span class="o">=</span><span class="n">ebet</span><span class="p">,</span>
+<a name="rest_code_a2c1b359c8d243369ef906d2d54b6b2d-23"></a>          <span class="n">output_size</span><span class="o">=</span><span class="n">output_size</span><span class="p">,</span>
+<a name="rest_code_a2c1b359c8d243369ef906d2d54b6b2d-24"></a>          <span class="n">vorder</span><span class="o">=</span><span class="n">vbet</span><span class="p">,</span>
+<a name="rest_code_a2c1b359c8d243369ef906d2d54b6b2d-25"></a>          <span class="n">output</span><span class="o">=</span><span class="s2">"images/mention_net.png"</span><span class="p">,</span>
+<a name="rest_code_a2c1b359c8d243369ef906d2d54b6b2d-26"></a>          <span class="p">)</span>
 </pre>
-<img alt="mention network" src="../../images/mention_net.png"><pre class="code python"><a name="rest_code_058e59ee5e2a450784105914badb011b-1"></a><span class="n">pprint</span><span class="p">(</span><span class="n">mention_net</span><span class="p">,</span> <span class="n">deg</span><span class="p">,</span> <span class="s2">"Most mentioned"</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<img alt="mention network" src="../../images/mention_net.png"><pre class="code python"><a name="rest_code_b24c332adae943a09c081fc3dd0a1393-1"></a><span class="n">pprint</span><span class="p">(</span><span class="n">mention_net</span><span class="p">,</span> <span class="n">deg</span><span class="p">,</span> <span class="s2">"Most mentioned"</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 </pre>
 <table border="1" class="docutils">
 <colgroup>
@@ -488,7 +485,7 @@ like <code>@L_ebene</code> and <code>@_Coriet_</code>.</p>
 </table>
 </div>
 <div class="section" id="hashtags-coccurence-network">
-<h3>Hashtags coccurence network</h3>
+<h2>Hashtags coccurence network</h2>
 <p>All of our network constructions so far have only considered users as nodes and
 edges as retweets or mentions. We can choose any object as a node and any relation
 as an edge. Let’s take a look at another network construction that allows us to ask
@@ -499,21 +496,21 @@ We will consider a new network construction where nodes are individual hashtags 
 edges are hashtags that co-occur within the same Tweet. We will <em>weight</em> the edges
 by the number of times the hashtags co-occur in a Tweet. Because we do not care about
 the hashtag order, the edges are not directed.</p>
-<pre class="code python"><a name="rest_code_52c7b194197a471194c89ae1047f6055-1"></a><span class="n">vertices</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-<a name="rest_code_52c7b194197a471194c89ae1047f6055-2"></a><span class="n">edges</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-<a name="rest_code_52c7b194197a471194c89ae1047f6055-3"></a>
-<a name="rest_code_52c7b194197a471194c89ae1047f6055-4"></a><span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">thevoice</span><span class="o">.</span><span class="n">find</span><span class="p">():</span>
-<a name="rest_code_52c7b194197a471194c89ae1047f6055-5"></a>    <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="s2">"retweeted_status"</span> <span class="ow">in</span> <span class="n">tweet</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
-<a name="rest_code_52c7b194197a471194c89ae1047f6055-6"></a>        <span class="n">tags</span> <span class="o">=</span> <span class="n">tweet</span><span class="p">[</span><span class="s2">"entities"</span><span class="p">][</span><span class="s2">"hashtags"</span><span class="p">]</span>
-<a name="rest_code_52c7b194197a471194c89ae1047f6055-7"></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-<a name="rest_code_52c7b194197a471194c89ae1047f6055-8"></a>            <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">tags</span><span class="p">:</span>
-<a name="rest_code_52c7b194197a471194c89ae1047f6055-9"></a>                <span class="n">s</span> <span class="o">=</span> <span class="s2">"#"</span> <span class="o">+</span> <span class="n">tag</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-<a name="rest_code_52c7b194197a471194c89ae1047f6055-10"></a>            <span class="n">vertices</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-<a name="rest_code_52c7b194197a471194c89ae1047f6055-11"></a>                <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">tags</span><span class="p">:</span>
-<a name="rest_code_52c7b194197a471194c89ae1047f6055-12"></a>                    <span class="n">t</span> <span class="o">=</span> <span class="s2">"#"</span> <span class="o">+</span> <span class="n">tag</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-<a name="rest_code_52c7b194197a471194c89ae1047f6055-13"></a>                    <span class="n">edges</span><span class="p">[(</span><span class="n">s</span><span class="p">,</span><span class="n">t</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
-<a name="rest_code_52c7b194197a471194c89ae1047f6055-14"></a>
-<a name="rest_code_52c7b194197a471194c89ae1047f6055-15"></a><span class="n">hashtag_net</span> <span class="o">=</span> <span class="n">create_network</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_31c5aa424cd14ae9a8f8372c9b545d36-1"></a><span class="n">vertices</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<a name="rest_code_31c5aa424cd14ae9a8f8372c9b545d36-2"></a><span class="n">edges</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<a name="rest_code_31c5aa424cd14ae9a8f8372c9b545d36-3"></a>
+<a name="rest_code_31c5aa424cd14ae9a8f8372c9b545d36-4"></a><span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">thevoice</span><span class="o">.</span><span class="n">find</span><span class="p">():</span>
+<a name="rest_code_31c5aa424cd14ae9a8f8372c9b545d36-5"></a>    <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="s2">"retweeted_status"</span> <span class="ow">in</span> <span class="n">tweet</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+<a name="rest_code_31c5aa424cd14ae9a8f8372c9b545d36-6"></a>        <span class="n">tags</span> <span class="o">=</span> <span class="n">tweet</span><span class="p">[</span><span class="s2">"entities"</span><span class="p">][</span><span class="s2">"hashtags"</span><span class="p">]</span>
+<a name="rest_code_31c5aa424cd14ae9a8f8372c9b545d36-7"></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+<a name="rest_code_31c5aa424cd14ae9a8f8372c9b545d36-8"></a>            <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">tags</span><span class="p">:</span>
+<a name="rest_code_31c5aa424cd14ae9a8f8372c9b545d36-9"></a>                <span class="n">s</span> <span class="o">=</span> <span class="s2">"#"</span> <span class="o">+</span> <span class="n">tag</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<a name="rest_code_31c5aa424cd14ae9a8f8372c9b545d36-10"></a>            <span class="n">vertices</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<a name="rest_code_31c5aa424cd14ae9a8f8372c9b545d36-11"></a>                <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">tags</span><span class="p">:</span>
+<a name="rest_code_31c5aa424cd14ae9a8f8372c9b545d36-12"></a>                    <span class="n">t</span> <span class="o">=</span> <span class="s2">"#"</span> <span class="o">+</span> <span class="n">tag</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<a name="rest_code_31c5aa424cd14ae9a8f8372c9b545d36-13"></a>                    <span class="n">edges</span><span class="p">[(</span><span class="n">s</span><span class="p">,</span><span class="n">t</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
+<a name="rest_code_31c5aa424cd14ae9a8f8372c9b545d36-14"></a>
+<a name="rest_code_31c5aa424cd14ae9a8f8372c9b545d36-15"></a><span class="n">hashtag_net</span> <span class="o">=</span> <span class="n">create_network</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre>
 <p>The edge construction in the retweet an mention network was not a problem because
 we where building a directed network where edges can be bidirectional. Then, something
@@ -521,30 +518,29 @@ like this <code>{("Alice", "Bob"), ("Bob", "Alice")}</code> is allowed. Meaning 
 mentioned <code>Bob</code> and <code>Bob</code> also mentiones <code>Alice</code>. In the undirected case,
 these two egdes are the same and then add redundant information in the network.
 We need to remove those parallel edges.</p>
-<pre class="code python"><a name="rest_code_f0f5299c82064376b98bc47fb3d51e5c-1"></a><span class="n">gt</span><span class="o">.</span><span class="n">remove_parallel_edges</span><span class="p">(</span><span class="n">hashtag_net</span><span class="p">)</span>
-<a name="rest_code_f0f5299c82064376b98bc47fb3d51e5c-2"></a><span class="n">kcore</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">kcore_decomposition</span><span class="p">(</span><span class="n">hashtag_net</span><span class="p">,</span> <span class="s2">"total"</span><span class="p">)</span>
-<a name="rest_code_f0f5299c82064376b98bc47fb3d51e5c-3"></a>
-<a name="rest_code_f0f5299c82064376b98bc47fb3d51e5c-4"></a><span class="n">vsize</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">prop_to_size</span><span class="p">(</span><span class="n">kcore</span><span class="p">,</span> <span class="n">ma</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<a name="rest_code_f0f5299c82064376b98bc47fb3d51e5c-5"></a><span class="n">vfsize</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">prop_to_size</span><span class="p">(</span><span class="n">kcore</span><span class="p">,</span> <span class="n">ma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<a name="rest_code_f0f5299c82064376b98bc47fb3d51e5c-6"></a>
-<a name="rest_code_f0f5299c82064376b98bc47fb3d51e5c-7"></a><span class="n">weight</span> <span class="o">=</span> <span class="n">weight_from</span><span class="p">(</span><span class="n">hashtag_net</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
-<a name="rest_code_f0f5299c82064376b98bc47fb3d51e5c-8"></a>
-<a name="rest_code_f0f5299c82064376b98bc47fb3d51e5c-9"></a><span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">sfdp_layout</span><span class="p">(</span><span class="n">hashtag_net</span><span class="p">,</span> <span class="n">vweight</span><span class="o">=</span><span class="n">kcore</span><span class="p">,</span> <span class="n">eweight</span><span class="o">=</span><span class="n">weight</span><span class="p">)</span>
-<a name="rest_code_f0f5299c82064376b98bc47fb3d51e5c-10"></a>
-<a name="rest_code_f0f5299c82064376b98bc47fb3d51e5c-11"></a><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">hashtag_net</span><span class="p">,</span>
-<a name="rest_code_f0f5299c82064376b98bc47fb3d51e5c-12"></a>          <span class="n">pos</span><span class="p">,</span>
-<a name="rest_code_f0f5299c82064376b98bc47fb3d51e5c-13"></a>          <span class="n">vertex_fill_color</span><span class="o">=</span><span class="n">kcore</span><span class="p">,</span>
-<a name="rest_code_f0f5299c82064376b98bc47fb3d51e5c-14"></a>          <span class="n">vertex_font_family</span><span class="o">=</span><span class="n">font_family</span><span class="p">,</span>
-<a name="rest_code_f0f5299c82064376b98bc47fb3d51e5c-15"></a>          <span class="n">vertex_font_size</span><span class="o">=</span><span class="n">vfsize</span><span class="p">,</span>
-<a name="rest_code_f0f5299c82064376b98bc47fb3d51e5c-16"></a>          <span class="n">edge_color</span><span class="o">=</span><span class="n">weight</span><span class="p">,</span>
-<a name="rest_code_f0f5299c82064376b98bc47fb3d51e5c-17"></a>          <span class="n">output_size</span><span class="o">=</span><span class="n">output_size</span><span class="p">,</span>
-<a name="rest_code_f0f5299c82064376b98bc47fb3d51e5c-18"></a>          <span class="n">output</span><span class="o">=</span><span class="s2">"images/hashtag_net.png"</span>
-<a name="rest_code_f0f5299c82064376b98bc47fb3d51e5c-19"></a>         <span class="p">)</span>
+<pre class="code python"><a name="rest_code_a90d3487e2e34d4b887293e0471e439a-1"></a><span class="n">gt</span><span class="o">.</span><span class="n">remove_parallel_edges</span><span class="p">(</span><span class="n">hashtag_net</span><span class="p">)</span>
+<a name="rest_code_a90d3487e2e34d4b887293e0471e439a-2"></a><span class="n">kcore</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">kcore_decomposition</span><span class="p">(</span><span class="n">hashtag_net</span><span class="p">,</span> <span class="s2">"total"</span><span class="p">)</span>
+<a name="rest_code_a90d3487e2e34d4b887293e0471e439a-3"></a>
+<a name="rest_code_a90d3487e2e34d4b887293e0471e439a-4"></a><span class="n">vsize</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">prop_to_size</span><span class="p">(</span><span class="n">kcore</span><span class="p">,</span> <span class="n">ma</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<a name="rest_code_a90d3487e2e34d4b887293e0471e439a-5"></a><span class="n">vfsize</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">prop_to_size</span><span class="p">(</span><span class="n">kcore</span><span class="p">,</span> <span class="n">ma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<a name="rest_code_a90d3487e2e34d4b887293e0471e439a-6"></a>
+<a name="rest_code_a90d3487e2e34d4b887293e0471e439a-7"></a><span class="n">weight</span> <span class="o">=</span> <span class="n">weight_from</span><span class="p">(</span><span class="n">hashtag_net</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+<a name="rest_code_a90d3487e2e34d4b887293e0471e439a-8"></a>
+<a name="rest_code_a90d3487e2e34d4b887293e0471e439a-9"></a><span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">sfdp_layout</span><span class="p">(</span><span class="n">hashtag_net</span><span class="p">,</span> <span class="n">vweight</span><span class="o">=</span><span class="n">kcore</span><span class="p">,</span> <span class="n">eweight</span><span class="o">=</span><span class="n">weight</span><span class="p">)</span>
+<a name="rest_code_a90d3487e2e34d4b887293e0471e439a-10"></a>
+<a name="rest_code_a90d3487e2e34d4b887293e0471e439a-11"></a><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">hashtag_net</span><span class="p">,</span>
+<a name="rest_code_a90d3487e2e34d4b887293e0471e439a-12"></a>          <span class="n">pos</span><span class="p">,</span>
+<a name="rest_code_a90d3487e2e34d4b887293e0471e439a-13"></a>          <span class="n">vertex_fill_color</span><span class="o">=</span><span class="n">kcore</span><span class="p">,</span>
+<a name="rest_code_a90d3487e2e34d4b887293e0471e439a-14"></a>          <span class="n">vertex_font_family</span><span class="o">=</span><span class="n">font_family</span><span class="p">,</span>
+<a name="rest_code_a90d3487e2e34d4b887293e0471e439a-15"></a>          <span class="n">vertex_font_size</span><span class="o">=</span><span class="n">vfsize</span><span class="p">,</span>
+<a name="rest_code_a90d3487e2e34d4b887293e0471e439a-16"></a>          <span class="n">edge_color</span><span class="o">=</span><span class="n">weight</span><span class="p">,</span>
+<a name="rest_code_a90d3487e2e34d4b887293e0471e439a-17"></a>          <span class="n">output_size</span><span class="o">=</span><span class="n">output_size</span><span class="p">,</span>
+<a name="rest_code_a90d3487e2e34d4b887293e0471e439a-18"></a>          <span class="n">output</span><span class="o">=</span><span class="s2">"images/hashtag_net.png"</span>
+<a name="rest_code_a90d3487e2e34d4b887293e0471e439a-19"></a>         <span class="p">)</span>
 </pre>
 <img alt="hashtag network" src="../../images/hashtag_net.png"><p>That's all for this post. In the <a class="reference external" href="https://dadaromeo.gihub.io/the-voice-tweets-mining-part-3">next</a>
 post, we will explore <em>topic modeling</em> a powerful tool to uncover hidden within a corpus
 of documents. Thanks for following.</p>
-</div>
 </div>
 </div>
     </div>
@@ -588,7 +584,7 @@ of documents. Thanks for following.</p>
     <div class="thumbnail">
         <img src="../../galleries/portrait.jpg" class="img-thumbnail" alt="Dada Romeo"><div class="caption">
         <h4>About</h4>
-        <p>Data Analyst with interest in Statistical Modeling, Machine Learning and Network Science.</p>
+        <p>Statistical Modeling, Machine Learning and Network Science.</p>
     </div>
     </div>
 </div>

@@ -7,7 +7,7 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/agent-based-modeling.xml</loc>
-  <lastmod>2017-01-26T12:56:00Z</lastmod>
+  <lastmod>2017-01-27T07:35:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/data-collection.xml</loc>
@@ -19,35 +19,39 @@
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/gensim.xml</loc>
-  <lastmod>2017-01-26T10:52:00Z</lastmod>
+  <lastmod>2017-01-27T07:51:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/graph-tool.xml</loc>
-  <lastmod>2017-01-26T11:24:00Z</lastmod>
+  <lastmod>2017-01-27T07:35:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://dadaromeo.github.io/categories/mathjax.xml</loc>
+  <lastmod>2017-01-27T08:17:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/mesa.xml</loc>
-  <lastmod>2017-01-26T12:56:00Z</lastmod>
+  <lastmod>2017-01-27T07:35:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/sentiment-analysis.xml</loc>
-  <lastmod>2017-01-26T11:08:00Z</lastmod>
+  <lastmod>2017-01-27T08:17:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/social-network-analysis.xml</loc>
-  <lastmod>2017-01-26T11:24:00Z</lastmod>
+  <lastmod>2017-01-27T07:35:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/text-mining.xml</loc>
-  <lastmod>2017-01-26T11:08:00Z</lastmod>
+  <lastmod>2017-01-27T08:17:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/text-processing.xml</loc>
-  <lastmod>2017-01-26T11:08:00Z</lastmod>
+  <lastmod>2017-01-27T08:17:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/topic-modeling.xml</loc>
-  <lastmod>2017-01-26T10:52:00Z</lastmod>
+  <lastmod>2017-01-27T07:51:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/tweepy.xml</loc>
@@ -55,14 +59,14 @@
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/galleries/rss.xml</loc>
-  <lastmod>2017-01-26T11:19:00Z</lastmod>
+  <lastmod>2017-01-27T08:17:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/rss.xml</loc>
-  <lastmod>2017-01-26T12:56:00Z</lastmod>
+  <lastmod>2017-01-27T08:17:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/sitemap.xml</loc>
-  <lastmod>2017-01-26T12:56:00Z</lastmod>
+  <lastmod>2017-01-27T08:17:00Z</lastmod>
  </sitemap>
 </sitemapindex>

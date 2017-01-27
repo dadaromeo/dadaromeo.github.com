@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Dada Romeo (Posts about text mining)</title><link>https://dadaromeo.github.io/</link><description></description><atom:link type="application/rss+xml" href="https://dadaromeo.github.io/categories/text-mining.xml" rel="self"></atom:link><language>en</language><lastBuildDate>Thu, 26 Jan 2017 11:08:58 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>The Voice Afrique Tweets Mining Part 4</title><link>https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-4/</link><dc:creator>Dada Romeo</dc:creator><description>&lt;div class="section" id="sentiment-analysis"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Dada Romeo (Posts about text mining)</title><link>https://dadaromeo.github.io/</link><description></description><atom:link type="application/rss+xml" href="https://dadaromeo.github.io/categories/text-mining.xml" rel="self"></atom:link><language>en</language><lastBuildDate>Fri, 27 Jan 2017 08:17:37 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>The Voice Afrique Tweets Mining Part 4</title><link>https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-4/</link><dc:creator>Dada Romeo</dc:creator><description>&lt;div class="section" id="sentiment-analysis"&gt;
 &lt;h2&gt;Sentiment Analysis&lt;/h2&gt;
 &lt;p&gt;&lt;a class="reference external" href="https://dadaromeo.github.io/the-voice-tweets-mining-part-4"&gt;Previously&lt;/a&gt;, we explore
 &lt;em&gt;topic modeling&lt;/em&gt; an algorithm used to discover what users are talking about. But
 often, its not important to know what users are saying, but how they are saying it.
-&lt;a class="reference external" href="https://en.wikipedia.org/wiki/Sentiment_analysis"&gt;*Sentiment analysis*&lt;/a&gt; seeks
+&lt;a class="reference external" href="https://en.wikipedia.org/wiki/Sentiment_analysis"&gt;Sentiment analysis&lt;/a&gt; seeks
 to automatically associate a piece of text with a &lt;em&gt;sentiment score&lt;/em&gt;, a positive or
 negative emotional score. Aggregating sentiment can give an idea of how people are
 responding to an event or a topic.&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-4/"&gt;Read more…&lt;/a&gt; (10 min remaining to read)&lt;/p&gt;&lt;/div&gt;</description><category>sentiment analysis</category><category>text mining</category><category>text processing</category><guid>https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-4/</guid><pubDate>Tue, 08 Nov 2016 13:12:59 GMT</pubDate></item><item><title>The Voice Afrique Tweets Mining Part 3</title><link>https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-3/</link><dc:creator>Dada Romeo</dc:creator><description>&lt;div class="section" id="topic-modeling"&gt;
-&lt;h2&gt;Topic modeling&lt;/h2&gt;
-&lt;p&gt;&lt;a class="reference external" href="https://dadaromeo.github.io/the-voice-tweets-mining-part-2"&gt;Previously&lt;/a&gt;, we
+&lt;p&gt;&lt;a href="https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-4/"&gt;Read more…&lt;/a&gt; (10 min remaining to read)&lt;/p&gt;&lt;/div&gt;</description><category>mathjax</category><category>sentiment analysis</category><category>text mining</category><category>text processing</category><guid>https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-4/</guid><pubDate>Tue, 08 Nov 2016 13:12:59 GMT</pubDate></item><item><title>The Voice Afrique Tweets Mining Part 3</title><link>https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-3/</link><dc:creator>Dada Romeo</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;a class="reference external" href="https://dadaromeo.github.io/the-voice-tweets-mining-part-2"&gt;Previously&lt;/a&gt;, we
 explored a model that exploits the links between the entities to help us find the
 key players in the data. Here, we will focus on the tweet’s text to better
 understand what the users are talking about. We move away from the network model
 we’ve used previously and discuss other methods for text analysis. We first
-explore &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Topic_model"&gt;*topic modeling*&lt;/a&gt;, an
+explore &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Topic_model"&gt;topic modeling&lt;/a&gt;, an
 approach that finds natural topics within the text. We then move on to
 &lt;a class="reference external" href="https://dadaromeo.github.io/the-voice-afrique-tweets-mining-part-4"&gt;sentiment analysis&lt;/a&gt;,
 the practice of associating a document with a sentiment score&lt;/p&gt;

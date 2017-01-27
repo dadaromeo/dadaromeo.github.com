@@ -10,8 +10,7 @@
 <link rel="canonical" href="https://dadaromeo.github.io/">
 <link rel="icon" href="favicon.ico" sizes="16x16">
 <link rel="icon" href="favicon-16x16.png" sizes="16x16">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.css">
-<link rel="prefetch" href="posts/mesa-a-library-for-agent-based-modeling-in-python/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/mesa-a-library-for-agent-based-modeling-in-python/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -94,7 +93,7 @@ interacting computational objets, called agents within a given environment.</p>
 <p><a class="reference external" href="https://dadaromeo.github.io/the-voice-tweets-mining-part-4">Previously</a>, we explore
 <em>topic modeling</em> an algorithm used to discover what users are talking about. But
 often, its not important to know what users are saying, but how they are saying it.
-<a class="reference external" href="https://en.wikipedia.org/wiki/Sentiment_analysis">*Sentiment analysis*</a> seeks
+<a class="reference external" href="https://en.wikipedia.org/wiki/Sentiment_analysis">Sentiment analysis</a> seeks
 to automatically associate a piece of text with a <em>sentiment score</em>, a positive or
 negative emotional score. Aggregating sentiment can give an idea of how people are
 responding to an event or a topic.</p>
@@ -113,14 +112,13 @@ responding to an event or a topic.</p>
         </p>
 </div>
     </header><div class="p-summary entry-summary">
-    <div class="section" id="topic-modeling">
-<h2>Topic modeling</h2>
+    <div>
 <p><a class="reference external" href="https://dadaromeo.github.io/the-voice-tweets-mining-part-2">Previously</a>, we
 explored a model that exploits the links between the entities to help us find the
 key players in the data. Here, we will focus on the tweet’s text to better
 understand what the users are talking about. We move away from the network model
 we’ve used previously and discuss other methods for text analysis. We first
-explore <a class="reference external" href="https://en.wikipedia.org/wiki/Topic_model">*topic modeling*</a>, an
+explore <a class="reference external" href="https://en.wikipedia.org/wiki/Topic_model">topic modeling</a>, an
 approach that finds natural topics within the text. We then move on to
 <a class="reference external" href="https://dadaromeo.github.io/the-voice-afrique-tweets-mining-part-4">sentiment analysis</a>,
 the practice of associating a document with a sentiment score</p>
@@ -139,14 +137,13 @@ the practice of associating a document with a sentiment score</p>
         </p>
 </div>
     </header><div class="p-summary entry-summary">
-    <div class="section" id="network-analysis">
-<h2>Network Analysis</h2>
+    <div>
 <p>In the <a class="reference external" href="https://dadaromeo.github.io/the-voice-tweets-mining-part-1">previous post</a>,
 we showed how to use Twitter API and the excellent Tweepy Python library to collect
 data and store them in a <a class="reference external" href="https://www.mongodb.com/">MongoDB</a> database.
 It's now time to start aking questions.</p>
 <p>Many of the questions that we ask of our tweets data can be answered through
-<a class="reference external" href="https://en.wikipedia.org/wiki/Social_network_analysis">network analysis</a>.
+<a class="reference external" href="https://en.wikipedia.org/wiki/Social_network_analysis">social network analysis</a>.
 Questions such as <em>who is important?</em>, <em>who talks to whom?</em>, and <em>what is important?</em>
 can all be answered through a network. Using proper network measures, we can find
 these important actors or topics in a network.</p>
@@ -183,14 +180,16 @@ tools to analyse the tweets we collected about the event.</p>
 
 
         
-       <script>var disqus_shortname="dadaromeo";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+       <script>var disqus_shortname="dadaromeo";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script><script type="text/x-mathjax-config">
+            MathJax.Hub.Config({tex2jax: {inlineMath: [['$latex ','$'], ['\\(','\\)']]}});
+            </script>
 </div>
             <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
                 <div class="sidebar-module sidebar-module-inset">
     <div class="thumbnail">
         <img src="galleries/portrait.jpg" class="img-thumbnail" alt="Dada Romeo"><div class="caption">
         <h4>About</h4>
-        <p>Data Analyst with interest in Statistical Modeling, Machine Learning and Network Science.</p>
+        <p>Statistical Modeling, Machine Learning and Network Science.</p>
     </div>
     </div>
 </div>

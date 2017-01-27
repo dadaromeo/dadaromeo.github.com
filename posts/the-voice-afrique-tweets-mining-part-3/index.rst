@@ -14,7 +14,7 @@ explored a model that exploits the links between the entities to help us find th
 key players in the data. Here, we will focus on the tweet’s text to better 
 understand what the users are talking about. We move away from the network model 
 we’ve used previously and discuss other methods for text analysis. We first 
-explore `*topic modeling* <https://en.wikipedia.org/wiki/Topic_model>`_, an 
+explore `topic modeling <https://en.wikipedia.org/wiki/Topic_model>`_, an 
 approach that finds natural topics within the text. We then move on to 
 `sentiment analysis <https://dadaromeo.github.io/the-voice-afrique-tweets-mining-part-4>`_, 
 the practice of associating a document with a sentiment score
@@ -22,7 +22,7 @@ the practice of associating a document with a sentiment score
 .. TEASER_END
 
 Finding topics
---------------
+~~~~~~~~~~~~~~
 The data we collected from Twitter is a relatively small sample, but attempting 
 to read each individual tweet is a hopeless cause. A more reachable goal is to get 
 a high-level understanding of what users are talking about. One way to do this is 
@@ -38,7 +38,7 @@ of the words in the topic are the same, the weight they are given differs betwee
 LDA finds the most probable words for a topic, associating each topic with a theme is left to the user.
 
 LDA with Gensim
----------------
+~~~~~~~~~~~~~~~
 To perfom the LDA computation in Python, we will use the :code:`gensim` library 
 (`topic modeling for human <https://radimrehurek.com/gensim/>`_). As we can see, 
 most of the work is done for us, the real effort is in the preprocessing of the 
