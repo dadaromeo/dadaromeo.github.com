@@ -9,7 +9,7 @@
 
 Network Analysis
 ----------------
-In the `previous post <https://dadaromeo.github.io/the-voice-tweets-mining-part-1>`_, 
+In the `previous post <https://dadaromeo.github.io/posts/the-voice-tweets-mining-part-1/>`_, 
 we showed how to use Twitter API and the excellent Tweepy Python library to collect 
 data and store them in a `MongoDB <https://www.mongodb.com/>`_ database. 
 It's now time to start aking questions.
@@ -211,8 +211,8 @@ The figure below shows such a network with our tweets data.
 
 We see on the figure and the table above, without a surprise that the official 
 page of the event, :code:`@thevoiceafrique` is the most retweeted. We also see that one the 
-coaches, `@asalfomagic` is retweeted a lot. In the `topic modeling <https://dadaromeo.github.io/the-voice-afrique-tweets-mining-part-3>`_ 
-and `sentiment analysis <https://dadaromeo.github.io/the-voice-afrique-tweets-mining-part-4>`_ 
+coaches, `@asalfomagic` is retweeted a lot. In the `topic modeling <https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-3/>`_ 
+and `sentiment analysis <https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-4/>`_ 
 post, we will see if we can tell more about that.
 
 Egeinvector centrality - Who is the most influencial?
@@ -426,6 +426,6 @@ We need to remove those parallel edges.
 .. image:: /images/hashtag_net.png
     :alt: hashtag network
 
-That's all for this post. In the `next <https://dadaromeo.gihub.io/the-voice-tweets-mining-part-3>`_ 
+That's all for this post. In the `next <https://dadaromeo.gihub.io/posts/the-voice-tweets-mining-part-3/>`_ 
 post, we will explore *topic modeling* a powerful tool to uncover hidden within a corpus 
 of documents. Thanks for following.

@@ -9,14 +9,14 @@
 
 Topic modeling
 --------------
-`Previously <https://dadaromeo.github.io/the-voice-tweets-mining-part-2>`_, we 
+In the `social network analysis <https://dadaromeo.github.io/posts/the-voice-tweets-mining-part-2/>`_ part, we 
 explored a model that exploits the links between the entities to help us find the 
 key players in the data. Here, we will focus on the tweet’s text to better 
 understand what the users are talking about. We move away from the network model 
 we’ve used previously and discuss other methods for text analysis. We first 
 explore `topic modeling <https://en.wikipedia.org/wiki/Topic_model>`_, an 
 approach that finds natural topics within the text. We then move on to 
-`sentiment analysis <https://dadaromeo.github.io/the-voice-afrique-tweets-mining-part-4>`_, 
+`sentiment analysis <https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-4/>`_, 
 the practice of associating a document with a sentiment score
 
 .. TEASER_END
@@ -216,7 +216,7 @@ Show the topics
 
 The table above show the distribution of words within the different topics. From 
 that, we can see that viewers are talking about the different candidates and 
-coaches. In the `next <https://dadaromeo.github.io/the-voice-afrique-tweets-mining-part-3>`_ 
+coaches. In the `next <https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-4/>`_ 
 post, we will use *Sentiment Analysis* to see if we see what sentiment is the most 
 present in the data.
 
