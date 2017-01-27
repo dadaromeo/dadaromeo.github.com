@@ -1017,8 +1017,8 @@ PRETTY_URLS = True
 # it's faster and the output looks better.
 # If you set USE_KATEX to True, you also need to add an extra CSS file
 # like this:
-EXTRA_HEAD_DATA = """<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.css">"""
-USE_KATEX = True
+# EXTRA_HEAD_DATA = """<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.css">"""
+# USE_KATEX = False
 
 # If you want to use the old (buggy) inline math $.$ with KaTeX, then
 # you might want to use this feature.
@@ -1291,7 +1291,7 @@ GLOBAL_CONTEXT = {'blog_sidebar': """\
         <img src="/galleries/portrait.jpg" class="img-thumbnail" alt="Dada Romeo">
     <div class="caption">
         <h4>About</h4>
-        <p>Data Analyst with interest in Statistical Modeling, Machine Learning and Network Science.</p>
+        <p>Statistical Modeling, Machine Learning and Network Science.</p>
     </div>
     </div>
 </div>

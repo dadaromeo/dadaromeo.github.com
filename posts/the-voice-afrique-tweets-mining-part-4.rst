@@ -1,7 +1,7 @@
 .. title: The Voice Afrique Tweets Mining Part 4
 .. slug: the-voice-afrique-tweets-mining-part-4
 .. date: 2016-11-08 14:12:59 UTC+01:00
-.. tags: text mining, sentiment analysis, text processing
+.. tags: text mining, sentiment analysis, text processing, mathjax
 .. category: 
 .. link: 
 .. description: 
@@ -12,14 +12,14 @@ Sentiment Analysis
 `Previously <https://dadaromeo.github.io/the-voice-tweets-mining-part-4>`_, we explore 
 *topic modeling* an algorithm used to discover what users are talking about. But 
 often, its not important to know what users are saying, but how they are saying it. 
-`*Sentiment analysis* <https://en.wikipedia.org/wiki/Sentiment_analysis>`_ seeks 
+`Sentiment analysis <https://en.wikipedia.org/wiki/Sentiment_analysis>`_ seeks 
 to automatically associate a piece of text with a *sentiment score*, a positive or 
 negative emotional score. Aggregating sentiment can give an idea of how people are 
 responding to an event or a topic.
 
 .. TEASER_END
 
-The way this task is usually done is by using `*Supervised learning* <https://en.wikipedia.org/wiki/Supervised_learning>`_ 
+The way this task is usually done is by using `Supervised learning <https://en.wikipedia.org/wiki/Supervised_learning>`_ 
 principles. First, we find a *lexicon*, a dictionary of sentences (tweets in this 
 context) and thier *positive*, *neutral* or *negative* labels. We then use a 
 `training algorithm <https://en.wikipedia.org/wiki/Naive_Bayes_classifier>`_ to 
@@ -34,7 +34,7 @@ we don't have a lexicon nor want to build one. We will rely instead on the conce
 of *mutual information* to detect the polarity of the tweet.
 
 Mutual information
-------------------
+~~~~~~~~~~~~~~~~~~
 `Pointwise Mutual Information <https://en.wikipedia.org/wiki/Pointwise_mutual_information>`_ 
 (PMI) is a measure of association between two events. The PMI of a pair of outcomes 
 :math:`x` and :math:`y` to discrete random variables :math:`X` and :math:`Y` 
@@ -364,7 +364,7 @@ all the tweets proprely or a least, most of them.
             print("Nothing found!")
 
 Negative sentiment
-~~~~~~~~~~~~~~~~~~
+..................
 We print tweets marked with 'negative' sentiment for:
 
 -   Asalfo
@@ -424,7 +424,7 @@ We print tweets marked with 'negative' sentiment for:
 5. Hum A'salfo.. Toujours a attendre que Singuila veuille buzzer pour aussi le faire 😂😂😂😂 #TheVoiceAfrique
 
 Positive sentiment
-~~~~~~~~~~~~~~~~~~
+..................
 
 We print tweets marked with 'positive' sentiment for:
 

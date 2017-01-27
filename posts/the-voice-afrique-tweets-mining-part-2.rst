@@ -15,7 +15,7 @@ data and store them in a `MongoDB <https://www.mongodb.com/>`_ database.
 It's now time to start aking questions.
 
 Many of the questions that we ask of our tweets data can be answered through 
-`network analysis <https://en.wikipedia.org/wiki/Social_network_analysis>`_. 
+`social network analysis <https://en.wikipedia.org/wiki/Social_network_analysis>`_. 
 Questions such as *who is important?*, *who talks to whom?*, and *what is important?* 
 can all be answered through a network. Using proper network measures, we can find 
 these important actors or topics in a network.
@@ -38,7 +38,7 @@ a user mention network, where the weight is the number of times the a user say
 :code:`Alice` mentions another user, :code:`Bob`.
 
 Networks from tweets data
-^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~
 We begin by constructing a retweet network because it carries a very intuitive meaning. 
 The nodes are individual users. The *directed* edges indicate the flow of information in the network. 
 An edge from node :math:`A` to node :math:`B` indicates that :math:`A` has retweeted :math:`B`, forwarding :math:`B`’s 
@@ -120,7 +120,7 @@ edges and a keyword indicating the type (directed, undirected) of network.
         print(tabular)
 
 Retweet network
-^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~
 .. code-block:: python
     
     vertices = set()
@@ -138,7 +138,7 @@ Retweet network
     retweet_net = create_network(vertices, edges)
 
 Centrality
-~~~~~~~~~~
+**********
 Often, we want to know who is the most important person in the network. The question 
 of importance may not be as straightforward as it seems. There are several dimensions 
 along which one may be considered important. Measures of importance in social networks 
@@ -148,7 +148,7 @@ media analysis. Here, we discuss the first two of them. Each provides a differen
 of who is important in the network. We will use the retweet network for the purpose.
 
 In degree centrality - Who is the most retweeted?
--------------------------------------------------
+.................................................
 One of the most commonly used centrality measures is *degree centrality*. The calculation 
 is simple: count the number of links attached to the node, this is their degree centrality. 
 In the case of a directed graph, there are two interpretations: *In-Degree Centrality*, the 
@@ -216,7 +216,7 @@ and `sentiment analysis <https://dadaromeo.github.io/the-voice-afrique-tweets-mi
 post, we will see if we can tell more about that.
 
 Egeinvector centrality - Who is the most influencial?
------------------------------------------------------
+.....................................................
 With Degree Centrality the key question was "how many people retweeted this node?" 
 *Eigenvector Centrality* builds upon this to ask "how important are these retweeters?"
 
@@ -278,7 +278,7 @@ upweighted. We see that there are new "players" in the ranking table while other
 like :code:`@L_ebene` and :code:`@_Coriet_`.
 
 Mentions network
-^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~
 In the mention network the edges are weighted to answer the question who mentions who the most?
 
 .. code-block:: python
@@ -363,7 +363,7 @@ With that,
 +---+-----------------+
 
 Hashtags coccurence network
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 All of our network constructions so far have only considered users as nodes and 
 edges as retweets or mentions. We can choose any object as a node and any relation 
 as an edge. Let’s take a look at another network construction that allows us to ask 
