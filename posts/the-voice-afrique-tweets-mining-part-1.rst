@@ -164,7 +164,7 @@ We use `Altair <https://altair-viz.github.io/>`_ to visualize the tweets frequen
 
 With this graph, we can see that viewers are talking about the event only during 
 the show, around 8pm and 10pm. Before and after that, it is a complete silence. 
-In the `next post <https://dadaromeo.github.io/the-voice-afrique-tweets-mining-part-2>`_ 
+In the `next post <https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-2/>`_ 
 we will start ask our data questions. Thanks for following.
 
 Related posts
