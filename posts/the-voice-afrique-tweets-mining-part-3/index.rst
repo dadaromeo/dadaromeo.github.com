@@ -9,7 +9,7 @@
 
 Topic modeling
 --------------
-In the `social network analysis <https://dadaromeo.github.io/posts/the-voice-tweets-mining-part-2/>`_ part, we 
+In the `social network analysis <https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-2/>`_ part, we 
 explored a model that exploits the links between the entities to help us find the 
 key players in the data. Here, we will focus on the tweet’s text to better 
 understand what the users are talking about. We move away from the network model 
