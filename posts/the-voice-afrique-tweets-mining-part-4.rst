@@ -9,7 +9,7 @@
 
 Sentiment Analysis
 ------------------
-`Previously <https://dadaromeo.github.io/posts/the-voice-tweets-mining-part-3/>`_, we explore 
+`Previously <https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-3/>`_, we explore 
 *topic modeling* an algorithm used to discover what users are talking about. But 
 often, its not important to know what users are saying, but how they are saying it. 
 `Sentiment analysis <https://en.wikipedia.org/wiki/Sentiment_analysis>`_ seeks 
@@ -134,7 +134,7 @@ The :code:`stopwords-fr.txt` file is downloaded `here <https://github.com/stopwo
         stop_tokens.update(map(str.strip, f.readlines()))
 
 The :code:`parse` function in this post is slightly different from the one used in the 
-`topic modeling <https://dadaromeo.github.io/posts/the-voice-tweets-mining-part-3/>`_ 
+`topic modeling <https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-3/>`_ 
 post. It doesn't discard the emojis icons since they are carry a strong polarity 
 meaning. In fact, we use this 😍 as a positive anchor in our PMI calculation. 
 For the negative anchor, we  use this one 😂 because in this particular dataset, 
