@@ -114,58 +114,58 @@ of this post. Visit the <a class="reference external" href="http://docs.tweepy.o
 to get started with Tweepy.</p>
 <p>The code below is in the <code>search_and_store.py</code> file and it assumes you have MongoDB
 running on your local machine.</p>
-<pre class="code python"><a name="rest_code_3a698b1da8274299927960e7ab397c2b-1"></a><span class="kn">import</span> <span class="nn">os</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-2"></a><span class="kn">import</span> <span class="nn">sys</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-3"></a><span class="kn">import</span> <span class="nn">json</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-4"></a><span class="kn">import</span> <span class="nn">time</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-5"></a>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-6"></a><span class="kn">import</span> <span class="nn">tweepy</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-7"></a><span class="kn">import</span> <span class="nn">pymongo</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-8"></a>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-9"></a><span class="n">host</span> <span class="o">=</span> <span class="s2">"localhost"</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-10"></a><span class="n">port</span> <span class="o">=</span> <span class="mi">27017</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-11"></a>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-12"></a><span class="n">consumer_key</span> <span class="o">=</span> <span class="s2">"CONSUMER KEY"</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-13"></a><span class="n">consumer_secret</span> <span class="o">=</span> <span class="s2">"CONSUMER SECRET"</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-14"></a>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-15"></a><span class="n">db</span> <span class="o">=</span> <span class="n">pymongo</span><span class="o">.</span><span class="n">MongoClient</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span><span class="o">.</span><span class="n">search</span> <span class="c1"># search's database</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-16"></a>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-17"></a><span class="n">auth</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">AppAuthHandler</span><span class="p">(</span><span class="n">consumer_key</span><span class="p">,</span> <span class="n">consumer_secret</span><span class="p">)</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-18"></a>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-19"></a><span class="n">api</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">API</span><span class="p">(</span><span class="n">auth</span><span class="p">,</span> <span class="n">wait_on_rate_limit</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">wait_on_rate_limit_notify</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-20"></a>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-21"></a><span class="k">if</span> <span class="ow">not</span> <span class="n">api</span><span class="p">:</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-22"></a>    <span class="k">print</span><span class="p">(</span><span class="s2">"Can't Authenticate!"</span><span class="p">)</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-23"></a>    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-24"></a>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-25"></a><span class="n">query</span> <span class="o">=</span> <span class="s2">"#TheVoiceAfrique OR TheVoiceAfriqueFrancophone OR </span><span class="se">\</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-26"></a><span class="s2">    #teamLokua OR #teamCharlotte OR #teamSinguila OR #teamAsalfo OR </span><span class="se">\</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-27"></a><span class="s2">    #equipeLokua OR #equipeCharlotte OR #equipeSinguila OR equipeAsalfo"</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-28"></a>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-29"></a><span class="n">max_tweets</span> <span class="o">=</span> <span class="mi">1000000</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-30"></a><span class="n">ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-31"></a>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-32"></a><span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-33"></a><span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">Cursor</span><span class="p">(</span><span class="n">api</span><span class="o">.</span><span class="n">search</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="n">query</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"fr"</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">(</span><span class="n">max_tweets</span><span class="p">):</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-34"></a>    <span class="n">tweet</span> <span class="o">=</span> <span class="n">tweet</span><span class="o">.</span><span class="n">_json</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-35"></a>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-36"></a>    <span class="k">if</span> <span class="s2">"retweeted_status"</span> <span class="ow">in</span> <span class="n">tweet</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-37"></a>        <span class="n">rt_tweet</span> <span class="o">=</span> <span class="n">tweet</span><span class="p">[</span><span class="s2">"retweeted_status"</span><span class="p">]</span> <span class="c1"># grab the retweeted tweet</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-38"></a>        <span class="n">id_str</span> <span class="o">=</span> <span class="n">rt_tweet</span><span class="p">[</span><span class="s2">"id_str"</span><span class="p">]</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-39"></a>        <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">id_str</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">):</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-40"></a>            <span class="n">ids</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">id_str</span><span class="p">)</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-41"></a>            <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">thevoice</span><span class="o">.</span><span class="n">insert_one</span><span class="p">(</span><span class="n">rt_tweet</span><span class="p">)</span><span class="o">.</span><span class="n">inserted_id</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-42"></a>            <span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-43"></a>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-44"></a>    <span class="n">id_str</span> <span class="o">=</span> <span class="n">tweet</span><span class="p">[</span><span class="s2">"id_str"</span><span class="p">]</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-45"></a>    <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">id_str</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">):</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-46"></a>        <span class="n">ids</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">id_str</span><span class="p">)</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-47"></a>        <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">thevoice</span><span class="o">.</span><span class="n">insert_one</span><span class="p">(</span><span class="n">tweet</span><span class="p">)</span><span class="o">.</span><span class="n">inserted_id</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-48"></a>        <span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-49"></a>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-50"></a>    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-51"></a>
-<a name="rest_code_3a698b1da8274299927960e7ab397c2b-52"></a><span class="k">print</span><span class="p">(</span><span class="s2">"Downloaded {} tweets"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">count</span><span class="p">))</span>
+<pre class="code python"><a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-1"></a><span class="kn">import</span> <span class="nn">os</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-2"></a><span class="kn">import</span> <span class="nn">sys</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-3"></a><span class="kn">import</span> <span class="nn">json</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-4"></a><span class="kn">import</span> <span class="nn">time</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-5"></a>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-6"></a><span class="kn">import</span> <span class="nn">tweepy</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-7"></a><span class="kn">import</span> <span class="nn">pymongo</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-8"></a>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-9"></a><span class="n">host</span> <span class="o">=</span> <span class="s2">"localhost"</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-10"></a><span class="n">port</span> <span class="o">=</span> <span class="mi">27017</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-11"></a>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-12"></a><span class="n">consumer_key</span> <span class="o">=</span> <span class="s2">"CONSUMER KEY"</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-13"></a><span class="n">consumer_secret</span> <span class="o">=</span> <span class="s2">"CONSUMER SECRET"</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-14"></a>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-15"></a><span class="n">db</span> <span class="o">=</span> <span class="n">pymongo</span><span class="o">.</span><span class="n">MongoClient</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span><span class="o">.</span><span class="n">search</span> <span class="c1"># search's database</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-16"></a>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-17"></a><span class="n">auth</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">AppAuthHandler</span><span class="p">(</span><span class="n">consumer_key</span><span class="p">,</span> <span class="n">consumer_secret</span><span class="p">)</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-18"></a>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-19"></a><span class="n">api</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">API</span><span class="p">(</span><span class="n">auth</span><span class="p">,</span> <span class="n">wait_on_rate_limit</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">wait_on_rate_limit_notify</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-20"></a>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-21"></a><span class="k">if</span> <span class="ow">not</span> <span class="n">api</span><span class="p">:</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-22"></a>    <span class="k">print</span><span class="p">(</span><span class="s2">"Can't Authenticate!"</span><span class="p">)</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-23"></a>    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-24"></a>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-25"></a><span class="n">query</span> <span class="o">=</span> <span class="s2">"#TheVoiceAfrique OR TheVoiceAfriqueFrancophone OR </span><span class="se">\</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-26"></a><span class="s2">    #teamLokua OR #teamCharlotte OR #teamSinguila OR #teamAsalfo OR </span><span class="se">\</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-27"></a><span class="s2">    #equipeLokua OR #equipeCharlotte OR #equipeSinguila OR equipeAsalfo"</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-28"></a>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-29"></a><span class="n">max_tweets</span> <span class="o">=</span> <span class="mi">1000000</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-30"></a><span class="n">ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-31"></a>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-32"></a><span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-33"></a><span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">Cursor</span><span class="p">(</span><span class="n">api</span><span class="o">.</span><span class="n">search</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="n">query</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"fr"</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">(</span><span class="n">max_tweets</span><span class="p">):</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-34"></a>    <span class="n">tweet</span> <span class="o">=</span> <span class="n">tweet</span><span class="o">.</span><span class="n">_json</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-35"></a>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-36"></a>    <span class="k">if</span> <span class="s2">"retweeted_status"</span> <span class="ow">in</span> <span class="n">tweet</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-37"></a>        <span class="n">rt_tweet</span> <span class="o">=</span> <span class="n">tweet</span><span class="p">[</span><span class="s2">"retweeted_status"</span><span class="p">]</span> <span class="c1"># grab the retweeted tweet</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-38"></a>        <span class="n">id_str</span> <span class="o">=</span> <span class="n">rt_tweet</span><span class="p">[</span><span class="s2">"id_str"</span><span class="p">]</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-39"></a>        <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">id_str</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">):</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-40"></a>            <span class="n">ids</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">id_str</span><span class="p">)</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-41"></a>            <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">thevoice</span><span class="o">.</span><span class="n">insert_one</span><span class="p">(</span><span class="n">rt_tweet</span><span class="p">)</span><span class="o">.</span><span class="n">inserted_id</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-42"></a>            <span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-43"></a>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-44"></a>    <span class="n">id_str</span> <span class="o">=</span> <span class="n">tweet</span><span class="p">[</span><span class="s2">"id_str"</span><span class="p">]</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-45"></a>    <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">id_str</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">):</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-46"></a>        <span class="n">ids</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">id_str</span><span class="p">)</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-47"></a>        <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">thevoice</span><span class="o">.</span><span class="n">insert_one</span><span class="p">(</span><span class="n">tweet</span><span class="p">)</span><span class="o">.</span><span class="n">inserted_id</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-48"></a>        <span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-49"></a>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-50"></a>    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-51"></a>
+<a name="rest_code_b996fc1aee154d5c80d3e31d444a414b-52"></a><span class="k">print</span><span class="p">(</span><span class="s2">"Downloaded {} tweets"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">count</span><span class="p">))</span>
 </pre>
 <p>The code above connects to Twitter, search for tweets with the terms in the <cite>query</cite>
 variable, store the result in the <cite>thevoice</cite> collection if the tweet is not
@@ -174,53 +174,53 @@ The code also check if it is a retweet and if so, store the original tweet if no
 already in the database (with search queries, the original tweet of a retweet is often
 missed). I ran the script on <strong>November, 07 2016</strong> at <strong>1pm</strong> and it collected <strong>4998</strong>
 tweets (inluding retweets ~ <strong>61%</strong>) ranging from <strong>14/10/2016</strong> to <strong>07/11/2016</strong>.</p>
-<pre class="code python"><a name="rest_code_90ba001f6f8a46418937222719e67c47-1"></a><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
-<a name="rest_code_90ba001f6f8a46418937222719e67c47-2"></a><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-<a name="rest_code_90ba001f6f8a46418937222719e67c47-3"></a>
-<a name="rest_code_90ba001f6f8a46418937222719e67c47-4"></a><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-<a name="rest_code_90ba001f6f8a46418937222719e67c47-5"></a><span class="kn">import</span> <span class="nn">pymongo</span>
-<a name="rest_code_90ba001f6f8a46418937222719e67c47-6"></a><span class="kn">import</span> <span class="nn">altair</span>
-<a name="rest_code_90ba001f6f8a46418937222719e67c47-7"></a>
-<a name="rest_code_90ba001f6f8a46418937222719e67c47-8"></a><span class="n">host</span> <span class="o">=</span> <span class="s2">"localhost"</span>
-<a name="rest_code_90ba001f6f8a46418937222719e67c47-9"></a><span class="n">port</span> <span class="o">=</span> <span class="mi">27017</span>
-<a name="rest_code_90ba001f6f8a46418937222719e67c47-10"></a>
-<a name="rest_code_90ba001f6f8a46418937222719e67c47-11"></a><span class="n">db</span> <span class="o">=</span> <span class="n">pymongo</span><span class="o">.</span><span class="n">MongoClient</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span><span class="o">.</span><span class="n">search</span>
-<a name="rest_code_90ba001f6f8a46418937222719e67c47-12"></a>
-<a name="rest_code_90ba001f6f8a46418937222719e67c47-13"></a><span class="k">def</span> <span class="nf">strptime</span><span class="p">(</span><span class="n">ts</span><span class="p">):</span>
-<a name="rest_code_90ba001f6f8a46418937222719e67c47-14"></a>    <span class="n">cformat</span> <span class="o">=</span> <span class="s2">"%a %b </span><span class="si">%d</span><span class="s2"> %H:%M:%S %Y"</span>
-<a name="rest_code_90ba001f6f8a46418937222719e67c47-15"></a>    <span class="n">uformat</span> <span class="o">=</span> <span class="s2">"%a %b </span><span class="si">%d</span><span class="s2"> %H:%M:%S %z %Y"</span>
-<a name="rest_code_90ba001f6f8a46418937222719e67c47-16"></a>
-<a name="rest_code_90ba001f6f8a46418937222719e67c47-17"></a>    <span class="n">ctime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">uformat</span><span class="p">)</span><span class="o">.</span><span class="n">ctime</span><span class="p">()</span>
-<a name="rest_code_90ba001f6f8a46418937222719e67c47-18"></a>    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">ctime</span><span class="p">,</span> <span class="n">cformat</span><span class="p">)</span>
-<a name="rest_code_90ba001f6f8a46418937222719e67c47-19"></a>
-<a name="rest_code_90ba001f6f8a46418937222719e67c47-20"></a><span class="n">tweets</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"created_at"</span><span class="p">:</span> <span class="p">[</span><span class="n">tweet</span><span class="p">[</span><span class="s2">"created_at"</span><span class="p">]</span>
-<a name="rest_code_90ba001f6f8a46418937222719e67c47-21"></a>                          <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">thevoice</span><span class="o">.</span><span class="n">find</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="s2">"retweeted_status"</span> <span class="ow">in</span> <span class="n">tweet</span><span class="p">)]})</span>
-<a name="rest_code_90ba001f6f8a46418937222719e67c47-22"></a>
-<a name="rest_code_90ba001f6f8a46418937222719e67c47-23"></a><span class="n">tweets</span> <span class="o">=</span> <span class="n">tweets</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">created</span><span class="o">=</span><span class="n">tweets</span><span class="o">.</span><span class="n">created_at</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">strptime</span><span class="p">))</span>
-<a name="rest_code_90ba001f6f8a46418937222719e67c47-24"></a><span class="n">tweets</span> <span class="o">=</span> <span class="n">tweets</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">"created_at"</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<a name="rest_code_90ba001f6f8a46418937222719e67c47-25"></a><span class="n">tweets</span><span class="p">[</span><span class="s2">"count"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="rest_code_90ba001f6f8a46418937222719e67c47-26"></a>
-<a name="rest_code_90ba001f6f8a46418937222719e67c47-27"></a><span class="k">print</span><span class="p">(</span><span class="s2">"Number of tweets: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tweets</span><span class="p">)))</span>
+<pre class="code python"><a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-1"></a><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-2"></a><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-3"></a>
+<a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-4"></a><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-5"></a><span class="kn">import</span> <span class="nn">pymongo</span>
+<a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-6"></a><span class="kn">import</span> <span class="nn">altair</span>
+<a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-7"></a>
+<a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-8"></a><span class="n">host</span> <span class="o">=</span> <span class="s2">"localhost"</span>
+<a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-9"></a><span class="n">port</span> <span class="o">=</span> <span class="mi">27017</span>
+<a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-10"></a>
+<a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-11"></a><span class="n">db</span> <span class="o">=</span> <span class="n">pymongo</span><span class="o">.</span><span class="n">MongoClient</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span><span class="o">.</span><span class="n">search</span>
+<a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-12"></a>
+<a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-13"></a><span class="k">def</span> <span class="nf">strptime</span><span class="p">(</span><span class="n">ts</span><span class="p">):</span>
+<a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-14"></a>    <span class="n">cformat</span> <span class="o">=</span> <span class="s2">"%a %b </span><span class="si">%d</span><span class="s2"> %H:%M:%S %Y"</span>
+<a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-15"></a>    <span class="n">uformat</span> <span class="o">=</span> <span class="s2">"%a %b </span><span class="si">%d</span><span class="s2"> %H:%M:%S %z %Y"</span>
+<a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-16"></a>
+<a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-17"></a>    <span class="n">ctime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">uformat</span><span class="p">)</span><span class="o">.</span><span class="n">ctime</span><span class="p">()</span>
+<a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-18"></a>    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">ctime</span><span class="p">,</span> <span class="n">cformat</span><span class="p">)</span>
+<a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-19"></a>
+<a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-20"></a><span class="n">tweets</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"created_at"</span><span class="p">:</span> <span class="p">[</span><span class="n">tweet</span><span class="p">[</span><span class="s2">"created_at"</span><span class="p">]</span>
+<a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-21"></a>                          <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">thevoice</span><span class="o">.</span><span class="n">find</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="s2">"retweeted_status"</span> <span class="ow">in</span> <span class="n">tweet</span><span class="p">)]})</span>
+<a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-22"></a>
+<a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-23"></a><span class="n">tweets</span> <span class="o">=</span> <span class="n">tweets</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">created</span><span class="o">=</span><span class="n">tweets</span><span class="o">.</span><span class="n">created_at</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">strptime</span><span class="p">))</span>
+<a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-24"></a><span class="n">tweets</span> <span class="o">=</span> <span class="n">tweets</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">"created_at"</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-25"></a><span class="n">tweets</span><span class="p">[</span><span class="s2">"count"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-26"></a>
+<a name="rest_code_6e6e3d42d3c1405884ed5acbda009cef-27"></a><span class="k">print</span><span class="p">(</span><span class="s2">"Number of tweets: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tweets</span><span class="p">)))</span>
 </pre>
 </div>
 <div class="section" id="tweets-frequency">
 <h2>Tweets frequency</h2>
 <p>We use <a class="reference external" href="https://altair-viz.github.io/">Altair</a> to visualize the tweets frequency.</p>
-<pre class="code python"><a name="rest_code_945c4f2a681041e990915b993d45643c-1"></a><span class="n">altair</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">tweets</span><span class="p">)</span><span class="o">.</span><span class="n">mark_line</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
-<a name="rest_code_945c4f2a681041e990915b993d45643c-2"></a>    <span class="n">x</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"created"</span><span class="p">,</span> <span class="n">timeUnit</span><span class="o">=</span><span class="s2">"hoursminutes"</span><span class="p">,</span>
-<a name="rest_code_945c4f2a681041e990915b993d45643c-3"></a>           <span class="n">scale</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="n">nice</span><span class="o">=</span><span class="s2">"hour"</span><span class="p">),</span>
-<a name="rest_code_945c4f2a681041e990915b993d45643c-4"></a>           <span class="n">axis</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Time (hour)"</span><span class="p">),</span>
-<a name="rest_code_945c4f2a681041e990915b993d45643c-5"></a>          <span class="p">),</span>
-<a name="rest_code_945c4f2a681041e990915b993d45643c-6"></a>    <span class="n">y</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"count"</span><span class="p">,</span> <span class="n">aggregate</span><span class="o">=</span><span class="s2">"sum"</span><span class="p">,</span>
-<a name="rest_code_945c4f2a681041e990915b993d45643c-7"></a>           <span class="n">axis</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Number of tweets"</span><span class="p">),</span>
-<a name="rest_code_945c4f2a681041e990915b993d45643c-8"></a>          <span class="p">),</span>
-<a name="rest_code_945c4f2a681041e990915b993d45643c-9"></a><span class="p">)</span><span class="o">.</span><span class="n">configure_cell</span><span class="p">(</span>
-<a name="rest_code_945c4f2a681041e990915b993d45643c-10"></a>    <span class="n">width</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span>
-<a name="rest_code_945c4f2a681041e990915b993d45643c-11"></a><span class="p">)</span>
+<pre class="code python"><a name="rest_code_c19f30c79bba4f90be85b3dbca357a6a-1"></a><span class="n">altair</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">tweets</span><span class="p">)</span><span class="o">.</span><span class="n">mark_line</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+<a name="rest_code_c19f30c79bba4f90be85b3dbca357a6a-2"></a>    <span class="n">x</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"created"</span><span class="p">,</span> <span class="n">timeUnit</span><span class="o">=</span><span class="s2">"hoursminutes"</span><span class="p">,</span>
+<a name="rest_code_c19f30c79bba4f90be85b3dbca357a6a-3"></a>           <span class="n">scale</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="n">nice</span><span class="o">=</span><span class="s2">"hour"</span><span class="p">),</span>
+<a name="rest_code_c19f30c79bba4f90be85b3dbca357a6a-4"></a>           <span class="n">axis</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Time (hour)"</span><span class="p">),</span>
+<a name="rest_code_c19f30c79bba4f90be85b3dbca357a6a-5"></a>          <span class="p">),</span>
+<a name="rest_code_c19f30c79bba4f90be85b3dbca357a6a-6"></a>    <span class="n">y</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"count"</span><span class="p">,</span> <span class="n">aggregate</span><span class="o">=</span><span class="s2">"sum"</span><span class="p">,</span>
+<a name="rest_code_c19f30c79bba4f90be85b3dbca357a6a-7"></a>           <span class="n">axis</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Number of tweets"</span><span class="p">),</span>
+<a name="rest_code_c19f30c79bba4f90be85b3dbca357a6a-8"></a>          <span class="p">),</span>
+<a name="rest_code_c19f30c79bba4f90be85b3dbca357a6a-9"></a><span class="p">)</span><span class="o">.</span><span class="n">configure_cell</span><span class="p">(</span>
+<a name="rest_code_c19f30c79bba4f90be85b3dbca357a6a-10"></a>    <span class="n">width</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span>
+<a name="rest_code_c19f30c79bba4f90be85b3dbca357a6a-11"></a><span class="p">)</span>
 </pre>
 <img alt="Tweets Frequency" src="../../images/tweets_frequency.png"><p>With this graph, we can see that viewers are talking about the event only during
 the show, around 8pm and 10pm. Before and after that, it is a complete silence.
-In the <a class="reference external" href="https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-2/">next post</a>
+In the <a class="reference external" href="../the-voice-afrique-tweets-mining-part-2/">next post</a>
 we will start ask our data questions. Thanks for following.</p>
 </div>
 <div class="section" id="related-posts">
@@ -270,19 +270,9 @@ we will start ask our data questions. Thanks for following.</p>
         <img src="../../galleries/portrait.jpg" class="img-thumbnail" alt="Dada Romeo"><div class="caption">
         <h4>About</h4>
         <p>Statistical Modeling, Machine Learning and Network Science.</p>
+        <p><a href="https://github.com/dadaromeo"><i class="fa fa-github fa-2x"></i></a> <a href="https://twitter.com/dadaromeo"><i class="fa fa-twitter fa-2x"></i></a></p>
     </div>
     </div>
-</div>
-<div class="sidebar-module">
-    <h4>Follow Me</h4>
-    <ul class="list-group">
-<li class="list-group-item">
-<strong>Twitter:</strong> <a href="https://twitter.com/dadaromeo">@dadaromeo</a>
-</li>
-        <li class="list-group-item">
-<strong>GitHub:</strong> <a href="https://github.com/dadaromeo">dadaromeo</a>
-</li>
-    </ul>
 </div>
 
             </div>
@@ -294,24 +284,7 @@ we will start ask our data questions. Thanks for following.</p>
 <footer class="blog-footer" id="footer">
     Contents © 2017         <a href="mailto:dada.romy@gmail.com">Dada Romeo</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
     
-</footer><script src="../../assets/js/all-nocdn.js"></script><!-- Social buttons --><div id="addthisbox" class="addthis_toolbox addthis_peekaboo_style addthis_default_style addthis_label_style addthis_32x32_style">
- <a class="addthis_button_more">Share</a>
- <ul>
-<li>
-<a class="addthis_button_facebook"></a>
- </li>
-<li>
-<a class="addthis_button_google_plusone_share"></a>
- </li>
-<li>
-<a class="addthis_button_linkedin"></a>
- </li>
-<li>
-<a class="addthis_button_twitter"></a>
- </li>
-</ul>
-</div>
- <script src="https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4f7088a56bb93798"></script><!-- End of social buttons --><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+</footer><script src="../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
     moment.locale("en");
     fancydates(1, "lll");
     </script><!-- end fancy dates -->
