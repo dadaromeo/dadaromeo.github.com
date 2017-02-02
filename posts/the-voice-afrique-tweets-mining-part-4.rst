@@ -9,7 +9,7 @@
 
 Sentiment Analysis
 ------------------
-`Previously <https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-3/>`_, we explore 
+`Previously </posts/the-voice-afrique-tweets-mining-part-3/>`_, we explore 
 *topic modeling* an algorithm used to discover what users are talking about. But 
 often, its not important to know what users are saying, but how they are saying it. 
 `Sentiment analysis <https://en.wikipedia.org/wiki/Sentiment_analysis>`_ seeks 
@@ -98,7 +98,7 @@ Load the tweets.
             tweets = tweets.append(pd.DataFrame(data, index=[0]), ignore_index=True)
 
 Since the :code:`created_at` field was store as a string during 
-`data collection <https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-1/>`_, 
+`data collection </posts/the-voice-afrique-tweets-mining-part-1/>`_, 
 we use the :code:`strptime` helper to restore the values in this field to a valid Python's 
 :code:`datetime` object.
 
@@ -134,7 +134,7 @@ The :code:`stopwords-fr.txt` file is downloaded `here <https://github.com/stopwo
         stop_tokens.update(map(str.strip, f.readlines()))
 
 The :code:`parse` function in this post is slightly different from the one used in the 
-`topic modeling <https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-3/>`_ 
+`topic modeling </posts/the-voice-afrique-tweets-mining-part-3/>`_ 
 post. It doesn't discard the emojis icons since they are carry a strong polarity 
 meaning. In fact, we use this 😍 as a positive anchor in our PMI calculation. 
 For the negative anchor, we  use this one 😂 because in this particular dataset, 
@@ -510,6 +510,6 @@ at all. Even those who are connected to Twitter may not have left a single messa
 about the event. May be they don't have the opportunity or the time during the show.
 
 We're really happy that you follow up to this point. If you just reach this page, 
-you can `look here <https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-1/>`_ to start.
+you can `look here </posts/the-voice-afrique-tweets-mining-part-1/>`_ to start.
 
 Thanks for reading, comments are welcome.
