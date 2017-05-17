@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Automatic Topic Discovery in Political Blog Posts | Dada Romeo</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://dadaromeo.github.io/posts/automatic-topic-discovery-in-political-blog-posts/">
+<link rel="icon" href="../../favicon.ico" sizes="16x16">
+<link rel="icon" href="../../favicon-16x16.png" sizes="16x16">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Dada Romeo">
+<link rel="prev" href="../mesa-a-library-for-agent-based-modeling-in-python/" title="Mesa: A Library for Agent-Based Modeling in Python" type="text/html">
+<meta property="og:site_name" content="Dada Romeo">
+<meta property="og:title" content="Automatic Topic Discovery in Political Blog Posts">
+<meta property="og:url" content="https://dadaromeo.github.io/posts/automatic-topic-discovery-in-political-blog-posts/">
+<meta property="og:description" content='Introduction
+Web data mining is a major component in the data science activities landscape.
+With its use, we can track brand mentions from social media statuses, policy sentiment on
+forums and "hot" t'>
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-05-15T15:37:55+01:00">
+<meta property="article:tag" content="gensim">
+<meta property="article:tag" content="scrapy">
+<meta property="article:tag" content="spacy">
+<meta property="article:tag" content="text analytics">
+<meta property="article:tag" content="web scraping">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@dadaromeo">
+<meta name="twitter:creator" content="@dadaromeo">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<div class="blog-masthead">
+    <div class="container">
+<!-- This keeps the margins nice -->
+        <nav class="blog-nav" role="navigation"><a href="../../" class="blog-nav-item">Home</a>
+            <a href="../../archive.html" class="blog-nav-item">Archive</a>
+            <a href="../../categories/" class="blog-nav-item">Tags</a>
+            <a href="../../rss.xml" class="blog-nav-item">RSS feed</a>
+
+            
+
+                
+                
+                
+            
+        </nav>
+</div>
+<!-- /.container -->
+</div>
+<!-- End of Menubar -->
+
+<div class="container" id="content" role="main">
+    <div class="body-content">
+        <div class="blog-header">
+            <h1 class="blog-title">
+                <a href="https://dadaromeo.github.io/">
+
+                </a>
+            </h1>
+            <p class="lead blog-description">Adventures in Dataland</p>
+            
+        </div>
+        <!--Body content-->
+        <div class="row">
+            <div class="col-sm-8 blog-main">
+                
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h2 class="p-name entry-title blog-post-title" itemprop="headline name"><a href="." class="u-url">Automatic Topic Discovery in Political Blog Posts</a></h2>
+
+        <div class="metadata blog-post-meta">
+            <p class="byline author vcard"><span class="byline-name fn">Dada Romeo</span></p>
+            <p class="dateline"><a href="." rel="bookmark"><time class="published dt-published" datetime="2017-05-15T15:37:55+01:00" itemprop="datePublished" title="2017-05-15 15:37">2017-05-15 15:37</time></a></p>
+                <p class="commentline">
+        
+    <a href="#disqus_thread" data-disqus-identifier="cache/posts/automatic-topic-discovery-in-political-blog-posts.html">Comments</a>
+
+
+            
+
+        </p>
+</div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div>
+<div class="section" id="introduction">
+<h2>Introduction</h2>
+<p>Web data mining is a major component in the data science activities landscape.
+With its use, we can track brand mentions from social media statuses, policy sentiment on
+forums and "hot" topics from political blog posts.</p>
+<p>In this article, we'll ding into the posts from the politics's rubric of the site
+<a class="reference external" href="htpp://journalducameroun.com">Journal Du Cameroun</a> (JDC) to find what are the topics
+developed there.
+The scraping was done on May the 10th 2017 and the dataset includes 136 articles between February 17, 2017 and May 9, 2017.</p>
+<!-- TEASER_END -->
+<p><strong>Disclamer:</strong> At the time of the publication of this article, the author is not associated
+or linked in any order with the site <a class="reference external" href="http://journalducameroun.com">journalducameroun.com</a>. Nor does
+he have a preference for that editorial line in particular. The site was just used for the purpose of
+illustration.</p>
+<p>The full code of this article is available on <a class="reference external" href="https://github.com/dadaromeo/polblog-mining">github</a>.</p>
+</div>
+<div class="section" id="data-collection">
+<h2>Data Collection</h2>
+<p>In this article, as mentioned earlier, we'll use the data from <a class="reference external" href="http://journalducameroun.com/en/category/politics">JDC</a>
+and before that, we need to fecth the data (text content) from the articles on the site, and
+the act of doing so is call scraping. Web scraping can be complicated because you need to take
+care of a lot of things (caching, redirection, timeout, etc...) and if you're in the
+position that you just need the data to get things done, it can be very frustrating.
+Hopefully, there is <a class="reference external" href="https://scrapy.org">scrapy</a>, a <a class="reference external" href="http://python.org">Python</a> and
+one of the most used sraping framework out there. One you need to do is to tell <code>scrapy</code> how to
+process the received pages, point it to a starting url and it will do the "dirty" work for you.</p>
+<p>The installation of <code>scrapy</code> is really simple.</p>
+<pre class="code bash"><a name="rest_code_24d3ecac5900401ea168869bcd368c23-1"></a>$ pip install scrapy
+</pre>
+<p>Or if you use the <code>conda</code> environment which I recommend.</p>
+<pre class="code bash"><a name="rest_code_f830043448d143d0a0205a86f34e81c8-1"></a>$ conda install -c conda-forge scrapy
+</pre>
+<p>Once installed, you create a new project, move to the project folder and generate
+your spider.</p>
+<pre class="code bash"><a name="rest_code_2a7b1c1e80eb4bc29e7fdda957f08c3b-1"></a>$ scrapy startproject jdc
+<a name="rest_code_2a7b1c1e80eb4bc29e7fdda957f08c3b-2"></a>$ <span class="nb">cd</span> jdc/
+<a name="rest_code_2a7b1c1e80eb4bc29e7fdda957f08c3b-3"></a>$ scrapy genspider polblog
+</pre>
+<p>Inside the <code>spiders</code> folder, will be a script named <code>polblog.py</code> that
+contains something like this.</p>
+<pre class="code python"><a name="rest_code_55ec24fc7e944666a1d994710b3438a0-1"></a><span class="kn">import</span> <span class="nn">scrapy</span>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-2"></a>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-3"></a><span class="k">class</span> <span class="nc">PolblogSpider</span><span class="p">(</span><span class="n">scrapy</span><span class="o">.</span><span class="n">Spider</span><span class="p">):</span>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-4"></a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">"polblog"</span>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-5"></a>    <span class="n">start_urls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'http://journalducameroun.com/en/category/politics/'</span><span class="p">]</span>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-6"></a>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-7"></a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-8"></a>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-9"></a>        <span class="k">for</span> <span class="n">href</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">"//ul[@class='list-post list-full ']//article/a/@href"</span><span class="p">)</span><span class="o">.</span><span class="n">extract</span><span class="p">():</span>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-10"></a>            <span class="n">url</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">urljoin</span><span class="p">(</span><span class="n">href</span><span class="p">)</span>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-11"></a>            <span class="k">yield</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse_post</span><span class="p">)</span>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-12"></a>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-13"></a>        <span class="n">next_page</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">"//a[@rel='next']/@href"</span><span class="p">)</span><span class="o">.</span><span class="n">extract_first</span><span class="p">()</span>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-14"></a>        <span class="k">if</span> <span class="n">next_page</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-15"></a>            <span class="n">url</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">urljoin</span><span class="p">(</span><span class="n">next_page</span><span class="p">)</span>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-16"></a>            <span class="k">yield</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">)</span>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-17"></a>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-18"></a>    <span class="k">def</span> <span class="nf">parse_post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-19"></a>        <span class="n">post</span> <span class="o">=</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Item</span><span class="p">()</span>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-20"></a>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-21"></a>        <span class="n">text</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">"//article[@class='post-full']//div[@class='post-content']//p/text()"</span><span class="p">)</span><span class="o">.</span><span class="n">extract</span><span class="p">())</span>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-22"></a>        <span class="n">info</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">"//article[@class='post-full']//p/text()"</span><span class="p">)</span><span class="o">.</span><span class="n">extract_first</span><span class="p">()</span>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-23"></a>        <span class="n">h</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">"\d+h\d+"</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"h"</span><span class="p">,</span> <span class="s2">":"</span><span class="p">)</span>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-24"></a>        <span class="n">d</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">"\d+.\d+.\d+"</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-25"></a>        <span class="n">date</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="s2">"-"</span> <span class="o">+</span> <span class="n">m</span> <span class="o">+</span> <span class="s2">"-"</span> <span class="o">+</span> <span class="n">d</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="n">h</span>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-26"></a>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-27"></a>        <span class="n">post</span><span class="p">[</span><span class="s2">"url"</span><span class="p">]</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">url</span>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-28"></a>        <span class="n">post</span><span class="p">[</span><span class="s2">"title"</span><span class="p">]</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">"//article[@class='post-full']/h1/text()"</span><span class="p">)</span><span class="o">.</span><span class="n">extract_first</span><span class="p">()</span>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-29"></a>        <span class="n">post</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">,</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" "</span><span class="p">)))</span>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-30"></a>        <span class="n">post</span><span class="p">[</span><span class="s2">"author"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">"\w+"</span><span class="p">,</span> <span class="n">info</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"by"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]))</span>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-31"></a>        <span class="n">post</span><span class="p">[</span><span class="s2">"published"</span><span class="p">]</span> <span class="o">=</span> <span class="n">date</span>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-32"></a>
+<a name="rest_code_55ec24fc7e944666a1d994710b3438a0-33"></a>        <span class="k">yield</span> <span class="n">post</span>
+</pre>
+<p>The code above is very simple. It tells <code>scrapy</code> to go to the politics's category
+of JDC and for each post listed there, fecth the content of
+the post and extract its title, publish date, author and text content.</p>
+<pre class="code bash"><a name="rest_code_e270b91731544497badbfdaf71d1c3fb-1"></a>$ scrapy crawl polblog -o data/jdc-raw.en.json
+</pre>
+</div>
+<div class="section" id="preprocessing">
+<h2>Preprocessing</h2>
+<p>Before doing anaything with the collected blog posts, we need to break each post
+to a collection of words or chunks. It's called tokenization. During this process,
+we remove from the text, spaces, punctuations, stop words and other things we jugde
+irrelevant because they don't convey enough information to discriminate between
+topics in documents. For this, we will use a well established library for text analytics,
+<a class="reference external" href="https://spacy.io">spacy</a>. The installation is as simple as the installation of scrapy.
+And after the installtion, we just import the library into our working environment.</p>
+<pre class="code python"><a name="rest_code_83fac609282b4cb1b53e2787394ff0cf-1"></a><span class="kn">import</span> <span class="nn">spacy</span>
+</pre>
+<p>After importing the library, we load the english lexicon.</p>
+<pre class="code python"><a name="rest_code_a86077b6db0140e08366e08affcd9c66-1"></a><span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">"en"</span><span class="p">)</span>
+</pre>
+<p>We now stream trought the texts and transform each to a set of tokens and save them to a file. See the
+<code>transform_doc</code> in the <a class="reference external" href="https://github.com/dadaromeo/polblog-mining">repository</a>.</p>
+<pre class="code python"><a name="rest_code_889ced290a6f4a10a4c54a9c15b8d8cf-1"></a><span class="k">def</span> <span class="nf">transform_texts</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">out_file</span><span class="p">):</span>
+<a name="rest_code_889ced290a6f4a10a4c54a9c15b8d8cf-2"></a>
+<a name="rest_code_889ced290a6f4a10a4c54a9c15b8d8cf-3"></a>    <span class="n">out</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">out_file</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span>
+<a name="rest_code_889ced290a6f4a10a4c54a9c15b8d8cf-4"></a>    <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">:</span>
+<a name="rest_code_889ced290a6f4a10a4c54a9c15b8d8cf-5"></a>        <span class="n">doc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<a name="rest_code_889ced290a6f4a10a4c54a9c15b8d8cf-6"></a>        <span class="n">line</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">transform_doc</span><span class="p">(</span><span class="n">doc</span><span class="p">))</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span>
+<a name="rest_code_889ced290a6f4a10a4c54a9c15b8d8cf-7"></a>        <span class="n">out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+<a name="rest_code_889ced290a6f4a10a4c54a9c15b8d8cf-8"></a>
+<a name="rest_code_889ced290a6f4a10a4c54a9c15b8d8cf-9"></a>    <span class="n">out</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<a name="rest_code_889ced290a6f4a10a4c54a9c15b8d8cf-10"></a>
+<a name="rest_code_889ced290a6f4a10a4c54a9c15b8d8cf-11"></a><span class="n">texts</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">"data/jdc-raw.en.json"</span><span class="p">))]</span>
+<a name="rest_code_889ced290a6f4a10a4c54a9c15b8d8cf-12"></a><span class="n">transform_texts</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="s2">"data/jdc-tokens.en.text"</span><span class="p">)</span>
+</pre>
+<p>Now that we have our posts as tokens, we're good to go.</p>
+</div>
+<div class="section" id="modeling">
+<h2>Modeling</h2>
+<p>One of the widely use model for topic discovery is the
+<a class="reference external" href="https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation">Latent Dirichlet Allocation</a>
+or LDA for short.
+I'm not going to talk about that in this post. Just to point that, there is a cool
+library in Python dedicated for it, named <a class="reference external" href="https://radimrehurek.com/gensim/">gensim</a>.
+There is also a module in <a class="reference external" href="https://scikit-learn.org">scikit-learn</a>
+(another popular Python's library for Machine Learning) for performning LDA.
+The code is pretty simple.</p>
+<pre class="code python"><a name="rest_code_0d451a1dc9ee4cb382caa460941ef50c-1"></a><span class="kn">from</span> <span class="nn">gensim.corpora</span> <span class="kn">import</span> <span class="n">TextCorpus</span><span class="p">,</span> <span class="n">MmCorpus</span>
+<a name="rest_code_0d451a1dc9ee4cb382caa460941ef50c-2"></a><span class="kn">from</span> <span class="nn">gensim.models</span> <span class="kn">import</span> <span class="n">LdaModel</span>
+<a name="rest_code_0d451a1dc9ee4cb382caa460941ef50c-3"></a>
+<a name="rest_code_0d451a1dc9ee4cb382caa460941ef50c-4"></a><span class="k">class</span> <span class="nc">Corpus</span><span class="p">(</span><span class="n">TextCorpus</span><span class="p">):</span>
+<a name="rest_code_0d451a1dc9ee4cb382caa460941ef50c-5"></a>
+<a name="rest_code_0d451a1dc9ee4cb382caa460941ef50c-6"></a>    <span class="k">def</span> <span class="nf">get_texts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a name="rest_code_0d451a1dc9ee4cb382caa460941ef50c-7"></a>        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">):</span>
+<a name="rest_code_0d451a1dc9ee4cb382caa460941ef50c-8"></a>            <span class="k">yield</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">", "</span><span class="p">)</span>
+<a name="rest_code_0d451a1dc9ee4cb382caa460941ef50c-9"></a>
+<a name="rest_code_0d451a1dc9ee4cb382caa460941ef50c-10"></a><span class="n">corpus</span> <span class="o">=</span> <span class="n">Corpus</span><span class="p">(</span><span class="s2">"data/jdc-tokens.en.txt"</span><span class="p">)</span>
+<a name="rest_code_0d451a1dc9ee4cb382caa460941ef50c-11"></a>
+<a name="rest_code_0d451a1dc9ee4cb382caa460941ef50c-12"></a><span class="n">lda</span> <span class="o">=</span> <span class="n">LdaModel</span><span class="p">(</span>
+<a name="rest_code_0d451a1dc9ee4cb382caa460941ef50c-13"></a>    <span class="n">corpus</span><span class="p">,</span>
+<a name="rest_code_0d451a1dc9ee4cb382caa460941ef50c-14"></a>    <span class="n">num_topics</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<a name="rest_code_0d451a1dc9ee4cb382caa460941ef50c-15"></a>    <span class="n">id2word</span><span class="o">=</span><span class="n">corpus</span><span class="o">.</span><span class="n">dictionary</span><span class="p">,</span>
+<a name="rest_code_0d451a1dc9ee4cb382caa460941ef50c-16"></a>    <span class="n">minimum_probability</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+<a name="rest_code_0d451a1dc9ee4cb382caa460941ef50c-17"></a>    <span class="n">chunksize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+<a name="rest_code_0d451a1dc9ee4cb382caa460941ef50c-18"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+<a name="rest_code_0d451a1dc9ee4cb382caa460941ef50c-19"></a><span class="p">)</span>
+</pre>
+<p>Now that we've trained a model, we can save it for later use.</p>
+<pre class="code python"><a name="rest_code_bd4fe927990f4ff29b7ae83fd3015f4e-1"></a><span class="n">lda</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">"data/jdc-lda-model"</span><span class="p">)</span>
+<a name="rest_code_bd4fe927990f4ff29b7ae83fd3015f4e-2"></a><span class="n">MmCorpus</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="s2">"data/jdc-corpus.mm"</span><span class="p">,</span> <span class="n">corpus</span><span class="p">)</span>
+</pre>
+<p>Along side the LDA for topic modeling, there is also another common used model,
+the <a class="reference external" href="https://en.wikipedia.org/wiki/Poisson_Matrix_Factorization">Poisson Matrix Factorization</a>
+(PMF) which belongs to the matix factorization techniques family with probabilistic
+reasoning behind.</p>
+</div>
+<div class="section" id="results">
+<h2>Results</h2>
+<p>We trained our model and save it to disk. We can now inspect its ouput.</p>
+<pre class="code python"><a name="rest_code_806f6ac786b044bab96f9f50d6b67277-1"></a><span class="kn">from</span> <span class="nn">gensim.corpora</span> <span class="kn">import</span> <span class="n">Mmcorpus</span>
+<a name="rest_code_806f6ac786b044bab96f9f50d6b67277-2"></a><span class="kn">from</span> <span class="nn">gensim.models</span> <span class="kn">import</span> <span class="n">LdaModel</span>
+<a name="rest_code_806f6ac786b044bab96f9f50d6b67277-3"></a>
+<a name="rest_code_806f6ac786b044bab96f9f50d6b67277-4"></a><span class="n">lda</span> <span class="o">=</span> <span class="n">LdaModel</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">"data/jdc-lda-model"</span><span class="p">)</span>
+<a name="rest_code_806f6ac786b044bab96f9f50d6b67277-5"></a><span class="n">corpus</span> <span class="o">=</span> <span class="n">MmCorpus</span><span class="p">(</span><span class="s2">"data/jdc-corpus.mm"</span><span class="p">)</span>
+</pre>
+<p>We show the topics with the ten more prominent words.</p>
+<pre class="code python"><a name="rest_code_d976e0084be642d3a21aff839c573674-1"></a><span class="n">show_topics</span><span class="p">(</span><span class="n">lda</span><span class="p">)</span>
+</pre>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%">
+<col width="48%">
+<col width="26%">
+</colgroup>
+<thead valign="bottom"><tr>
+<th class="head">Topic 1</th>
+<th class="head">Topic 2</th>
+<th class="head">Topic 3</th>
+</tr></thead>
+<tbody valign="top">
+<tr>
+<td>government</td>
+<td>camair-co</td>
+<td>countries</td>
+</tr>
+<tr>
+<td>people</td>
+<td>company</td>
+<td>girls</td>
+</tr>
+<tr>
+<td>teachers</td>
+<td>new board chair</td>
+<td>nigeria</td>
+</tr>
+<tr>
+<td>release</td>
+<td>time</td>
+<td>refugees</td>
+</tr>
+<tr>
+<td>commission</td>
+<td>boeing business plan</td>
+<td>borders</td>
+</tr>
+<tr>
+<td>presidency</td>
+<td>transport</td>
+<td>country</td>
+</tr>
+<tr>
+<td>minister</td>
+<td>observers</td>
+<td>boko haram</td>
+</tr>
+<tr>
+<td>statement</td>
+<td>presidential decree</td>
+<td>terrorists</td>
+</tr>
+<tr>
+<td>president</td>
+<td>summons</td>
+<td>order</td>
+</tr>
+<tr>
+<td>consortium</td>
+<td>meeting</td>
+<td>sect</td>
+</tr>
+</tbody>
+</table>
+<p>We can see that the first topic is about the crisis in North West and South West regions
+("the anglophone crisis").
+The second is about the national airline compagny, Camair Coorporation (CamairCo)
+that have been struggle to take off since its creation and have been replacing
+board members and directors without much of a success. The third topic seems to be
+with terrorism and Boko Haram sect. We can then go ahead and label our topics.</p>
+<pre class="code python"><a name="rest_code_57bd365ab28946ce82e87d427c76e0d2-1"></a><span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"AngloCrisis"</span><span class="p">,</span> <span class="s2">"CamairCo"</span><span class="p">,</span> <span class="s2">"BokoHaram"</span><span class="p">]</span>
+<a name="rest_code_57bd365ab28946ce82e87d427c76e0d2-2"></a><span class="n">show_topics</span><span class="p">(</span><span class="n">lda</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+</pre>
+<table border="1" class="docutils">
+<colgroup>
+<col width="32%">
+<col width="44%">
+<col width="24%">
+</colgroup>
+<thead valign="bottom"><tr>
+<th class="head">AngloCrisis</th>
+<th class="head">CamairCo</th>
+<th class="head">BokoHaram</th>
+</tr></thead>
+<tbody valign="top">
+<tr>
+<td>government</td>
+<td>camair-co</td>
+<td>countries</td>
+</tr>
+<tr>
+<td>people</td>
+<td>company</td>
+<td>girls</td>
+</tr>
+<tr>
+<td>teachers</td>
+<td>new board chair</td>
+<td>nigeria</td>
+</tr>
+<tr>
+<td>release</td>
+<td>time</td>
+<td>refugees</td>
+</tr>
+<tr>
+<td>commission</td>
+<td>boeing business plan</td>
+<td>borders</td>
+</tr>
+<tr>
+<td>presidency</td>
+<td>transport</td>
+<td>country</td>
+</tr>
+<tr>
+<td>minister</td>
+<td>observers</td>
+<td>boko haram</td>
+</tr>
+<tr>
+<td>statement</td>
+<td>presidential decree</td>
+<td>terrorists</td>
+</tr>
+<tr>
+<td>president</td>
+<td>summons</td>
+<td>order</td>
+</tr>
+<tr>
+<td>consortium</td>
+<td>meeting</td>
+<td>sect</td>
+</tr>
+</tbody>
+</table>
+<p>One way to visualize the topics above is to plot the number of documents per topic
+per time to spot the evolution of each topic. We will use the time lag of a week
+to sum up the counts.</p>
+<pre class="code python"><a name="rest_code_79b1479153f74088bddc22fe4992a632-1"></a><span class="n">topic</span> <span class="o">=</span> <span class="n">topic_by_post</span><span class="p">(</span><span class="n">lda</span><span class="p">,</span> <span class="n">corpus</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+<a name="rest_code_79b1479153f74088bddc22fe4992a632-2"></a><span class="n">weekly</span> <span class="o">=</span> <span class="n">topic</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">"W"</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="s2">"left"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"left"</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<a name="rest_code_79b1479153f74088bddc22fe4992a632-3"></a><span class="n">plot_topic_evolution</span><span class="p">(</span><span class="n">weekly</span><span class="p">)</span>
+</pre>
+<img alt="topic evolution" src="../../images/topic_evolution.png"><p>We see that the "anglophone crisis" dominated the news on this site during this timeline.</p>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion</h2>
+<p>In this article, we tried to uncover hidden topics in a set of blog posts with a
+relative success (I think). Of course, the purpose of such analysis is not just to discover
+topics in a bunch of texts but to do something with the insights gained at the end
+of the process. This kind of analysis can be use to categorize blogs based on thier
+editorial line (infered from the topics discovered) and make the result an input
+to another kind of analysis. It can also be used by government agencies to track
+the public opinion about a particular policy or subject matter (trought the so called
+influentials blogs).</p>
+<p>Thanks for reading, your comments are welcome.</p>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/gensim/" rel="tag">gensim</a></li>
+            <li><a class="tag p-category" href="../../categories/scrapy/" rel="tag">scrapy</a></li>
+            <li><a class="tag p-category" href="../../categories/spacy/" rel="tag">spacy</a></li>
+            <li><a class="tag p-category" href="../../categories/text-analytics/" rel="tag">text analytics</a></li>
+            <li><a class="tag p-category" href="../../categories/web-scraping/" rel="tag">web scraping</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../mesa-a-library-for-agent-based-modeling-in-python/" rel="prev" title="Mesa: A Library for Agent-Based Modeling in Python">Previous post</a>
+            </li>
+        </ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+        
+        
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="dadaromeo",
+            disqus_url="https://dadaromeo.github.io/posts/automatic-topic-discovery-in-political-blog-posts/",
+        disqus_title="Automatic Topic Discovery in Political Blog Posts",
+        disqus_identifier="cache/posts/automatic-topic-discovery-in-political-blog-posts.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        </section></article><script>var disqus_shortname="dadaromeo";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div>
+            <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+                <div class="sidebar-module sidebar-module-inset">
+    <div class="thumbnail">
+        <img src="../../galleries/portrait.jpg" class="img-thumbnail" alt="Dada Romeo"><div class="caption">
+        <h4>About</h4>
+        <p>Data Mining, Probabilistic Modeling, and Network Analysis.</p>
+        <p><a href="https://github.com/dadaromeo"><i class="fa fa-github fa-2x"></i></a> <a href="https://twitter.com/dadaromeo"><i class="fa fa-twitter fa-2x"></i></a></p>
+    </div>
+    </div>
+</div>
+
+            </div>
+        <!--End of body content-->
+        </div>
+    </div>
+</div>
+
+<footer class="blog-footer" id="footer">
+    Contents © 2017         <a href="mailto:dada.romy@gmail.com">Dada Romeo</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+    
+</footer><script src="../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(1, "lll");
+    </script><!-- end fancy dates -->
+</body>
+</html>

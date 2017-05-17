@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Dada Romeo (Posts about web scraping)</title><link>https://dadaromeo.github.io/</link><description></description><atom:link href="https://dadaromeo.github.io/categories/web-scraping.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 17 May 2017 23:14:37 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Automatic Topic Discovery in Political Blog Posts</title><link>https://dadaromeo.github.io/posts/automatic-topic-discovery-in-political-blog-posts/</link><dc:creator>Dada Romeo</dc:creator><description>&lt;div class="section" id="introduction"&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Web data mining is a major component in the data science activities landscape.
+With its use, we can track brand mentions from social media statuses, policy sentiment on
+forums and "hot" topics from political blog posts.&lt;/p&gt;
+&lt;p&gt;In this article, we'll ding into the posts from the politics's rubric of the site
+&lt;a class="reference external" href="htpp://journalducameroun.com"&gt;Journal Du Cameroun&lt;/a&gt; (JDC) to find what are the topics
+developed there.
+The scraping was done on May the 10th 2017 and the dataset includes 136 articles between February 17, 2017 and May 9, 2017.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://dadaromeo.github.io/posts/automatic-topic-discovery-in-political-blog-posts/"&gt;Read more…&lt;/a&gt; (5 min remaining to read)&lt;/p&gt;&lt;/div&gt;</description><category>gensim</category><category>scrapy</category><category>spacy</category><category>text analytics</category><category>web scraping</category><guid>https://dadaromeo.github.io/posts/automatic-topic-discovery-in-political-blog-posts/</guid><pubDate>Mon, 15 May 2017 14:37:55 GMT</pubDate></item></channel></rss>

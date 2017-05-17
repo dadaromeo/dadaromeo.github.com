@@ -19,7 +19,7 @@
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/gensim.xml</loc>
-  <lastmod>2017-02-02T08:03:00Z</lastmod>
+  <lastmod>2017-05-15T17:58:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/graph-tool.xml</loc>
@@ -34,12 +34,24 @@
   <lastmod>2017-02-02T08:03:00Z</lastmod>
  </sitemap>
  <sitemap>
+  <loc>https://dadaromeo.github.io/categories/scrapy.xml</loc>
+  <lastmod>2017-05-15T17:58:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>https://dadaromeo.github.io/categories/sentiment-analysis.xml</loc>
   <lastmod>2017-02-02T08:03:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/social-network-analysis.xml</loc>
   <lastmod>2017-02-02T08:03:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://dadaromeo.github.io/categories/spacy.xml</loc>
+  <lastmod>2017-05-15T17:58:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://dadaromeo.github.io/categories/text-analytics.xml</loc>
+  <lastmod>2017-05-15T17:58:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/text-mining.xml</loc>
@@ -58,15 +70,19 @@
   <lastmod>2017-02-02T08:03:00Z</lastmod>
  </sitemap>
  <sitemap>
+  <loc>https://dadaromeo.github.io/categories/web-scraping.xml</loc>
+  <lastmod>2017-05-15T17:58:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>https://dadaromeo.github.io/galleries/rss.xml</loc>
-  <lastmod>2017-02-02T08:03:00Z</lastmod>
+  <lastmod>2017-05-15T17:58:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/rss.xml</loc>
-  <lastmod>2017-02-02T08:03:00Z</lastmod>
+  <lastmod>2017-05-15T17:58:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/sitemap.xml</loc>
-  <lastmod>2017-02-02T08:03:00Z</lastmod>
+  <lastmod>2017-05-15T17:58:00Z</lastmod>
  </sitemap>
 </sitemapindex>
