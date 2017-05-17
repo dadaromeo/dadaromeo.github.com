@@ -1,4 +1,4 @@
 Adventures in Dataland
 ======================
 
-My personal blog
+Data Mining, Probabilistic Modeling and Network Analysis
