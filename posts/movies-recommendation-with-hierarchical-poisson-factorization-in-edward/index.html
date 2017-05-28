@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html prefix="
+og: http://ogp.me/ns#
+article: http://ogp.me/ns/article#
+" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Movies Recommendation with Hierarchical Poisson Factorization in Edward | Adventures in Dataland</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta content="#5670d4" name="theme-color">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://dadaromeo.github.io/posts/movies-recommendation-with-hierarchical-poisson-factorization-in-edward/">
+<link rel="icon" href="../../favicon.ico" sizes="16x16">
+<link rel="icon" href="../../favicon-16x16.png" sizes="16x16">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Dada Romeo">
+<link rel="prev" href="../automatic-topic-discovery-in-political-blog-posts/" title="Automatic Topic Discovery in Political Blog Posts" type="text/html">
+<meta property="og:site_name" content="Adventures in Dataland">
+<meta property="og:title" content="Movies Recommendation with Hierarchical Poisson Factorization in Edwar">
+<meta property="og:url" content="https://dadaromeo.github.io/posts/movies-recommendation-with-hierarchical-poisson-factorization-in-edward/">
+<meta property="og:description" content="Introduction
+In this article, we will explore an implementation on the Hierarchical Factorization (HPF)
+model in Edward. This implementation will use the
+movilens 2k dataset to learn latent features t">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-05-26T10:44:36+01:00">
+<meta property="article:tag" content="edward">
+<meta property="article:tag" content="mathjax">
+<meta property="article:tag" content="probabilistic modeling">
+<meta property="article:tag" content="recommender system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@dadaromeo">
+<meta name="twitter:creator" content="@dadaromeo">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+</head>
+<body>
+
+
+<!-- BODY CONTAINER -->
+<div class="container" id="body_container">
+
+    <!-- HEADER -->
+    <header id="body_header"><a href="../../"><img class="portrait" src="../../assets/img/portrait-64x64.jpg"></a><br><em>Adventures in Dataland</em>
+    </header><!-- NAVBAR --><nav class="navbar navbar-default navbar-static"><div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+        </div>
+                
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false" role="navigation">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../">Home</a>
+                </li>
+<li>
+<a href="../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../categories/">Tags</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS feed</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right"></ul>
+</div>
+    </nav><!-- BODY CONTENT !! --><div class="container" id="body_content" role="main">
+
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><!--<h1 class="p-name entry-title" itemprop="headline name"><a href="/posts/movies-recommendation-with-hierarchical-poisson-factorization-in-edward/" class="u-url">Movies Recommendation with Hierarchical Poisson Factorization in Edward</a></h1> --><h1 class="p-name entry-title" itemprop="headline name">Movies Recommendation with Hierarchical Poisson Factorization in Edward</h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">
+                    Dada Romeo
+            </span></p>
+            <p class="dateline"><time class="published dt-published" datetime="2017-05-26T10:44:36+01:00" itemprop="datePublished" title="2017-05-26 10:44">2017-05-26 10:44</time></p>
+                <p class="commentline">            <a href="#disqus_thread" data-disqus-identifier="cache/posts/movies-recommendation-with-hierarchical-poisson-factorization-in-edward.html">Comments</a>
+
+
+            
+        </p>
+</div>
+        
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div>
+<div class="section" id="introduction">
+<h2>Introduction</h2>
+<p>In this article, we will explore an implementation on the Hierarchical Factorization (HPF)
+model in <a class="reference external" href="http://edwardlib.org">Edward</a>. This implementation will use the
+movilens 2k dataset to learn latent features that try to capture the <em>preferences</em>
+and <em>attributes</em> of users and movies respectively. The code is avalaible on <a class="reference external" href="https://github.com/dadaromeo/recsys-hpf">github</a>.</p>
+<!-- TEASER_END -->
+</div>
+<div class="section" id="recommender-systems">
+<h2>Recommender systems</h2>
+<p>I'm not going to talk about recommender systems (recsys) here. For an overview of
+recsys and matrix factorization techniques, see [1]. Here, I will discuss the
+Hierarchical Poisson Factorization as presented in this paper [2].</p>
+<div class="section" id="hierachical-poisson-factorization">
+<h3>Hierachical Poisson Factorization</h3>
+<p>The HPF model was developed by David Blei and Prem Gopelen and it's one of the
+simplest matrix factorization technique. The model assumes that each cell of the
+observed behavior matrix is drawn from a Poisson distribution whose parameter is a
+linear combination of the corresponding user preferences and movie attributes.
+This model have shown to have many desirable properties.</p>
+<p>The genrative process of the HPF as describe in the original paper is as follow:</p>
+<ol class="arabic">
+<li>
+<p class="first">For each user <span class="math">\(u\)</span>:</p>
+<blockquote>
+<ol class="loweralpha simple">
+<li>Sample activity <span class="math">\(\xi_u \sim Gamma(a',a'/b')\)</span>.</li>
+<li>For each component <span class="math">\(k\)</span>, sample preference <span class="math">\(\theta_{uk} \sim Gamma(a,\xi_u)\)</span>.</li>
+</ol>
+</blockquote>
+</li>
+<li>
+<p class="first">For each movie <span class="math">\(v\)</span>:</p>
+<blockquote>
+<ol class="loweralpha simple">
+<li>Sample activity <span class="math">\(\eta_v \sim Gamma(c',c'/d')\)</span>.</li>
+<li>For each component <span class="math">\(k\)</span>, sample attribute <span class="math">\(\beta_{vk} \sim Gamma(c,\eta_v)\)</span>.</li>
+</ol>
+</blockquote>
+</li>
+<li>
+<p class="first">For each user <span class="math">\(u\)</span> and movie <span class="math">\(v\)</span>, sample rating <span class="math">\(r_{uv} \sim Poisson(\theta_u^T\beta_v)\)</span>.</p>
+</li>
+</ol>
+<p>The posterior of the user activity matrix <span class="math">\(\mathbf{\theta_u}\)</span> and movie preference matrix
+<span class="math">\(\mathbf{\beta_v}\)</span> is computed via variatonal inference [3].</p>
+</div>
+<div class="section" id="dataset">
+<h3>Dataset</h3>
+<p>The data used in this post is the <a class="reference external" href="http://www.grouplens.org">movielens</a> 2k
+dataset, published by <a class="reference external" href="http://www.grouplens.org">GroupLeans</a> research group which
+was released in the framework of the 2nd International Workshop on Information
+Heterogeneity and Fusion in Recommender Systems (<a class="reference external" href="http://ir.ii.uam.es/hetrec2011">HetRec 2011</a>)
+and at the 5th ACM Conference on Recommender Systems (<a class="reference external" href="http://recsys.acm.org/2011">RecSys 2011</a>).</p>
+</div>
+</div>
+<div class="section" id="probabilistic-programming">
+<h2>Probabilistic programming</h2>
+<p>We will build that model in Edward [4], a "Turing-complete probabilistic programming language".
+To build a probabilistic model in Edward, all you need to do is to specify the set of random
+variables of your model, instanciate your inference algorithm, and press run. For the model described
+above, it looks something like the code below. The Jupyter notebooks of this article
+is avaible on <a class="reference external" href="https://github.com/dadaromeo/recsys-hpf">github</a>.</p>
+<pre class="code python"><a name="rest_code_58ac9af6bc054224aa92af91716b0c54-1"></a><span class="kn">import</span> <span class="nn">edward</span> <span class="kn">as</span> <span class="nn">ed</span>
+<a name="rest_code_58ac9af6bc054224aa92af91716b0c54-2"></a><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
+<a name="rest_code_58ac9af6bc054224aa92af91716b0c54-3"></a><span class="kn">from</span> <span class="nn">edward.models</span> <span class="kn">import</span> <span class="n">Poisson</span><span class="p">,</span> <span class="n">Gamma</span>
+<a name="rest_code_58ac9af6bc054224aa92af91716b0c54-4"></a><span class="kn">from</span> <span class="nn">edward.models</span> <span class="kn">import</span> <span class="n">PointMass</span><span class="p">,</span> <span class="n">Empirical</span>
+<a name="rest_code_58ac9af6bc054224aa92af91716b0c54-5"></a>
+<a name="rest_code_58ac9af6bc054224aa92af91716b0c54-6"></a><span class="n">ed</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+</pre>
+<div class="section" id="model">
+<h3>Model</h3>
+<p>We specify our model.</p>
+<pre class="code python"><a name="rest_code_fcdf1d506571422d94478a5090ca598a-1"></a><span class="n">k</span> <span class="o">=</span> <span class="mi">20</span> <span class="c1"># Number of components</span>
+<a name="rest_code_fcdf1d506571422d94478a5090ca598a-2"></a><span class="n">n_iter</span> <span class="o">=</span> <span class="mi">500</span>
+<a name="rest_code_fcdf1d506571422d94478a5090ca598a-3"></a><span class="n">t</span> <span class="o">=</span> <span class="mi">500</span>
+<a name="rest_code_fcdf1d506571422d94478a5090ca598a-4"></a>
+<a name="rest_code_fcdf1d506571422d94478a5090ca598a-5"></a>
+<a name="rest_code_fcdf1d506571422d94478a5090ca598a-6"></a><span class="n">act</span> <span class="o">=</span> <span class="n">Gamma</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">sample_shape</span><span class="o">=</span><span class="n">n</span><span class="p">)</span> <span class="c1"># Users activity</span>
+<a name="rest_code_fcdf1d506571422d94478a5090ca598a-7"></a><span class="n">pref</span> <span class="o">=</span> <span class="n">Gamma</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">act</span><span class="p">,</span> <span class="n">sample_shape</span><span class="o">=</span><span class="n">k</span><span class="p">)</span> <span class="c1"># Users preference</span>
+<a name="rest_code_fcdf1d506571422d94478a5090ca598a-8"></a>
+<a name="rest_code_fcdf1d506571422d94478a5090ca598a-9"></a><span class="n">pop</span> <span class="o">=</span> <span class="n">Gamma</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">sample_shape</span><span class="o">=</span><span class="n">m</span><span class="p">)</span> <span class="c1"># Items popularity</span>
+<a name="rest_code_fcdf1d506571422d94478a5090ca598a-10"></a><span class="n">attr</span> <span class="o">=</span> <span class="n">Gamma</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="n">sample_shape</span><span class="o">=</span><span class="n">k</span><span class="p">)</span> <span class="c1"># Items attribute</span>
+<a name="rest_code_fcdf1d506571422d94478a5090ca598a-11"></a>
+<a name="rest_code_fcdf1d506571422d94478a5090ca598a-12"></a><span class="n">like</span> <span class="o">=</span> <span class="n">Poisson</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">gather_nd</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">pref</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">transpose_a</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span> <span class="n">tidx</span><span class="p">))</span>
+<a name="rest_code_fcdf1d506571422d94478a5090ca598a-13"></a>
+<a name="rest_code_fcdf1d506571422d94478a5090ca598a-14"></a><span class="n">qact</span> <span class="o">=</span> <span class="n">Empirical</span><span class="p">(</span>
+<a name="rest_code_fcdf1d506571422d94478a5090ca598a-15"></a>    <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softplus</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">random_normal</span><span class="p">([</span><span class="n">t</span><span class="p">,</span><span class="n">n</span><span class="p">]))),</span>
+<a name="rest_code_fcdf1d506571422d94478a5090ca598a-16"></a><span class="p">)</span>
+<a name="rest_code_fcdf1d506571422d94478a5090ca598a-17"></a><span class="n">qpref</span> <span class="o">=</span> <span class="n">PointMass</span><span class="p">(</span>
+<a name="rest_code_fcdf1d506571422d94478a5090ca598a-18"></a>    <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softplus</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">random_normal</span><span class="p">([</span><span class="n">k</span><span class="p">,</span><span class="n">n</span><span class="p">]))),</span>
+<a name="rest_code_fcdf1d506571422d94478a5090ca598a-19"></a><span class="p">)</span>
+<a name="rest_code_fcdf1d506571422d94478a5090ca598a-20"></a><span class="n">qpop</span> <span class="o">=</span> <span class="n">Empirical</span><span class="p">(</span>
+<a name="rest_code_fcdf1d506571422d94478a5090ca598a-21"></a>    <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softplus</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">random_normal</span><span class="p">([</span><span class="n">t</span><span class="p">,</span><span class="n">m</span><span class="p">]))),</span>
+<a name="rest_code_fcdf1d506571422d94478a5090ca598a-22"></a><span class="p">)</span>
+<a name="rest_code_fcdf1d506571422d94478a5090ca598a-23"></a><span class="n">qattr</span> <span class="o">=</span> <span class="n">PointMass</span><span class="p">(</span>
+<a name="rest_code_fcdf1d506571422d94478a5090ca598a-24"></a>    <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softplus</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">random_normal</span><span class="p">([</span><span class="n">k</span><span class="p">,</span><span class="n">m</span><span class="p">]))),</span>
+<a name="rest_code_fcdf1d506571422d94478a5090ca598a-25"></a><span class="p">)</span>
+</pre>
+</div>
+<div class="section" id="inference">
+<h3>Inference</h3>
+<p>Thanks to Edward compositionalability of inference, we can compose different inference algorithms
+for the same model. Here, we will make inference using Monte Carlo EM (Expectation Maximazation),
+with Gibbs sampling for the E-step over the user activity and movie popularity
+and MAP for the M-step over the user preference and movie attribute.</p>
+<pre class="code python"><a name="rest_code_39ed17b3df104049a1b0b32d7dbf1484-1"></a><span class="n">inference_e</span> <span class="o">=</span> <span class="n">ed</span><span class="o">.</span><span class="n">Gibbs</span><span class="p">(</span>
+<a name="rest_code_39ed17b3df104049a1b0b32d7dbf1484-2"></a>    <span class="p">{</span><span class="n">act</span><span class="p">:</span><span class="n">qact</span><span class="p">,</span> <span class="n">pop</span><span class="p">:</span><span class="n">qpop</span><span class="p">},</span>
+<a name="rest_code_39ed17b3df104049a1b0b32d7dbf1484-3"></a>    <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="n">like</span><span class="p">:</span><span class="n">y</span><span class="p">,</span> <span class="n">pref</span><span class="p">:</span><span class="n">qpref</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span><span class="n">qattr</span><span class="p">},</span>
+<a name="rest_code_39ed17b3df104049a1b0b32d7dbf1484-4"></a><span class="p">)</span>
+<a name="rest_code_39ed17b3df104049a1b0b32d7dbf1484-5"></a><span class="n">inference_m</span> <span class="o">=</span> <span class="n">ed</span><span class="o">.</span><span class="n">MAP</span><span class="p">(</span>
+<a name="rest_code_39ed17b3df104049a1b0b32d7dbf1484-6"></a>    <span class="p">{</span><span class="n">pref</span><span class="p">:</span><span class="n">qpref</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span><span class="n">qattr</span><span class="p">},</span>
+<a name="rest_code_39ed17b3df104049a1b0b32d7dbf1484-7"></a>    <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="n">like</span><span class="p">:</span><span class="n">y</span><span class="p">,</span> <span class="n">act</span><span class="p">:</span><span class="n">qact</span><span class="p">,</span> <span class="n">pop</span><span class="p">:</span><span class="n">qpop</span><span class="p">},</span>
+<a name="rest_code_39ed17b3df104049a1b0b32d7dbf1484-8"></a><span class="p">)</span>
+<a name="rest_code_39ed17b3df104049a1b0b32d7dbf1484-9"></a>
+<a name="rest_code_39ed17b3df104049a1b0b32d7dbf1484-10"></a><span class="n">inference_e</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+<a name="rest_code_39ed17b3df104049a1b0b32d7dbf1484-11"></a><span class="n">inference_m</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">n_iter</span><span class="o">=</span><span class="n">n_iter</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s2">"rmsprop"</span><span class="p">)</span>
+<a name="rest_code_39ed17b3df104049a1b0b32d7dbf1484-12"></a>
+<a name="rest_code_39ed17b3df104049a1b0b32d7dbf1484-13"></a><span class="n">tf</span><span class="o">.</span><span class="n">global_variables_initializer</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre>
+<p>Once set up, we can now run the model.</p>
+<pre class="code python"><a name="rest_code_59e29a01c76b4a0cbca07c40568dac46-1"></a><span class="n">loss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n_iter</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<a name="rest_code_59e29a01c76b4a0cbca07c40568dac46-2"></a>
+<a name="rest_code_59e29a01c76b4a0cbca07c40568dac46-3"></a><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_iter</span><span class="p">):</span>
+<a name="rest_code_59e29a01c76b4a0cbca07c40568dac46-4"></a>    <span class="n">info_dict_e</span> <span class="o">=</span> <span class="n">inference_e</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+<a name="rest_code_59e29a01c76b4a0cbca07c40568dac46-5"></a>    <span class="n">info_dict_m</span> <span class="o">=</span> <span class="n">inference_m</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+<a name="rest_code_59e29a01c76b4a0cbca07c40568dac46-6"></a>
+<a name="rest_code_59e29a01c76b4a0cbca07c40568dac46-7"></a>    <span class="n">loss</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">info_dict_m</span><span class="p">[</span><span class="s2">"loss"</span><span class="p">]</span>
+<a name="rest_code_59e29a01c76b4a0cbca07c40568dac46-8"></a>
+<a name="rest_code_59e29a01c76b4a0cbca07c40568dac46-9"></a>    <span class="n">inference_m</span><span class="o">.</span><span class="n">print_progress</span><span class="p">(</span><span class="n">info_dict_m</span><span class="p">)</span>
+</pre>
+<p>We inspect the losses to see how how model have done.</p>
+<pre class="code python"><a name="rest_code_a78ace9fc0a74d8a96c1cffd0badff51-1"></a><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<a name="rest_code_a78ace9fc0a74d8a96c1cffd0badff51-2"></a><span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<a name="rest_code_a78ace9fc0a74d8a96c1cffd0badff51-3"></a><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loss</span> <span class="o">/</span> <span class="n">loss</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<a name="rest_code_a78ace9fc0a74d8a96c1cffd0badff51-4"></a><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Loss"</span><span class="p">)</span>
+<a name="rest_code_a78ace9fc0a74d8a96c1cffd0badff51-5"></a><span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Iteration"</span><span class="p">)</span>
+</pre>
+<img alt="Loss" class="align-center" src="../../images/loss.png"><p>It seems like the model have converged. So, we can save our posteriors for latter use
+in the recommendation process.</p>
+<pre class="code python"><a name="rest_code_0f3bcf87a5ec471f846d4ee68f3f7536-1"></a><span class="n">sess</span> <span class="o">=</span> <span class="n">ed</span><span class="o">.</span><span class="n">get_session</span><span class="p">()</span>
+<a name="rest_code_0f3bcf87a5ec471f846d4ee68f3f7536-2"></a><span class="n">pref</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qpref</span><span class="p">)</span> <span class="c1"># Infered user preference.</span>
+<a name="rest_code_0f3bcf87a5ec471f846d4ee68f3f7536-3"></a><span class="n">attr</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qattr</span><span class="p">)</span> <span class="c1"># Infered movie attribute.</span>
+</pre>
+</div>
+</div>
+<div class="section" id="results">
+<h2>Results</h2>
+<p>We've implemented the HPF to infer the latent user prefrerence and movie attribute.
+We can then use them to make recommendation. Here, the <code>meta</code> dataframe
+contains basic information about each movie in the form:</p>
+<pre class="code python"><a name="rest_code_2145ce7c81674d77a6492b8e122c69d2-1"></a><span class="n">meta</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%">
+<col width="22%">
+<col width="28%">
+<col width="5%">
+<col width="38%">
+</colgroup>
+<thead valign="bottom"><tr>
+<th class="head"> </th>
+<th class="head">title</th>
+<th class="head">imdbPictureURL</th>
+<th class="head">year</th>
+<th class="head">genre</th>
+</tr></thead>
+<tbody valign="top">
+<tr>
+<td>movieID</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr>
+<td>0</td>
+<td>Toy story</td>
+<td>
+<a class="reference external" href="http://ia.media-imdb.com/images/">http://ia.media-imdb.com/images/</a>...</td>
+<td>1995</td>
+<td>Adventure, Animation, Children, Comedy, Fantasy</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Jumanji</td>
+<td>
+<a class="reference external" href="http://ia.media-imdb.com/images/">http://ia.media-imdb.com/images/</a>...</td>
+<td>1995</td>
+<td>Adventure, Children, Fantasy</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Grumpy Old Men</td>
+<td>
+<a class="reference external" href="http://ia.media-imdb.com/images/">http://ia.media-imdb.com/images/</a>...</td>
+<td>1993</td>
+<td>Comedy, Romance</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Waiting to Exhale</td>
+<td>
+<a class="reference external" href="http://ia.media-imdb.com/images/">http://ia.media-imdb.com/images/</a>...</td>
+<td>1995</td>
+<td>Comedy, Drama, Romance</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Father of the Bride Part II</td>
+<td>
+<a class="reference external" href="http://ia.media-imdb.com/images/">http://ia.media-imdb.com/images/</a>...</td>
+<td>1995</td>
+<td>Comedy</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>rating</code> matrix contains the actual ratings of users.</p>
+<div class="section" id="heatmap">
+<h3>Heatmap</h3>
+<p>It's not easy to visualize a multi-dimensional data. One way around this is the heatmap.
+We plot the heatmap of movies attribute (see the code of the <code>heatmap</code> function
+in the <a class="reference external" href="https://github.com/dadaromeo/recsys-hpf">repository</a>).</p>
+<pre class="code python"><a name="rest_code_3f6cf3f832714669befc5ad42d861488-1"></a><span class="n">heatmap</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">meta</span><span class="p">)</span>
+</pre>
+<img alt="Heatmap" class="align-center" src="../../images/heatmap.png"><p>As we can see, for each movie, most values are really small. The higher values may
+capture the salient features of that movie (even though we don't know for sure what
+these features might be).</p>
+</div>
+<div class="section" id="multi-dimentional-scaling">
+<h3>Multi dimentional scaling</h3>
+<p>With the plot, above, it's hard to tell which movies are closer or far away. For that,
+we can plot movies (some of them) with two selected components on the x axis and y axis.</p>
+<pre class="code python"><a name="rest_code_714b9302127e4fa8821834a75834588d-1"></a><span class="n">mds</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">meta</span><span class="p">)</span>
+</pre>
+<img alt="MDS" class="align-center" src="../../images/mds.png" style="width: 1080px;"><p>We can do this in tree dimensions (with tree selected components). We see on the plot
+that some movies are grouped together. Note that, this is just 20 data points (movies).
+Also, the movies closer together in these dimensions may be father apart in
+other dimensions.</p>
+</div>
+<div class="section" id="recommendation">
+<h3>Recommendation</h3>
+<p>Before recommending a movie to a user, let's see some of the movies rated by that user.</p>
+<pre class="code python"><a name="rest_code_bf338310a1e74039882cbb8fce93d963-1"></a><span class="n">uid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c1"># Choose the user</span>
+<a name="rest_code_bf338310a1e74039882cbb8fce93d963-2"></a><span class="n">rated_by</span><span class="p">(</span><span class="n">uid</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="n">rating</span><span class="p">)</span>
+</pre>
+<img alt="Rated by" class="align-center" src="../../images/rated_by.png" style="width: 1080px;"><p>Now, let's see what the system "thinks" might interest that user.</p>
+<pre class="code python"><a name="rest_code_07efaecdf6d24922b3a8decf23ae902f-1"></a><span class="n">recommend_to</span><span class="p">(</span><span class="n">uid</span><span class="p">,</span> <span class="n">pref</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="n">rating</span><span class="p">)</span>
+</pre>
+<img alt="Recommend to" class="align-center" src="../../images/recommend_to.png" style="width: 1080px;"><p>The recommendation is done on movies not rated by the user (we assume
+that the rating is not available because the user haven't watched (or encountered) the movies yet).
+I'm not really a movie expert, so I will rely on your comments to discuss the outcome
+of this recommendation. The movies shown in the "rated by" plot is just a
+subset of movies rated by that user and they are selected at random.</p>
+<p>One of the other feature of a recommendation system besides its use in recommendation,
+is its use for suggestion of movies <em>similar</em> to a selected one. In the <code>similar_to</code>
+function, we compute the similarity with one of the simplest distance metric,
+the <a class="reference external" href="https://en.wikipedia.org/wiki/Euclidean_distance">euclidean distance</a>. For
+reminder, the euclidean distance of two vectors <span class="math">\(u\)</span> and <span class="math">\(v\)</span> is the quantity:</p>
+<blockquote>
+<div class="math">
+\begin{equation*}
+d(u, v) = ||u - v||_2
+\end{equation*}
+</div>
+</blockquote>
+<p>Lower the distance, closer are the two vectors. For the similarity suggestion,
+we can choose a well known movie. Well, I choose <em>Toy Story</em> (choose your own). It's the
+first movie in the data set. See the entries of the <code>meta</code> dataframe in the
+beginning of the section. The ID of <em>Toy Stoy</em> is 0 (it's arbitrary).
+Let's see what the system "thinks" is "similar" to <em>Toy Story</em>.</p>
+<pre class="code python"><a name="rest_code_db0b98b414b14962b96872106d4afb47-1"></a><span class="n">similar_to</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="n">rating</span><span class="p">)</span> <span class="c1"># SImilar to Toy Story</span>
+</pre>
+<img alt="Similar to" class="align-center" src="../../images/similar_to.png" style="width: 1080px;"><p>I've wathed two of the movies suggested here (<em>Finding Nemo</em>, <em>Monsters, Inc.</em>) including
+<em>Toy Stoy</em> itself. So, I'm in the position to say that these movies share some features
+together. The ratings shown below the movie's title or after the movie's title
+(in the figure title) is the median rating for that movie.</p>
+<p>After ploting this, it occurs to me that <em>Toy Story</em> is in the suggestion despites
+the fact that in the implementation, I explicit discard the movie istself (since a
+movie is always similar to itself). Below is the part of the code that performs the
+calculation (see the full code on <a class="reference external" href="https://github.com/dadaromeo/recsys-hpf">github</a>).</p>
+<pre class="code python"><a name="rest_code_d442c3fdf6f14b9792e6978dacf78c2e-1"></a><span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">norm</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">attr</span><span class="p">[:,</span> <span class="n">mid</span><span class="p">]</span> <span class="o">-</span> <span class="n">attr</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="c1"># Euclidean distance: lower is closer.</span>
+<a name="rest_code_d442c3fdf6f14b9792e6978dacf78c2e-2"></a><span class="n">ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">dist</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># Discard the movie itself</span>
+</pre>
+<p>That result makes me think that may be <em>Toy Story</em> is duplicated in the dataset. Let's
+inspect closer the suggested movies (check thier IDs) based on their euclidean distance
+(including the movie itself).</p>
+<pre class="code python"><a name="rest_code_84fe153c22734c3891b43653b3940458-1"></a><span class="n">info</span> <span class="o">=</span> <span class="n">closer_to</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<a name="rest_code_84fe153c22734c3891b43653b3940458-2"></a><span class="n">info</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+</pre>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%">
+<col width="21%">
+<col width="26%">
+<col width="4%">
+<col width="35%">
+<col width="7%">
+</colgroup>
+<thead valign="bottom"><tr>
+<th class="head"> </th>
+<th class="head">title</th>
+<th class="head">imdbPictureURL</th>
+<th class="head">year</th>
+<th class="head">genre</th>
+<th class="head">distance</th>
+</tr></thead>
+<tbody valign="top">
+<tr>
+<td>movieID</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr>
+<td>0</td>
+<td>Toy story</td>
+<td>
+<a class="reference external" href="http://ia.media-imdb.com/images/">http://ia.media-imdb.com/images/</a>...</td>
+<td>1995</td>
+<td>Adventure, Animation, Children, Comedy, Fantasy</td>
+<td>0.000000</td>
+</tr>
+<tr>
+<td rowspan="2">2827</td>
+<td rowspan="2">Toy story</td>
+<td rowspan="2">
+<a class="reference external" href="http://ia.media-imdb.com/images/">http://ia.media-imdb.com/images/</a>...</td>
+<td rowspan="2">1995</td>
+<td rowspan="2">Adventure, Animation, Children, Comedy, Fantasy</td>
+<td rowspan="2">0.172951</td>
+</tr>
+<tr></tr>
+<tr>
+<td>5900</td>
+<td>Finding Nemo</td>
+<td>
+<a class="reference external" href="http://ia.media-imdb.com/images/">http://ia.media-imdb.com/images/</a>...</td>
+<td>2003</td>
+<td>Adventure, Animation, Children, Comedy</td>
+<td>0.342709</td>
+</tr>
+<tr>
+<td>2104</td>
+<td>A Bug's Life</td>
+<td>
+<a class="reference external" href="http://ia.media-imdb.com/images/">http://ia.media-imdb.com/images/</a>...</td>
+<td>1998</td>
+<td>Adventure, Animation, Children, Comedy</td>
+<td>0.346706</td>
+</tr>
+<tr>
+<td>4501</td>
+<td>Monsters, Inc.</td>
+<td>
+<a class="reference external" href="http://ia.media-imdb.com/images/">http://ia.media-imdb.com/images/</a>...</td>
+<td>2001</td>
+<td>Animation, Children, Comedy, Fantasy</td>
+<td>0.408800</td>
+</tr>
+<tr>
+<td>3658</td>
+<td>The Emperor's New Groove</td>
+<td>
+<a class="reference external" href="http://ia.media-imdb.com/images/">http://ia.media-imdb.com/images/</a>...</td>
+<td>1000</td>
+<td>Adventure, Animation, Children, Comedy, Fantasy</td>
+<td>0.432105</td>
+</tr>
+</tbody>
+</table>
+<p>And indeed, <em>Toy Story</em> has a duplicate (ID 2827) and it's interesting to see that the system was able to find it
+and suggest it as the closer to the other one (ID 0). The system doesn't know a priori the difference
+between "movie 2827" and "movie 0" (or "movie 68" and "movie 5341" for that matter of fact)
+but in the <em>attribute</em> subspace, it's able to tell that they much closer to each other than
+to any other movie.</p>
+</div>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion</h2>
+<p>In this post, we showed an implementation of the Hierarchical Poisson Factorization model
+in Edward for movies recommendation. Hierarchical models represent a powerful class
+of probabilistic models with a great deal as discussed in this <a class="reference external" href="http://twiecki.github.io/blog/2017/02/08/bayesian-hierchical-non-centered/">blog post</a>
+by Thomas Wiecki. By enhancing its structure by this hierarchical component,
+the Poisson Factorization model is a handy tool in the modeler toolbox.</p>
+<p>Thank you for reading.</p>
+<div class="section" id="references">
+<h3>References</h3>
+<p>[1] Yehuda Coren, Robert Bell and Chris Volinsky. Matrix Factorization Techniques
+for Recommender Systems. <em>IEEE Computer Society</em>. 2009</p>
+<p>[2] P. Gopalan, J. Hofman, D. Blei. Sacalable Recommendation with Hierarchical Poisson Factorization.
+<em>Proceedings of the Thirty-First Conference on Uncertainty in Artificial Intelligence</em>. 2015</p>
+<p>[3] David M. Blei, Alp Kucukelbir, Jon D. McAuliffe. Variational Inference: A Review for
+Staticians. <em>arXiv:1601.0067v2 [stat.CO]</em>. 2016</p>
+<p>[4] Dustin Tran, Alp Kucukelbir, Adji B. Dieng, Maja Rudolph, Dawen Liang, and David M
+Blei. Edward: A library for probabilistic modeling, inference, and criticism. <em>arXiv preprint arXiv:1610.09787</em>. 2016a</p>
+</div>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/edward/" rel="tag">edward</a></li>
+            <li><a class="tag p-category" href="../../categories/probabilistic-modeling/" rel="tag">probabilistic modeling</a></li>
+            <li><a class="tag p-category" href="../../categories/recommender-system/" rel="tag">recommender system</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../automatic-topic-discovery-in-political-blog-posts/" rel="prev" title="Automatic Topic Discovery in Political Blog Posts"><i class="fa fa-arrow-left"></i>  Previous post</a>
+            </li>
+        </ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+                        <div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="dadaromeo",
+            disqus_url="https://dadaromeo.github.io/posts/movies-recommendation-with-hierarchical-poisson-factorization-in-edward/",
+        disqus_title="Movies Recommendation with Hierarchical Poisson Factorization in Edward",
+        disqus_identifier="cache/posts/movies-recommendation-with-hierarchical-poisson-factorization-in-edward.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        </section><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script><script type="text/x-mathjax-config">
+            MathJax.Hub.Config({tex2jax: {inlineMath: [['$latex ','$'], ['\\(','\\)']]}});
+            </script></article><script>var disqus_shortname="dadaromeo";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div>
+</div>
+
+
+<!-- BODY FOOTER -->
+<div class="container">
+    <footer id="body_footer">
+
+        Contents © 2017         <a href="mailto:dada.romy@gmail.com">Dada Romeo</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+        
+
+
+    </footer>
+</div>
+
+
+<!-- SCRIPTS -->
+            <script src="../../assets/js/all-nocdn.js"></script><script>
+    moment.locale("en");
+    fancydates(1, "lll");
+</script>
+</body>
+</html>

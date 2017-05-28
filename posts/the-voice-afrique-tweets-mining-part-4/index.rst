@@ -281,6 +281,8 @@ Ploting the result with Altair.
     )
 
 .. image:: /images/polarity.png
+    :alt: polarity
+    :align: center
 
 With this figure, we see that the overall sentiment is positive. The neutral being 
 the less common, which the expected behaviour from the users/viewers (to or not to be) 
@@ -310,6 +312,8 @@ to each coach and plot them.
     )
 
 .. image:: /images/polarity_coaches.png
+    :alt: polarity coaches
+    :align: center
 
 We do the same with some candidates.
 
@@ -334,6 +338,8 @@ We do the same with some candidates.
     )
 
 .. image:: /images/polarity_candidates.png
+    :alt: polarity candidates
+    :align: center
 
 With the :code:`show_tweets` function below, we print :math:`n` randomly choosen 
 tweets associated with *negative* or *positive* sentiment for a paticular coach. 

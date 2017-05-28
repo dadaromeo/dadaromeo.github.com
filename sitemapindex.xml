@@ -7,82 +7,94 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/agent-based-modeling.xml</loc>
-  <lastmod>2017-02-02T08:03:00Z</lastmod>
+  <lastmod>2017-05-27T19:12:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/data-collection.xml</loc>
-  <lastmod>2017-02-02T08:03:00Z</lastmod>
+  <lastmod>2017-05-27T19:09:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/data-mining.xml</loc>
-  <lastmod>2017-02-02T08:03:00Z</lastmod>
+  <lastmod>2017-05-27T19:09:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://dadaromeo.github.io/categories/edward.xml</loc>
+  <lastmod>2017-05-28T09:09:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/gensim.xml</loc>
-  <lastmod>2017-05-15T17:58:00Z</lastmod>
+  <lastmod>2017-05-27T13:35:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/graph-tool.xml</loc>
-  <lastmod>2017-02-02T08:03:00Z</lastmod>
+  <lastmod>2017-05-27T19:12:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/mathjax.xml</loc>
-  <lastmod>2017-02-02T08:03:00Z</lastmod>
+  <lastmod>2017-05-28T09:09:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/mesa.xml</loc>
-  <lastmod>2017-02-02T08:03:00Z</lastmod>
+  <lastmod>2017-05-27T19:12:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://dadaromeo.github.io/categories/probabilistic-modeling.xml</loc>
+  <lastmod>2017-05-28T09:09:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://dadaromeo.github.io/categories/recommender-system.xml</loc>
+  <lastmod>2017-05-28T09:09:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/scrapy.xml</loc>
-  <lastmod>2017-05-15T17:58:00Z</lastmod>
+  <lastmod>2017-05-27T13:35:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/sentiment-analysis.xml</loc>
-  <lastmod>2017-02-02T08:03:00Z</lastmod>
+  <lastmod>2017-05-27T19:08:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/social-network-analysis.xml</loc>
-  <lastmod>2017-02-02T08:03:00Z</lastmod>
+  <lastmod>2017-05-27T19:12:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/spacy.xml</loc>
-  <lastmod>2017-05-15T17:58:00Z</lastmod>
+  <lastmod>2017-05-27T13:35:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/text-analytics.xml</loc>
-  <lastmod>2017-05-15T17:58:00Z</lastmod>
+  <lastmod>2017-05-27T13:35:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/text-mining.xml</loc>
-  <lastmod>2017-02-02T08:03:00Z</lastmod>
+  <lastmod>2017-05-27T19:08:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/text-processing.xml</loc>
-  <lastmod>2017-02-02T08:03:00Z</lastmod>
+  <lastmod>2017-05-27T19:08:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/topic-modeling.xml</loc>
-  <lastmod>2017-02-02T08:03:00Z</lastmod>
+  <lastmod>2017-05-27T13:35:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/tweepy.xml</loc>
-  <lastmod>2017-02-02T08:03:00Z</lastmod>
+  <lastmod>2017-05-27T19:09:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/web-scraping.xml</loc>
-  <lastmod>2017-05-15T17:58:00Z</lastmod>
+  <lastmod>2017-05-27T13:35:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/galleries/rss.xml</loc>
-  <lastmod>2017-05-15T17:58:00Z</lastmod>
+  <lastmod>2017-05-28T09:09:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/rss.xml</loc>
-  <lastmod>2017-05-15T17:58:00Z</lastmod>
+  <lastmod>2017-05-28T09:09:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/sitemap.xml</loc>
-  <lastmod>2017-05-15T17:58:00Z</lastmod>
+  <lastmod>2017-05-28T09:09:00Z</lastmod>
  </sitemap>
 </sitemapindex>
