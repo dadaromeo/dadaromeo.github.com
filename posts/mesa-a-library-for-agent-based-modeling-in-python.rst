@@ -530,6 +530,7 @@ Run the model with :bash:`stick` strategy
 
 .. image:: /images/foraging_stick.png
     :alt: foraging stick strategy
+    :align: center
 
 Run the model with :bash:`switch` strategy
 
@@ -542,6 +543,7 @@ Run the model with :bash:`switch` strategy
 
 .. image:: /images/foraging_switch.png
     :alt: foraging switch strategy
+    :align: center
 
 Mesa has an in-browser visualization feature that allows the user to see the model 
 at running in the browser. To use that functionality in our example, we add what 
@@ -609,6 +611,8 @@ can press the run button to run the model.
 
 .. image:: /images/foraging.png
     :alt: foraging board
+    :align: center
+    :width: 868
 
 Conclusion
 ----------

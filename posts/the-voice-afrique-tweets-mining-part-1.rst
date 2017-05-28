@@ -161,6 +161,7 @@ We use `Altair <https://altair-viz.github.io/>`_ to visualize the tweets frequen
 
 .. image:: /images/tweets_frequency.png
     :alt: Tweets Frequency
+    :align: center
 
 With this graph, we can see that viewers are talking about the event only during 
 the show, around 8pm and 10pm. Before and after that, it is a complete silence. 

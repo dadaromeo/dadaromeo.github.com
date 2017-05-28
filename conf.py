@@ -18,7 +18,7 @@ import time
 
 # Data about this site
 BLOG_AUTHOR = "Dada Romeo"  # (translatable)
-BLOG_TITLE = "Dada Romeo"  # (translatable)
+BLOG_TITLE = "Adventures in Dataland"  # (translatable)
 # This is the main URL for your site. It will be used
 # in a prominent link. Don't forget the protocol (http/https)!
 SITE_URL = "https://dadaromeo.github.io/"
@@ -26,7 +26,7 @@ SITE_URL = "https://dadaromeo.github.io/"
 # If not set, defaults to SITE_URL
 # BASE_URL = "https://dadaromeo.github.io/"
 BLOG_EMAIL = "dada.romy@gmail.com"
-BLOG_DESCRIPTION = "Adventures in Dataland"  # (translatable)
+BLOG_DESCRIPTION = "Data Mining, Probabilistic Modeling and Network Analysis"  # (translatable)
 
 # Nikola is multilingual!
 #
@@ -142,7 +142,7 @@ NAVIGATION_LINKS = {
 }
 
 # Name of the theme to use.
-THEME = "bootblog"
+THEME = "meshlogic"
 
 # Primary color of your theme. This will be used to customize your theme and
 # auto-generate related colors in POSTS_SECTION_COLORS. Must be a HEX value.
@@ -1286,18 +1286,7 @@ TWITTER_CARD = {
 
 # Put in global_context things you want available on all your templates.
 # It can be anything, data, functions, modules, etc.
-GLOBAL_CONTEXT = {'blog_sidebar': """\
-<div class="sidebar-module sidebar-module-inset">
-    <div class="thumbnail">
-        <img src="/galleries/portrait.jpg" class="img-thumbnail" alt="Dada Romeo">
-    <div class="caption">
-        <h4>About</h4>
-        <p>Data Mining, Probabilistic Modeling, and Network Analysis.</p>
-        <p><a href="https://github.com/dadaromeo"><i class="fa fa-github fa-2x"</i></a> <a href="https://twitter.com/dadaromeo"><i class="fa fa-twitter fa-2x"></i></a></p>
-    </div>
-    </div>
-</div>
-"""}
+GLOBAL_CONTEXT = {}
 
 # Add functions here and they will be called with template
 # GLOBAL_CONTEXT as parameter when the template is about to be
