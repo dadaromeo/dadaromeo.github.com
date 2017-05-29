@@ -1,14 +1,11 @@
 .. title: The Voice Afrique Tweets Mining Part 1
 .. slug: the-voice-afrique-tweets-mining-part-1
-.. date: 2016-11-08 13:57:08 UTC+01:00
+.. date: 2016-11-05 13:57:08 UTC+01:00
 .. tags: data mining, data collection, tweepy
 .. category: 
 .. link: 
 .. description: 
 .. type: text
-
-Introduction
-------------
 
 `The Voice Afrique francophone <http://www.voxafrica.com/thevoice/>`_ (TVA) is a 
 singing competition where contestants are chosen based on thier voice during a 

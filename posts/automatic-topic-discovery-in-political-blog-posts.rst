@@ -7,8 +7,6 @@
 .. description: 
 .. type: text
 
-Introduction
-^^^^^^^^^^^^
 Web data mining is a major component in the data science activities landscape.
 With its use, we can track brand mentions from social media statuses, policy sentiment on
 forums and "hot" topics from political blog posts.
@@ -285,6 +283,7 @@ to sum up the counts.
 
 .. image:: /images/topic_evolution.png
     :alt: topic evolution
+    :align: center
 
 We see that the "anglophone crisis" dominated the news on this site during this timeline.
 

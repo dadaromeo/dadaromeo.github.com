@@ -1,14 +1,12 @@
 .. title: The Voice Afrique Tweets Mining Part 2
 .. slug: the-voice-afrique-tweets-mining-part-2
-.. date: 2016-11-08 14:08:00 UTC+01:00
+.. date: 2016-11-06 14:08:00 UTC+01:00
 .. tags: social network analysis, graph-tool
 .. category: 
 .. link: 
 .. description: 
 .. type: text
 
-Network Analysis
-----------------
 In the `previous post </posts/the-voice-afrique-tweets-mining-part-1/>`_, 
 we showed how to use Twitter API and the excellent Tweepy Python library to collect 
 data and store them in a `MongoDB <https://www.mongodb.com/>`_ database. 

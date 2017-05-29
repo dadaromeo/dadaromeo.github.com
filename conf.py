@@ -142,7 +142,7 @@ NAVIGATION_LINKS = {
 }
 
 # Name of the theme to use.
-THEME = "meshlogic"
+THEME = "canterville"
 
 # Primary color of your theme. This will be used to customize your theme and
 # auto-generate related colors in POSTS_SECTION_COLORS. Must be a HEX value.
@@ -178,8 +178,8 @@ THEME_COLOR = '#5670d4'
 # Finally, note that destination can be translated, i.e. you can
 # specify a different translation folder per language. Example:
 #     PAGES = (
-#         ("pages/*.rst", {"en": "pages", "de": "seiten"}, "story.tmpl"),
-#         ("pages/*.md", {"en": "pages", "de": "seiten"}, "story.tmpl"),
+#         ("pages/*.rst", {"en": "pages", "de": "seiten"}, "page.tmpl"),
+#         ("pages/*.md", {"en": "pages", "de": "seiten"}, "page.tmpl"),
 #     )
 
 POSTS = (
@@ -188,9 +188,9 @@ POSTS = (
     ("posts/*.html", "posts", "post.tmpl"),
 )
 PAGES = (
-    ("pages/*.rst", "pages", "story.tmpl"),
-    ("pages/*.txt", "pages", "story.tmpl"),
-    ("pages/*.html", "pages", "story.tmpl"),
+    ("pages/*.rst", "pages", "page.tmpl"),
+    ("pages/*.txt", "pages", "page.tmpl"),
+    ("pages/*.html", "pages", "page.tmpl"),
 )
 
 
@@ -212,12 +212,11 @@ TIMEZONE = "Africa/Douala"
 
 # Date format used to display post dates. (translatable)
 # (str used by datetime.datetime.strftime)
-# DATE_FORMAT = '%Y-%m-%d %H:%M'
+DATE_FORMAT = '%b, %d %Y'
 
 # Date format used to display post dates, if local dates are used. (translatable)
 # (str used by moment.js)
 # JS_DATE_FORMAT = 'YYYY-MM-DD HH:mm'
-JS_DATE_FORMAT = "lll"
 
 # Date fanciness.
 #
@@ -226,7 +225,7 @@ JS_DATE_FORMAT = "lll"
 # 2 = using a string like “2 days ago”
 #
 # Your theme must support it, bootstrap and bootstrap3 already do.
-DATE_FANCINESS = 1
+# DATE_FANCINESS = 0
 
 # While Nikola can select a sensible locale for each language,
 # sometimes explicit control can come handy.
@@ -287,6 +286,7 @@ COMPILERS = {
 
 # Use date-based path when creating posts?
 # Can be enabled on a per-post basis with `nikola new_post -d`.
+# The setting is ignored when creating pages (`-d` still works).
 # NEW_POST_DATE_PATH = False
 
 # What format to use when creating posts with date paths?
@@ -303,11 +303,11 @@ COMPILERS = {
 # Nikola supports logo display.  If you have one, you can put the URL here.
 # Final output is <img src="LOGO_URL" id="logo" alt="BLOG_TITLE">.
 # The URL may be relative to the site root.
-# LOGO_URL = ''
+LOGO_URL = ''
 
 # If you want to hide the title of your website (for example, if your logo
 # already contains the text), set this to False.
-SHOW_BLOG_TITLE = False
+# SHOW_BLOG_TITLE = True
 
 # Writes tag cloud data in form of tag_cloud_data.json.
 # Warning: this option will change its default value to False in v8!
@@ -320,6 +320,12 @@ POSTS_SECTIONS = True
 # Setting this to False generates a list page instead of an index. Indexes
 # are the default and will apply GENERATE_ATOM if set.
 # POSTS_SECTIONS_ARE_INDEXES = True
+
+# Final locations are:
+# output / TRANSLATION[lang] / SECTION_PATH / SECTION_NAME / index.html (list of posts for a section)
+# output / TRANSLATION[lang] / SECTION_PATH / SECTION_NAME / rss.xml (RSS feed for a section)
+# (translatable)
+# SECTION_PATH = ""
 
 # Each post and section page will have an associated color that can be used
 # to style them with a recognizable color detail across your site. A color
@@ -641,6 +647,35 @@ GITHUB_COMMIT_SOURCE = True
 #    ".jpg": ["jpegoptim --strip-all -m75 -v %s"],
 # }
 
+# Executable for the "yui_compressor" filter (defaults to 'yui-compressor').
+# YUI_COMPRESSOR_EXECUTABLE = 'yui-compressor'
+
+# Executable for the "closure_compiler" filter (defaults to 'closure-compiler').
+# CLOSURE_COMPILER_EXECUTABLE = 'closure-compiler'
+
+# Executable for the "optipng" filter (defaults to 'optipng').
+# OPTIPNG_EXECUTABLE = 'optipng'
+
+# Executable for the "jpegoptim" filter (defaults to 'jpegoptim').
+# JPEGOPTIM_EXECUTABLE = 'jpegoptim'
+
+# Executable for the "html_tidy_withconfig", "html_tidy_nowrap",
+# "html_tidy_wrap", "html_tidy_wrap_attr" and "html_tidy_mini" filters
+# (defaults to 'tidy5').
+# HTML_TIDY_EXECUTABLE = 'tidy5'
+
+# List of XPath expressions which should be used for finding headers
+# ({hx} is replaced by headers h1 through h6).
+# You must change this if you use a custom theme that does not use
+# "e-content entry-content" as a class for post and page contents.
+# HEADER_PERMALINKS_XPATH_LIST = ['*//div[@class="e-content entry-content"]//{hx}']
+# Include *every* header (not recommended):
+# HEADER_PERMALINKS_XPATH_LIST = ['*//{hx}']
+
+# File blacklist for header permalinks. Contains output path
+# (eg. 'output/index.html')
+# HEADER_PERMALINKS_FILE_BLACKLIST = []
+
 # Expert setting! Create a gzipped copy of each generated file. Cheap server-
 # side optimization for very high traffic sites or low memory servers.
 # GZIP_FILES = False
@@ -732,7 +767,7 @@ GITHUB_COMMIT_SOURCE = True
 # To reference the images in your posts, include a leading slash in the path.
 # For example, if IMAGE_FOLDERS = {'images': 'images'}, write
 #
-#   ..image:: /images/tesla.jpg
+#   .. image:: /images/tesla.jpg
 #
 # See the Nikola Handbook for details (in the “Embedding Images” and
 # “Thumbnails” sections)
@@ -798,47 +833,20 @@ IMAGE_FOLDERS = {'images': 'images'}
 # must be recreated whenever the number of pages changes.
 # SHOW_INDEX_PAGE_NAVIGATION = False
 
+# If the following is True, a meta name="generator" tag is added to pages. The
+# generator tag is used to specify the software used to generate the page
+# (it promotes Nikola).
+# META_GENERATOR_TAG = True
+
 # Color scheme to be used for code blocks. If your theme provides
 # "assets/css/code.css" this is ignored. Leave empty to disable.
 # Can be any of:
-# algol
-# algol_nu
-# arduino
-# autumn
-# borland
-# bw
-# colorful
-# default
-# emacs
-# friendly
-# fruity
-# igor
-# lovelace
-# manni
-# monokai
-# murphy
-# native
-# paraiso_dark
-# paraiso_light
-# pastie
-# perldoc
-# rrt
-# tango
-# trac
-# vim
-# vs
-# xcode
+# algol, algol_nu, autumn, borland, bw, colorful, default, emacs, friendly,
+# fruity, igor, lovelace, manni, monokai, murphy, native, paraiso-dark,
+# paraiso-light, pastie, perldoc, rrt, tango, trac, vim, vs, xcode
 # This list MAY be incomplete since pygments adds styles every now and then.
+# Check with list(pygments.styles.get_all_styles()) in an interpreter.
 CODE_COLOR_SCHEME = 'tango'
-
-# If you use 'site-reveal' theme you can select several subthemes
-# THEME_REVEAL_CONFIG_SUBTHEME = 'sky'
-# You can also use: beige/serif/simple/night/default
-
-# Again, if you use 'site-reveal' theme you can select several transitions
-# between the slides
-# THEME_REVEAL_CONFIG_TRANSITION = 'cube'
-# You can also use: page/concave/linear/none/default
 
 # FAVICONS contains (name, file, size) tuples.
 # Used to create favicon link like this:
@@ -860,6 +868,7 @@ INDEX_TEASERS = True
 # {min_remaining_read}          The string “{remaining_reading_time} min remaining to read” in the current language.
 # {paragraph_count}             The amount of paragraphs in the post.
 # {remaining_paragraph_count}   The amount of paragraphs in the post, sans the teaser.
+# {post_title}                  The title of the post.
 # {{                            A literal { (U+007B LEFT CURLY BRACKET)
 # }}                            A literal } (U+007D RIGHT CURLY BRACKET)
 
@@ -900,6 +909,8 @@ CONTENT_FOOTER = 'Contents &copy; {date}         <a href="mailto:{email}">{autho
 # tuples of tuples of positional arguments and dicts of keyword arguments
 # to format().  For example, {'en': (('Hello'), {'target': 'World'})}
 # results in CONTENT_FOOTER['en'].format('Hello', target='World').
+# If you need to use the literal braces '{' and '}' in your footer text, use
+# '{{' and '}}' to escape them (str.format is used)
 # WARNING: If you do not use multiple languages with CONTENT_FOOTER, this
 #          still needs to be a dict of this format.  (it can be empty if you
 #          do not need formatting)
@@ -915,6 +926,12 @@ CONTENT_FOOTER_FORMATS = {
         }
     )
 }
+
+# A simple copyright tag for inclusion in RSS feeds that works just
+# like CONTENT_FOOTER and CONTENT_FOOTER_FORMATS
+RSS_COPYRIGHT = 'Contents © {date} <a href="mailto:{email}">{author}</a> {license}'
+RSS_COPYRIGHT_PLAIN = 'Contents © {date} {author} {license}'
+RSS_COPYRIGHT_FORMATS = CONTENT_FOOTER_FORMATS
 
 # To use comments, you can choose between different third party comment
 # systems.  The following comment systems are supported by Nikola:
@@ -997,7 +1014,8 @@ PRETTY_URLS = True
 # Do you want a add a Mathjax config file?
 # MATHJAX_CONFIG = ""
 
-# If you are using the compile-ipynb plugin, just add this one:
+# If you want support for the $.$ syntax (which may conflict with running
+# text!), just use this config:
 # MATHJAX_CONFIG = """
 # <script type="text/x-mathjax-config">
 # MathJax.Hub.Config({
@@ -1006,7 +1024,7 @@ PRETTY_URLS = True
 #         displayMath: [ ['$$','$$'], ["\\\[","\\\]"] ],
 #         processEscapes: true
 #     },
-#     displayAlign: 'center', // Change this to 'center' to center equations.
+#     displayAlign: 'center', // Change this to 'left' if you want left-aligned equations.
 #     "HTML-CSS": {
 #         styles: {'.MathJax_Display': {"margin": 0}}
 #     }
@@ -1014,15 +1032,12 @@ PRETTY_URLS = True
 # </script>
 # """
 
-# Want to use KaTeX instead of MathJax? While KaTeX is less featureful,
-# it's faster and the output looks better.
-# If you set USE_KATEX to True, you also need to add an extra CSS file
-# like this:
-# EXTRA_HEAD_DATA = """<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.css">"""
+# Want to use KaTeX instead of MathJax? While KaTeX may not support every
+# feature yet, it's faster and the output looks better.
 # USE_KATEX = False
 
-# If you want to use the old (buggy) inline math $.$ with KaTeX, then
-# you might want to use this feature.
+# KaTeX auto-render settings. If you want support for the $.$ syntax (wihch may
+# conflict with running text!), just use this config:
 # KATEX_AUTO_RENDER = """
 # delimiters: [
 #     {left: "$$", right: "$$", display: true},
@@ -1044,9 +1059,9 @@ PRETTY_URLS = True
 # Note: most Nikola-specific extensions are done via the Nikola plugin system,
 #       with the MarkdownExtension class and should not be added here.
 # The default is ['fenced_code', 'codehilite']
-MARKDOWN_EXTENSIONS = ['fenced_code', 'codehilite', 'extra']
+MARKDOWN_EXTENSIONS = ['markdown.extensions.fenced_code', 'markdown.extensions.codehilite', 'markdown.extensions.extra']
 
-# Extra options to pass to the pandoc comand.
+# Extra options to pass to the pandoc command.
 # by default, it's empty, is a list of strings, for example
 # ['-F', 'pandoc-citeproc', '--bibliography=/Users/foo/references.bib']
 # Pandoc does not demote headers by default.  To enable this, you can use, for example
@@ -1095,11 +1110,11 @@ INDEX_DISPLAY_POST_COUNT = 5
 # between each other. Old Atom feeds with no changes are marked as archived.
 # GENERATE_ATOM = False
 
-# Only inlclude teasers in Atom and RSS feeds. Disabling include the full
+# Only include teasers in Atom and RSS feeds. Disabling include the full
 # content. Defaults to True.
 # FEED_TEASERS = True
 
-# Strip HTML from Atom annd RSS feed summaries and content. Defaults to False.
+# Strip HTML from Atom and RSS feed summaries and content. Defaults to False.
 # FEED_PLAIN = False
 
 # Number of posts in Atom and RSS feeds.
@@ -1219,12 +1234,12 @@ UNSLUGIFY_TITLES = True
 # Images displayed come from the `previewimage` meta tag.
 # You can specify the card type by using the `card` parameter in TWITTER_CARD.
 TWITTER_CARD = {
-      'use_twitter_cards': True,  # enable Twitter Cards
-      'card': 'summary',          # Card type, you can also use 'summary_large_image',
+     'use_twitter_cards': True,  # enable Twitter Cards
+     'card': 'summary',          # Card type, you can also use 'summary_large_image',
 #                                   # see https://dev.twitter.com/cards/types
-      'site': '@dadaromeo',         # twitter nick for the website
-      'creator': '@dadaromeo',     # Username for the content creator / author.
- }
+     'site': '@dadaromeo',         # twitter nick for the website
+     'creator': '@dadaromeo',     # Username for the content creator / author.
+}
 
 # If webassets is installed, bundle JS and CSS into single files to make
 # site loading faster in a HTTP/1.1 environment but is not recommended for
@@ -1286,7 +1301,11 @@ TWITTER_CARD = {
 
 # Put in global_context things you want available on all your templates.
 # It can be anything, data, functions, modules, etc.
-GLOBAL_CONTEXT = {}
+GLOBAL_CONTEXT = {
+    'TWITTER_URL': 'https://twitter.com/dadaromeo',
+    'GITHUB_URL': 'https://github.com/dadaromeo',
+    'BANNER_URL': '/assets/img/silk-road.jpg'
+}
 
 # Add functions here and they will be called with template
 # GLOBAL_CONTEXT as parameter when the template is about to be
