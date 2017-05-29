@@ -7,8 +7,6 @@
 .. description: 
 .. type: text
 
-Introduction
-------------
 In this post, we introduce `Mesa <https://github.com/projectmesa/mesa>`_ a library 
 written in Python3 for Agent-Based Modeling (ABM). `Agent-based modeling <https://en.wikipedia.org/wiki/Agent-based_model>`_ 
 is a growing topic of interest in many scientific disciplines, due to its flexibility 
@@ -612,10 +610,9 @@ can press the run button to run the model.
 .. image:: /images/foraging.png
     :alt: foraging board
     :align: center
-    :width: 868
 
 Conclusion
-----------
+~~~~~~~~~~
 In this post, we introduce Mesa, an agent-based modeling framework through a 
 simple foraging model. Mesa is still in its infancy but in the near future, 
 itends to have the power of a full featured ABM's framework. To have an idea of 

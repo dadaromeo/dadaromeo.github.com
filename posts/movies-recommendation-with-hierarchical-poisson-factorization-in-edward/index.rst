@@ -7,9 +7,6 @@
 .. description: 
 .. type: text
 
-Introduction
-^^^^^^^^^^^^
-
 In this article, we will explore an implementation on the Hierarchical Factorization (HPF)
 model in `Edward <http://edwardlib.org>`_. This implementation will use the
 movilens 2k dataset to learn latent features that try to capture the *preferences* 
@@ -230,7 +227,6 @@ we can plot movies (some of them) with two selected components on the x axis and
 .. image:: /images/mds.png
     :alt: MDS
     :align: center
-    :width: 1080
 
 We can do this in tree dimensions (with tree selected components). We see on the plot
 that some movies are grouped together. Note that, this is just 20 data points (movies).
@@ -250,7 +246,6 @@ Before recommending a movie to a user, let's see some of the movies rated by tha
 .. image:: /images/rated_by.png
     :alt: Rated by
     :align: center
-    :width: 1080
 
 Now, let's see what the system "thinks" might interest that user.
 
@@ -261,7 +256,6 @@ Now, let's see what the system "thinks" might interest that user.
 .. image:: /images/recommend_to.png
     :alt: Recommend to
     :align: center
-    :width: 1080
 
 The recommendation is done on movies not rated by the user (we assume
 that the rating is not available because the user haven't watched (or encountered) the movies yet).
@@ -292,7 +286,6 @@ Let's see what the system "thinks" is "similar" to *Toy Story*.
 .. image:: /images/similar_to.png
     :alt: Similar to
     :align: center
-    :width: 1080
 
 I've wathed two of the movies suggested here (*Finding Nemo*, *Monsters, Inc.*) including
 *Toy Stoy* itself. So, I'm in the position to say that these movies share some features

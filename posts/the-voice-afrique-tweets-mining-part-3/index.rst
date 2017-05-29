@@ -1,14 +1,12 @@
 .. title: The Voice Afrique Tweets Mining Part 3
 .. slug: the-voice-afrique-tweets-mining-part-3
-.. date: 2016-11-08 14:10:58 UTC+01:00
+.. date: 2016-11-07 14:10:58 UTC+01:00
 .. tags: text mining, topic modeling, text processing, gensim
 .. category: 
 .. link: 
 .. description: 
 .. type: text
 
-Topic modeling
---------------
 In the `social network analysis </posts/the-voice-afrique-tweets-mining-part-2/>`_ part, we 
 explored a model that exploits the links between the entities to help us find the 
 key players in the data. Here, we will focus on the tweet’s text to better 

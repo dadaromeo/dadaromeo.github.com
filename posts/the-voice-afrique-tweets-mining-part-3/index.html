@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html prefix="
-og: http://ogp.me/ns#
-article: http://ogp.me/ns/article#
-" lang="en">
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " vocab="http://ogp.me/ns" lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width">
 <title>The Voice Afrique Tweets Mining Part 3 | Adventures in Dataland</title>
-<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
-<meta content="#5670d4" name="theme-color">
+<link href="../../assets/css/rst.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/code.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/theme.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../../assets/css/screen.css">
+<link rel="stylesheet" type="text/css" href="../../assets/css/nav.css">
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic%7COpen+Sans:700,400%7CInconsolata">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
 <link rel="canonical" href="https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-3/">
 <link rel="icon" href="../../favicon.ico" sizes="16x16">
@@ -24,7 +27,7 @@ explored a model that exploits the links between the entities to help us find th
 key players in the data. Here, we will focus on the tweet’s text to better
 und">
 <meta property="og:type" content="article">
-<meta property="article:published_time" content="2016-11-08T14:10:58+01:00">
+<meta property="article:published_time" content="2016-11-07T14:10:58+01:00">
 <meta property="article:tag" content="gensim">
 <meta property="article:tag" content="text mining">
 <meta property="article:tag" content="text processing">
@@ -32,64 +35,46 @@ und">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@dadaromeo">
 <meta name="twitter:creator" content="@dadaromeo">
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 </head>
-<body>
+<body class="nav-closed">
 
-
-<!-- BODY CONTAINER -->
-<div class="container" id="body_container">
-
-    <!-- HEADER -->
-    <header id="body_header"><a href="../../"><img class="portrait" src="../../assets/img/portrait-64x64.jpg"></a><br><em>Adventures in Dataland</em>
-    </header><!-- NAVBAR --><nav class="navbar navbar-default navbar-static"><div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-
-        </div>
-                
-        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false" role="navigation">
-            <ul class="nav navbar-nav">
-<li>
-<a href="../../">Home</a>
-                </li>
-<li>
-<a href="../../archive.html">Archive</a>
-                </li>
-<li>
-<a href="../../categories/">Tags</a>
-                </li>
-<li>
-<a href="../../rss.xml">RSS feed</a>
-
-                
-            </li>
-</ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+<li class="nav-opened" role="presentation">
+            <a href="../../">Home</a>
+        </li>
+        <li class="nav-opened" role="presentation">
+            <a href="../../archive.html">Archive</a>
+        </li>
+        <li class="nav-opened" role="presentation">
+            <a href="../../categories/">Tags</a>
+        </li>
+        <li class="nav-opened" role="presentation">
+            <a href="../../rss.xml">RSS feed</a>
+        </li>
+    
+    
+    </ul>
 </div>
-    </nav><!-- BODY CONTENT !! --><div class="container" id="body_content" role="main">
+<span class="nav-cover"></span>
 
-        
-<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><!--<h1 class="p-name entry-title" itemprop="headline name"><a href="/posts/the-voice-afrique-tweets-mining-part-3/" class="u-url">The Voice Afrique Tweets Mining Part 3</a></h1> --><h1 class="p-name entry-title" itemprop="headline name">The Voice Afrique Tweets Mining Part 3</h1>
-
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn">
-                    Dada Romeo
-            </span></p>
-            <p class="dateline"><time class="published dt-published" datetime="2016-11-08T14:10:58+01:00" itemprop="datePublished" title="2016-11-08 14:10">2016-11-08 14:10</time></p>
-                <p class="commentline">            <a href="#disqus_thread" data-disqus-identifier="cache/posts/the-voice-afrique-tweets-mining-part-3.html">Comments</a>
-
-
-            
-        </p>
-</div>
-        
-    </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div>
+<div class="site-wrapper">
+    <header class="main-header post-head no-cover"><nav class="main-nav overlay clearfix"><a class="menu-button" href="#"><span class="burger">☰</span><span class="word">Menu</span></a>
+        </nav></header><main id="content" class="content" role="main"><article class="post post"><header class="post-header"><h1 class="post-title">The Voice Afrique Tweets Mining Part 3</h1>
+        <section class="post-meta"> by
+            Dada Romeo
+            on
+                <a href="../../categories/gensim/">#gensim</a>,
+                <a href="../../categories/text-mining/">#text mining</a>,
+                <a href="../../categories/text-processing/">#text processing</a>,
+                <a href="../../categories/topic-modeling/">#topic modeling</a>,
+            <time class="post-date" datetime="2016-11-07T14:10:58+01:00">
+                Nov, 07 2016
+            </time></section></header><section class="post-content"><div>
 <p>In the <a class="reference external" href="../the-voice-afrique-tweets-mining-part-2/">social network analysis</a> part, we
 explored a model that exploits the links between the entities to help us find the
 key players in the data. Here, we will focus on the tweet’s text to better
@@ -136,111 +121,111 @@ does not tell us anything about the dataset. This also removes smileys, emoticon
 mentions hashtags and links: <code>["@thevoiceafrique", "#thevoiceafrique", "superb"]</code>
 </li>
 </ul>
-<pre class="code python"><a name="rest_code_2470f12459274f5db0063625ee59e3f2-1"></a><span class="kn">import</span> <span class="nn">re</span>
-<a name="rest_code_2470f12459274f5db0063625ee59e3f2-2"></a><span class="kn">import</span> <span class="nn">string</span>
-<a name="rest_code_2470f12459274f5db0063625ee59e3f2-3"></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<a name="rest_code_2470f12459274f5db0063625ee59e3f2-4"></a><span class="kn">import</span> <span class="nn">emoji</span>
-<a name="rest_code_2470f12459274f5db0063625ee59e3f2-5"></a><span class="kn">from</span> <span class="nn">twitter.parse_tweet</span> <span class="kn">import</span> <span class="n">Emoticons</span>
-<a name="rest_code_2470f12459274f5db0063625ee59e3f2-6"></a><span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>
-<a name="rest_code_2470f12459274f5db0063625ee59e3f2-7"></a><span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">stopwords</span>
-<a name="rest_code_2470f12459274f5db0063625ee59e3f2-8"></a><span class="kn">from</span> <span class="nn">nltk.tokenize</span> <span class="kn">import</span> <span class="n">TweetTokenizer</span>
-<a name="rest_code_2470f12459274f5db0063625ee59e3f2-9"></a><span class="kn">from</span> <span class="nn">gensim.models</span> <span class="kn">import</span> <span class="n">LdaModel</span>
-<a name="rest_code_2470f12459274f5db0063625ee59e3f2-10"></a><span class="kn">from</span> <span class="nn">gensim.corpora</span> <span class="kn">import</span> <span class="n">TextCorpus</span>
-<a name="rest_code_2470f12459274f5db0063625ee59e3f2-11"></a>
-<a name="rest_code_2470f12459274f5db0063625ee59e3f2-12"></a><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
-<a name="rest_code_2470f12459274f5db0063625ee59e3f2-13"></a>
-<a name="rest_code_2470f12459274f5db0063625ee59e3f2-14"></a><span class="n">host</span> <span class="o">=</span> <span class="s2">"localhost"</span>
-<a name="rest_code_2470f12459274f5db0063625ee59e3f2-15"></a><span class="n">port</span> <span class="o">=</span> <span class="mi">27017</span>
-<a name="rest_code_2470f12459274f5db0063625ee59e3f2-16"></a>
-<a name="rest_code_2470f12459274f5db0063625ee59e3f2-17"></a><span class="n">db</span> <span class="o">=</span> <span class="n">MongoClient</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span><span class="o">.</span><span class="n">search</span>
+<pre class="code python"><a name="rest_code_da019fb7d02a4226b4ad5fe6011df151-1"></a><span class="kn">import</span> <span class="nn">re</span>
+<a name="rest_code_da019fb7d02a4226b4ad5fe6011df151-2"></a><span class="kn">import</span> <span class="nn">string</span>
+<a name="rest_code_da019fb7d02a4226b4ad5fe6011df151-3"></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<a name="rest_code_da019fb7d02a4226b4ad5fe6011df151-4"></a><span class="kn">import</span> <span class="nn">emoji</span>
+<a name="rest_code_da019fb7d02a4226b4ad5fe6011df151-5"></a><span class="kn">from</span> <span class="nn">twitter.parse_tweet</span> <span class="kn">import</span> <span class="n">Emoticons</span>
+<a name="rest_code_da019fb7d02a4226b4ad5fe6011df151-6"></a><span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>
+<a name="rest_code_da019fb7d02a4226b4ad5fe6011df151-7"></a><span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">stopwords</span>
+<a name="rest_code_da019fb7d02a4226b4ad5fe6011df151-8"></a><span class="kn">from</span> <span class="nn">nltk.tokenize</span> <span class="kn">import</span> <span class="n">TweetTokenizer</span>
+<a name="rest_code_da019fb7d02a4226b4ad5fe6011df151-9"></a><span class="kn">from</span> <span class="nn">gensim.models</span> <span class="kn">import</span> <span class="n">LdaModel</span>
+<a name="rest_code_da019fb7d02a4226b4ad5fe6011df151-10"></a><span class="kn">from</span> <span class="nn">gensim.corpora</span> <span class="kn">import</span> <span class="n">TextCorpus</span>
+<a name="rest_code_da019fb7d02a4226b4ad5fe6011df151-11"></a>
+<a name="rest_code_da019fb7d02a4226b4ad5fe6011df151-12"></a><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<a name="rest_code_da019fb7d02a4226b4ad5fe6011df151-13"></a>
+<a name="rest_code_da019fb7d02a4226b4ad5fe6011df151-14"></a><span class="n">host</span> <span class="o">=</span> <span class="s2">"localhost"</span>
+<a name="rest_code_da019fb7d02a4226b4ad5fe6011df151-15"></a><span class="n">port</span> <span class="o">=</span> <span class="mi">27017</span>
+<a name="rest_code_da019fb7d02a4226b4ad5fe6011df151-16"></a>
+<a name="rest_code_da019fb7d02a4226b4ad5fe6011df151-17"></a><span class="n">db</span> <span class="o">=</span> <span class="n">MongoClient</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span><span class="o">.</span><span class="n">search</span>
 </pre>
 <p>The <code>stopwords-fr.txt</code> file is downloaded <a class="reference external" href="https://github.com/stopwords-iso/stopwords-fr">here</a>.</p>
-<pre class="code python"><a name="rest_code_43fddcb95c524115aa30f0964aa762ff-1"></a><span class="n">stop_words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-<a name="rest_code_43fddcb95c524115aa30f0964aa762ff-2"></a><span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">))</span>
-<a name="rest_code_43fddcb95c524115aa30f0964aa762ff-3"></a><span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s2">"french"</span><span class="p">))</span>
-<a name="rest_code_43fddcb95c524115aa30f0964aa762ff-4"></a><span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">Emoticons</span><span class="o">.</span><span class="n">POSITIVE</span><span class="p">)</span>
-<a name="rest_code_43fddcb95c524115aa30f0964aa762ff-5"></a><span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">Emoticons</span><span class="o">.</span><span class="n">NEGATIVE</span><span class="p">)</span>
-<a name="rest_code_43fddcb95c524115aa30f0964aa762ff-6"></a><span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">([</span><span class="s2">"’"</span><span class="p">,</span> <span class="s2">"…"</span><span class="p">,</span> <span class="s2">"ca"</span><span class="p">,</span> <span class="s2">"°"</span><span class="p">,</span> <span class="s2">"çà"</span><span class="p">,</span> <span class="s2">"»"</span><span class="p">,</span> <span class="s2">"«"</span><span class="p">,</span> <span class="s2">"•"</span><span class="p">,</span> <span class="s2">"the"</span><span class="p">,</span>
-<a name="rest_code_43fddcb95c524115aa30f0964aa762ff-7"></a>                   <span class="s2">"voice"</span><span class="p">,</span> <span class="s2">"afrique"</span><span class="p">,</span> <span class="s2">"voix"</span><span class="p">,</span> <span class="s2">"–"</span><span class="p">,</span> <span class="s2">"::"</span><span class="p">,</span> <span class="s2">"“"</span><span class="p">,</span> <span class="s2">"₩"</span><span class="p">,</span> <span class="s2">"🤣"</span><span class="p">])</span>
-<a name="rest_code_43fddcb95c524115aa30f0964aa762ff-8"></a>
-<a name="rest_code_43fddcb95c524115aa30f0964aa762ff-9"></a><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"data/stopwords-fr.txt"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-<a name="rest_code_43fddcb95c524115aa30f0964aa762ff-10"></a>    <span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()))</span>
-<a name="rest_code_43fddcb95c524115aa30f0964aa762ff-11"></a>
-<a name="rest_code_43fddcb95c524115aa30f0964aa762ff-12"></a><span class="n">tokenize</span> <span class="o">=</span> <span class="n">TweetTokenizer</span><span class="p">()</span><span class="o">.</span><span class="n">tokenize</span>
+<pre class="code python"><a name="rest_code_1299974f06ce4214b57b727783b697eb-1"></a><span class="n">stop_words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<a name="rest_code_1299974f06ce4214b57b727783b697eb-2"></a><span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">))</span>
+<a name="rest_code_1299974f06ce4214b57b727783b697eb-3"></a><span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s2">"french"</span><span class="p">))</span>
+<a name="rest_code_1299974f06ce4214b57b727783b697eb-4"></a><span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">Emoticons</span><span class="o">.</span><span class="n">POSITIVE</span><span class="p">)</span>
+<a name="rest_code_1299974f06ce4214b57b727783b697eb-5"></a><span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">Emoticons</span><span class="o">.</span><span class="n">NEGATIVE</span><span class="p">)</span>
+<a name="rest_code_1299974f06ce4214b57b727783b697eb-6"></a><span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">([</span><span class="s2">"’"</span><span class="p">,</span> <span class="s2">"…"</span><span class="p">,</span> <span class="s2">"ca"</span><span class="p">,</span> <span class="s2">"°"</span><span class="p">,</span> <span class="s2">"çà"</span><span class="p">,</span> <span class="s2">"»"</span><span class="p">,</span> <span class="s2">"«"</span><span class="p">,</span> <span class="s2">"•"</span><span class="p">,</span> <span class="s2">"the"</span><span class="p">,</span>
+<a name="rest_code_1299974f06ce4214b57b727783b697eb-7"></a>                   <span class="s2">"voice"</span><span class="p">,</span> <span class="s2">"afrique"</span><span class="p">,</span> <span class="s2">"voix"</span><span class="p">,</span> <span class="s2">"–"</span><span class="p">,</span> <span class="s2">"::"</span><span class="p">,</span> <span class="s2">"“"</span><span class="p">,</span> <span class="s2">"₩"</span><span class="p">,</span> <span class="s2">"🤣"</span><span class="p">])</span>
+<a name="rest_code_1299974f06ce4214b57b727783b697eb-8"></a>
+<a name="rest_code_1299974f06ce4214b57b727783b697eb-9"></a><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"data/stopwords-fr.txt"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<a name="rest_code_1299974f06ce4214b57b727783b697eb-10"></a>    <span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()))</span>
+<a name="rest_code_1299974f06ce4214b57b727783b697eb-11"></a>
+<a name="rest_code_1299974f06ce4214b57b727783b697eb-12"></a><span class="n">tokenize</span> <span class="o">=</span> <span class="n">TweetTokenizer</span><span class="p">()</span><span class="o">.</span><span class="n">tokenize</span>
 </pre>
 <p>Little helpers</p>
-<pre class="code python"><a name="rest_code_138707680f5249f9bd22168fd81a6b96-1"></a><span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-2"></a>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-3"></a>    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-4"></a>    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">"..."</span><span class="p">)</span>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-5"></a>    <span class="n">found</span> <span class="o">=</span> <span class="n">emoji</span><span class="o">.</span><span class="n">demojize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" "</span><span class="p">)</span>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-6"></a>    <span class="n">text</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">found</span> <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="s2">"_"</span> <span class="ow">in</span> <span class="n">t</span><span class="p">)])</span>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-7"></a>    <span class="n">text</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r"\w*\d+\w*"</span><span class="p">,</span> <span class="n">text</span><span class="p">))</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-8"></a>    <span class="n">tokens</span> <span class="o">=</span> <span class="n">tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-9"></a>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-10"></a>    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-11"></a>        <span class="n">cond</span> <span class="o">=</span> <span class="p">(</span><span class="n">token</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">"#"</span><span class="p">,</span> <span class="s2">"@"</span><span class="p">,</span> <span class="s2">"http"</span><span class="p">,</span> <span class="s2">"www"</span><span class="p">))</span> <span class="ow">or</span>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-12"></a>                <span class="s2">"."</span> <span class="ow">in</span> <span class="n">token</span> <span class="ow">or</span>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-13"></a>                <span class="s2">"'"</span> <span class="ow">in</span> <span class="n">token</span>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-14"></a>                <span class="p">)</span>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-15"></a>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-16"></a>        <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">cond</span><span class="p">):</span>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-17"></a>            <span class="k">yield</span> <span class="n">token</span>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-18"></a>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-19"></a><span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-20"></a>    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-21"></a>    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">parse</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-22"></a>        <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">token</span> <span class="ow">in</span> <span class="n">stop_words</span><span class="p">):</span>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-23"></a>            <span class="k">yield</span> <span class="n">token</span>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-24"></a>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-25"></a><span class="k">class</span> <span class="nc">Corpus</span><span class="p">(</span><span class="n">TextCorpus</span><span class="p">):</span>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-26"></a>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-27"></a>    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-28"></a>        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">)</span>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-29"></a>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-30"></a>    <span class="k">def</span> <span class="nf">get_texts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-31"></a>        <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">:</span>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-32"></a>            <span class="n">tweet</span> <span class="o">=</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">tweet</span><span class="p">)</span>
-<a name="rest_code_138707680f5249f9bd22168fd81a6b96-33"></a>            <span class="k">yield</span> <span class="nb">list</span><span class="p">(</span><span class="n">tweet</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-1"></a><span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-2"></a>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-3"></a>    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-4"></a>    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">"..."</span><span class="p">)</span>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-5"></a>    <span class="n">found</span> <span class="o">=</span> <span class="n">emoji</span><span class="o">.</span><span class="n">demojize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" "</span><span class="p">)</span>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-6"></a>    <span class="n">text</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">found</span> <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="s2">"_"</span> <span class="ow">in</span> <span class="n">t</span><span class="p">)])</span>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-7"></a>    <span class="n">text</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s2">"\w*\d+\w*"</span><span class="p">,</span> <span class="n">text</span><span class="p">))</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-8"></a>    <span class="n">tokens</span> <span class="o">=</span> <span class="n">tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-9"></a>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-10"></a>    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-11"></a>        <span class="n">cond</span> <span class="o">=</span> <span class="p">(</span><span class="n">token</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">"#"</span><span class="p">,</span> <span class="s2">"@"</span><span class="p">,</span> <span class="s2">"http"</span><span class="p">,</span> <span class="s2">"www"</span><span class="p">))</span> <span class="ow">or</span>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-12"></a>                <span class="s2">"."</span> <span class="ow">in</span> <span class="n">token</span> <span class="ow">or</span>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-13"></a>                <span class="s2">"'"</span> <span class="ow">in</span> <span class="n">token</span>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-14"></a>                <span class="p">)</span>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-15"></a>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-16"></a>        <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">cond</span><span class="p">):</span>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-17"></a>            <span class="k">yield</span> <span class="n">token</span>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-18"></a>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-19"></a><span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-20"></a>    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-21"></a>    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">parse</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-22"></a>        <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">token</span> <span class="ow">in</span> <span class="n">stop_words</span><span class="p">):</span>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-23"></a>            <span class="k">yield</span> <span class="n">token</span>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-24"></a>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-25"></a><span class="k">class</span> <span class="nc">Corpus</span><span class="p">(</span><span class="n">TextCorpus</span><span class="p">):</span>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-26"></a>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-27"></a>    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-28"></a>        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">)</span>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-29"></a>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-30"></a>    <span class="k">def</span> <span class="nf">get_texts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-31"></a>        <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">:</span>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-32"></a>            <span class="n">tweet</span> <span class="o">=</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">tweet</span><span class="p">)</span>
+<a name="rest_code_0a74fd6d92914f19825e0113fbd6bd5a-33"></a>            <span class="k">yield</span> <span class="nb">list</span><span class="p">(</span><span class="n">tweet</span><span class="p">)</span>
 </pre>
 <p>Load the tweets.</p>
-<pre class="code python"><a name="rest_code_0da6c6489f8a43b78e0563feb49d4621-1"></a><span class="n">tweets</span> <span class="o">=</span> <span class="p">[</span><span class="n">tweet</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span> <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">thevoice</span><span class="o">.</span><span class="n">find</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="s2">"retweeted_status"</span> <span class="ow">in</span> <span class="n">tweet</span><span class="o">.</span><span class="n">keys</span><span class="p">())]</span>
+<pre class="code python"><a name="rest_code_b55fd23355f242acb0d5ac66579a7fdc-1"></a><span class="n">tweets</span> <span class="o">=</span> <span class="p">[</span><span class="n">tweet</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span> <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">thevoice</span><span class="o">.</span><span class="n">find</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="s2">"retweeted_status"</span> <span class="ow">in</span> <span class="n">tweet</span><span class="o">.</span><span class="n">keys</span><span class="p">())]</span>
 </pre>
 <p>Enrich the stopwords set.</p>
-<pre class="code python"><a name="rest_code_51945214b0fd41e4ae6252f021a390d3-1"></a><span class="n">regexp</span> <span class="o">=</span> <span class="n">emoji</span><span class="o">.</span><span class="n">get_emoji_regexp</span><span class="p">()</span><span class="o">.</span><span class="n">findall</span>
-<a name="rest_code_51945214b0fd41e4ae6252f021a390d3-2"></a>
-<a name="rest_code_51945214b0fd41e4ae6252f021a390d3-3"></a><span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">tweets</span><span class="p">:</span>
-<a name="rest_code_51945214b0fd41e4ae6252f021a390d3-4"></a>    <span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">regexp</span><span class="p">(</span><span class="n">tweet</span><span class="p">))</span>
+<pre class="code python"><a name="rest_code_038835b9219e4afdbf574e0755458274-1"></a><span class="n">regexp</span> <span class="o">=</span> <span class="n">emoji</span><span class="o">.</span><span class="n">get_emoji_regexp</span><span class="p">()</span><span class="o">.</span><span class="n">findall</span>
+<a name="rest_code_038835b9219e4afdbf574e0755458274-2"></a>
+<a name="rest_code_038835b9219e4afdbf574e0755458274-3"></a><span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">tweets</span><span class="p">:</span>
+<a name="rest_code_038835b9219e4afdbf574e0755458274-4"></a>    <span class="n">stop_words</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">regexp</span><span class="p">(</span><span class="n">tweet</span><span class="p">))</span>
 </pre>
 <p>Build the corpus.</p>
-<pre class="code python"><a name="rest_code_1d99869d41794c9391b7547864d81c97-1"></a><span class="n">corpus</span> <span class="o">=</span> <span class="n">Corpus</span><span class="p">(</span><span class="n">tweets</span><span class="p">)</span>
-<a name="rest_code_1d99869d41794c9391b7547864d81c97-2"></a>
-<a name="rest_code_1d99869d41794c9391b7547864d81c97-3"></a><span class="k">print</span><span class="p">(</span><span class="s2">"Number of documents: {}</span><span class="se">\n</span><span class="s2">Number of tokens: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">corpus</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">corpus</span><span class="o">.</span><span class="n">dictionary</span><span class="p">)))</span>
+<pre class="code python"><a name="rest_code_e9ba6c657f324103a1573bfd42ec3ff8-1"></a><span class="n">corpus</span> <span class="o">=</span> <span class="n">Corpus</span><span class="p">(</span><span class="n">tweets</span><span class="p">)</span>
+<a name="rest_code_e9ba6c657f324103a1573bfd42ec3ff8-2"></a>
+<a name="rest_code_e9ba6c657f324103a1573bfd42ec3ff8-3"></a><span class="k">print</span><span class="p">(</span><span class="s2">"Number of documents: {}</span><span class="se">\n</span><span class="s2">Number of tokens: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">corpus</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">corpus</span><span class="o">.</span><span class="n">dictionary</span><span class="p">)))</span>
 </pre>
 <p>Build the model.</p>
-<pre class="code python"><a name="rest_code_e61d2f7a0b2e457cb76398d1345a34d5-1"></a><span class="n">lda</span> <span class="o">=</span> <span class="n">LdaModel</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="n">num_topics</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">id2word</span><span class="o">=</span><span class="n">corpus</span><span class="o">.</span><span class="n">dictionary</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_f92feca4a8624bd59adf545bd9feb723-1"></a><span class="n">lda</span> <span class="o">=</span> <span class="n">LdaModel</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="n">num_topics</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">id2word</span><span class="o">=</span><span class="n">corpus</span><span class="o">.</span><span class="n">dictionary</span><span class="p">)</span>
 </pre>
 <p>A helper for printing the topics</p>
-<pre class="code python"><a name="rest_code_0cdee805a6ad4159b5414b1613a2f10e-1"></a><span class="k">def</span> <span class="nf">show_topics</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">n_words</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">"simple"</span><span class="p">):</span>
-<a name="rest_code_0cdee805a6ad4159b5414b1613a2f10e-2"></a>    <span class="sd">"""Show `n` randomly selected topics and thier</span>
-<a name="rest_code_0cdee805a6ad4159b5414b1613a2f10e-3"></a><span class="sd">    top words.</span>
-<a name="rest_code_0cdee805a6ad4159b5414b1613a2f10e-4"></a><span class="sd">    """</span>
-<a name="rest_code_0cdee805a6ad4159b5414b1613a2f10e-5"></a>    <span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span>
-<a name="rest_code_0cdee805a6ad4159b5414b1613a2f10e-6"></a>
-<a name="rest_code_0cdee805a6ad4159b5414b1613a2f10e-7"></a>    <span class="n">topics</span> <span class="o">=</span> <span class="p">{}</span>
-<a name="rest_code_0cdee805a6ad4159b5414b1613a2f10e-8"></a>    <span class="n">ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">lda</span><span class="o">.</span><span class="n">num_topics</span><span class="p">)</span>
-<a name="rest_code_0cdee805a6ad4159b5414b1613a2f10e-9"></a>    <span class="n">ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<a name="rest_code_0cdee805a6ad4159b5414b1613a2f10e-10"></a>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">:</span>
-<a name="rest_code_0cdee805a6ad4159b5414b1613a2f10e-11"></a>        <span class="n">topic</span> <span class="o">=</span> <span class="n">lda</span><span class="o">.</span><span class="n">show_topic</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n_words</span><span class="p">)</span>
-<a name="rest_code_0cdee805a6ad4159b5414b1613a2f10e-12"></a>        <span class="n">words</span><span class="p">,</span><span class="n">prop</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">topic</span><span class="p">)</span>
-<a name="rest_code_0cdee805a6ad4159b5414b1613a2f10e-13"></a>        <span class="n">topics</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
-<a name="rest_code_0cdee805a6ad4159b5414b1613a2f10e-14"></a>
-<a name="rest_code_0cdee805a6ad4159b5414b1613a2f10e-15"></a>    <span class="n">tabular</span> <span class="o">=</span> <span class="n">tabulate</span><span class="p">(</span><span class="n">topics</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s2">"keys"</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="n">fmt</span><span class="p">)</span>
-<a name="rest_code_0cdee805a6ad4159b5414b1613a2f10e-16"></a>
-<a name="rest_code_0cdee805a6ad4159b5414b1613a2f10e-17"></a>    <span class="k">print</span><span class="p">(</span><span class="n">tabular</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_03bb00c0ba1e4b9cb28c95ee6fa1c8bc-1"></a><span class="k">def</span> <span class="nf">show_topics</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">n_words</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">"simple"</span><span class="p">):</span>
+<a name="rest_code_03bb00c0ba1e4b9cb28c95ee6fa1c8bc-2"></a>    <span class="sd">"""Show `n` randomly selected topics and thier</span>
+<a name="rest_code_03bb00c0ba1e4b9cb28c95ee6fa1c8bc-3"></a><span class="sd">    top words.</span>
+<a name="rest_code_03bb00c0ba1e4b9cb28c95ee6fa1c8bc-4"></a><span class="sd">    """</span>
+<a name="rest_code_03bb00c0ba1e4b9cb28c95ee6fa1c8bc-5"></a>    <span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span>
+<a name="rest_code_03bb00c0ba1e4b9cb28c95ee6fa1c8bc-6"></a>
+<a name="rest_code_03bb00c0ba1e4b9cb28c95ee6fa1c8bc-7"></a>    <span class="n">topics</span> <span class="o">=</span> <span class="p">{}</span>
+<a name="rest_code_03bb00c0ba1e4b9cb28c95ee6fa1c8bc-8"></a>    <span class="n">ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">lda</span><span class="o">.</span><span class="n">num_topics</span><span class="p">)</span>
+<a name="rest_code_03bb00c0ba1e4b9cb28c95ee6fa1c8bc-9"></a>    <span class="n">ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<a name="rest_code_03bb00c0ba1e4b9cb28c95ee6fa1c8bc-10"></a>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">:</span>
+<a name="rest_code_03bb00c0ba1e4b9cb28c95ee6fa1c8bc-11"></a>        <span class="n">topic</span> <span class="o">=</span> <span class="n">lda</span><span class="o">.</span><span class="n">show_topic</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n_words</span><span class="p">)</span>
+<a name="rest_code_03bb00c0ba1e4b9cb28c95ee6fa1c8bc-12"></a>        <span class="n">words</span><span class="p">,</span><span class="n">prop</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">topic</span><span class="p">)</span>
+<a name="rest_code_03bb00c0ba1e4b9cb28c95ee6fa1c8bc-13"></a>        <span class="n">topics</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+<a name="rest_code_03bb00c0ba1e4b9cb28c95ee6fa1c8bc-14"></a>
+<a name="rest_code_03bb00c0ba1e4b9cb28c95ee6fa1c8bc-15"></a>    <span class="n">tabular</span> <span class="o">=</span> <span class="n">tabulate</span><span class="p">(</span><span class="n">topics</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s2">"keys"</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="n">fmt</span><span class="p">)</span>
+<a name="rest_code_03bb00c0ba1e4b9cb28c95ee6fa1c8bc-16"></a>
+<a name="rest_code_03bb00c0ba1e4b9cb28c95ee6fa1c8bc-17"></a>    <span class="k">print</span><span class="p">(</span><span class="n">tabular</span><span class="p">)</span>
 </pre>
 <p>Show the topics</p>
-<pre class="code python"><a name="rest_code_830b33fde10f4d0e888decc9920b0eb7-1"></a><span class="n">show_topics</span><span class="p">()</span>
+<pre class="code python"><a name="rest_code_7e42d0427b1646c8a0041aa26eb8b4df-1"></a><span class="n">show_topics</span><span class="p">()</span>
 </pre>
 <table border="1" class="docutils">
 <colgroup>
@@ -338,22 +323,10 @@ present in the data.</p>
 <p>Thanks for following.</p>
 </div>
 </div>
-    </div>
-    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
-<li><a class="tag p-category" href="../../categories/gensim/" rel="tag">gensim</a></li>
-            <li><a class="tag p-category" href="../../categories/text-mining/" rel="tag">text mining</a></li>
-            <li><a class="tag p-category" href="../../categories/text-processing/" rel="tag">text processing</a></li>
-            <li><a class="tag p-category" href="../../categories/topic-modeling/" rel="tag">topic modeling</a></li>
-        </ul>
-<ul class="pager hidden-print">
-<li class="previous">
-                <a href="../the-voice-afrique-tweets-mining-part-2/" rel="prev" title="The Voice Afrique Tweets Mining Part 2"><i class="fa fa-arrow-left"></i>  Previous post</a>
-            </li>
-            <li class="next">
-                <a href="../the-voice-afrique-tweets-mining-part-4/" rel="next" title="The Voice Afrique Tweets Mining Part 4">Next post  <i class="fa fa-arrow-right"></i></a>
-            </li>
-        </ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
-                        <div id="disqus_thread"></div>
+    </section><footer class="post-footer"><section class="comments hidden-print"><h2>Comments</h2>
+        
+        
+        <div id="disqus_thread"></div>
         <script>
         var disqus_shortname ="dadaromeo",
             disqus_url="https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-3/",
@@ -372,27 +345,9 @@ present in the data.</p>
     <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
-        </section></article><script>var disqus_shortname="dadaromeo";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
-</div>
-</div>
-
-
-<!-- BODY FOOTER -->
-<div class="container">
-    <footer id="body_footer">
-
-        Contents © 2017         <a href="mailto:dada.romy@gmail.com">Dada Romeo</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
-        
-
-
-    </footer>
+        </section></footer></article><script>var disqus_shortname="dadaromeo";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script></main><footer class="site-footer clearfix"><section class="poweredby">Contents © 2017         <a href="mailto:dada.romy@gmail.com">Dada Romeo</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </section></footer>
 </div>
 
-
-<!-- SCRIPTS -->
-            <script src="../../assets/js/all-nocdn.js"></script><script>
-    moment.locale("en");
-    fancydates(1, "lll");
-</script>
+    <script type="text/javascript" src="../../assets/js/jquery.js"></script><script type="text/javascript" src="../../assets/js/jquery.fitvids.js"></script><script type="text/javascript" src="../../assets/js/index.js"></script>
 </body>
 </html>

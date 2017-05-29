@@ -7,8 +7,6 @@
 .. description: 
 .. type: text
 
-Sentiment Analysis
-------------------
 `Previously </posts/the-voice-afrique-tweets-mining-part-3/>`_, we explore 
 *topic modeling* an algorithm used to discover what users are talking about. But 
 often, its not important to know what users are saying, but how they are saying it. 
@@ -501,7 +499,7 @@ Related posts
 - `Twitter sentiment analysis with R <http://analyzecore.com/2014/04/28/twitter-sentiment-analysis/>`_
 
 Conclusion
-----------
+~~~~~~~~~~
 This is the last post in our post series and there are lot of dimensions we haven't explored. 
 A tweet carries a lot of informations that can be mined to spot interesting things. 
 On on these is the spatial dimension. We could plot the tweets or users location to 

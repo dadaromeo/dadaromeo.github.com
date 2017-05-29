@@ -1,133 +1,57 @@
-/*******************************************************************************
-** Container for the whole notebook
-*******************************************************************************/
-#notebook-container {
-	width: 100%;
-	padding: 0;
-}
-
-/*** Container for each cell ***/
-div.cell {
-    padding: 0px 0px;   
-    margin-bottom: 15px;  /* Vertical gap between cells !! */
-}
-
-
-/*******************************************************************************
-** Left side In/Out prompt "In [12]:" 
-*******************************************************************************/
 div.prompt {
-    /*display: none;*/
-    /*background-color: rgba(255, 255, 255, 0.25);
-    border: 1px solid rgba(0, 0, 0, 0.2);*/
-	background-color: rgba(0, 0, 0, 0.08);
-    border-radius: 0px;
-    padding: 0.4em 0.3em;
-	margin: 0;
-	margin-right: 18px;
-    text-align: right;
-	min-width: 80px;
-    font-size: 13px;
-    line-height: 18px;
+  padding: 0.6em;
+  font-size: 13px;
+  background-color: #E9E9E9;
+  margin-right: 1em;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
 }
 
 div.output_prompt {
+  /* 5px right shift to account for margin in parent container */
+  margin: 0 5px 0 0px;
 }
 
+div.output_area pre {
+  font-size: 13px;
+}
 
-/*******************************************************************************
-** Right side content cells
-*******************************************************************************/
-div.inner_cell {
-    overflow-x: visible !important;
-}
-.rendered_html {
-    overflow-x: visible !important;
-}
-.rendered_html h2 {
-    display: none;      /* Hide the main title !! */
-}
-.rendered_html h3 {
-    font-size: 24px;
-}
-.rendered_html h4 {
-    font-size: 18px;
-}
-.rendered_html h5 {
-    font-size: 16px;
-}
-.rendered_html h1, .rendered_html h2, .rendered_html h3, .rendered_html h4, .rendered_html h5 {
-    margin-top: 1.8em !important;
-	margin-bottom: 10px;
-}
-.rendered_html h1 a, .rendered_html h2 a, .rendered_html h3 a, .rendered_html h4 a, .rendered_html h5 a {
-    display: none;
-}
 div.text_cell_render {
-    color: #202020;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    padding: 0 4px 0 1px;
+  padding: 0px;
+  color: #333333;
 }
+
 .rendered_html p {
-    margin-top: 0px;        /* Paragraph top gap !! */
-    margin-bottom: 12px;    /* Paragraph bottom gap !! */
-    text-align: justify;
-    font-size: 15px;
-    line-height: 24px;
-}
-.rendered_html p:last-child {
-    margin-bottom: 0px;     /* Disable bottom gap for last <p> !! */
-}
-.rendered_html ul, .rendered_html ol {
-    margin: 12px 0 12px 2.5em;
-    padding: 0;
-}
-.rendered_html :visited, .rendered_html :link {
-    text-decoration: none;
-}
-.rendered_html a:hover {
-    text-decoration: underline;
+  text-align: left;
 }
 
-
-/*******************************************************************************
-** Code Blocks !!
-*******************************************************************************/
-pre {
-    border-radius: 0px;
-    color: black;
-    font-size: 14px;
-    line-height: 18px;
+.rendered_html ul {
+  margin: 0 0 12px 25px;
 }
 
-div.input_area {
-    background-color: rgba(255, 255, 255, 0.25);
-    /*background-color: rgba(0, 0, 0, 0.08);*/
-    border: 1px solid rgba(0, 0, 0, 0.25);
-	border-radius: 3px;  
-}
-div.input_area > div.highlight {
-    margin: 6px 9px;
+.rendered_html :visited {
+  text-decoration: none;
 }
 
-div.output_area {
-    margin-top: 0px;
-}
-div.output_subarea {
-    padding: 8px 10px;
+.rendered_html :link {
+  text-decoration: none;
 }
 
-/*** Math !! ***/
-.MathJax_Display {
-    margin-top: 12px  !important;
-    margin-bottom: 12px  !important;
+.rendered_html pre, .rendered_html code {
+  background-color: #DDDDDD;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-top: 0.05em;
+  padding-bottom: 0.05em;
+  margin: 1em 0em;
+  font-size: 14px;
 }
 
+.page-content > .content p {
+  margin: 0 0 0px;
+}
 
-/*******************************************************************************
-** Code highlight
-*******************************************************************************/
 .highlight .hll { background-color: #ffffcc }
 .highlight  { background: #f8f8f8; }
 .highlight .c { color: #408080; font-style: italic } /* Comment */
@@ -190,45 +114,3 @@ div.output_subarea {
 .highlight .vg { color: #19177C } /* Name.Variable.Global */
 .highlight .vi { color: #19177C } /* Name.Variable.Instance */
 .highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
-
-
-
-/*******************************************************************************
-** Print Style
-*******************************************************************************/
-@media print {
-    div.prompt {
-        display: none !important;
-    }
-
-    .cell, .input, .inner_cell, .input_area {
-        overflow: visible !important;
-        display: block !important;
-        page-break-inside: auto;
-    }
-
-    pre {
-        font-size: 13px;
-        line-height: 16px;
-    }
-
-    div.input_area {
-        border: 1px solid #a0a0a0;
-    }
-
-    .highlight .c, .highlight .cm, .highlight .cp, .highlight .c1, .highlight .cs {
-        color: #408080 !important;
-        font-style: italic !important;
-    } /* Comments */
-
-    .highlight .k, .highlight .kc, .highlight .kd, .highlight .kn, .highlight .kr {
-        color: #008000 !important;
-        font-weight: bold !important;
-    } /* Keyword */
-
-    .highlight .kt {
-        color: #B00040 !important;
-    } /* Keyword.Type */
-}
-
-

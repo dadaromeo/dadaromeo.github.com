@@ -7,8 +7,6 @@
 .. description: 
 .. type: text
 
-Introduction
-^^^^^^^^^^^^
 Web data mining is a major component in the data science activities landscape.
 With its use, we can track brand mentions from social media statuses, policy sentiment on
 forums and "hot" topics from political blog posts.

@@ -1,100 +1,92 @@
 <!DOCTYPE html>
-<html prefix="
-og: http://ogp.me/ns#
-article: http://ogp.me/ns/article#
-" lang="en">
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " vocab="http://ogp.me/ns" lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="description" content="Data Mining, Probabilistic Modeling and Network Analysis">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width">
 <title>Adventures in Dataland</title>
-<link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
-<meta content="#5670d4" name="theme-color">
+<link href="assets/css/rst.css" rel="stylesheet" type="text/css">
+<link href="assets/css/code.css" rel="stylesheet" type="text/css">
+<link href="assets/css/theme.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="assets/css/screen.css">
+<link rel="stylesheet" type="text/css" href="assets/css/nav.css">
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic%7COpen+Sans:700,400%7CInconsolata">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
 <link rel="canonical" href="https://dadaromeo.github.io/">
 <link rel="icon" href="favicon.ico" sizes="16x16">
 <link rel="icon" href="favicon-16x16.png" sizes="16x16">
 <link rel="next" href="index-1.html" type="text/html">
 <!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/movies-recommendation-with-hierarchical-poisson-factorization-in-edward/" type="text/html">
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 </head>
-<body>
+<body class="nav-closed">
 
-
-<!-- BODY CONTAINER -->
-<div class="container" id="body_container">
-
-    <!-- HEADER -->
-    <header id="body_header"><a href="."><img class="portrait" src="assets/img/portrait-64x64.jpg"></a><br><em>Adventures in Dataland</em>
-    </header><!-- NAVBAR --><nav class="navbar navbar-default navbar-static"><div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-
-        </div>
-                
-        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false" role="navigation">
-            <ul class="nav navbar-nav">
-<li class="active">
-<a href=".">Home <span class="sr-only">(active)</span></a>
-                </li>
-<li>
-<a href="archive.html">Archive</a>
-                </li>
-<li>
-<a href="categories/">Tags</a>
-                </li>
-<li>
-<a href="rss.xml">RSS feed</a>
-
-                
-            </li>
-</ul>
-<ul class="nav navbar-nav navbar-right"></ul>
-</div>
-    </nav><!-- BODY CONTENT !! --><div class="container" id="body_content" role="main">
-
-        
+<div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+<li class="nav-opened nav-current" role="presentation">
+            <a href=".">Home</a>
+        </li>
+        <li class="nav-opened" role="presentation">
+            <a href="archive.html">Archive</a>
+        </li>
+        <li class="nav-opened" role="presentation">
+            <a href="categories/">Tags</a>
+        </li>
+        <li class="nav-opened" role="presentation">
+            <a href="rss.xml">RSS feed</a>
+        </li>
     
-<div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/movies-recommendation-with-hierarchical-poisson-factorization-in-edward/" class="u-url">Movies Recommendation with Hierarchical Poisson Factorization in Edward</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn">
-                Dada Romeo
-            </span></p>
-            <p class="dateline"><a href="posts/movies-recommendation-with-hierarchical-poisson-factorization-in-edward/" rel="bookmark"><time class="published dt-published" datetime="2017-05-26T10:44:36+01:00" title="2017-05-26 10:44">2017-05-26 10:44</time></a></p>
-                <p class="commentline">            <a href="posts/movies-recommendation-with-hierarchical-poisson-factorization-in-edward/#disqus_thread" data-disqus-identifier="cache/posts/movies-recommendation-with-hierarchical-poisson-factorization-in-edward.html">Comments</a>
-
-
-        </p>
+    
+    </ul>
 </div>
-    </header><div class="p-summary entry-summary">
-    <div class="section" id="introduction">
-<h2>Introduction</h2>
+<span class="nav-cover"></span>
+
+<div class="site-wrapper">
+    <header class="main-header" style="background-image: url(assets/img/silk-road.jpg)"><nav class="main-nav overlay clearfix"><a class="menu-button" href="#"><span class="burger">☰</span><span class="word">Menu</span></a>
+        </nav><div class="vertical">
+            <div class="main-header-content inner">
+                <a href="https://github.com/dadaromeo" target="_blank">
+                    <span class="icon-github" style="color:white;font-size:2em"></span>
+                </a>
+                 
+                <a class="bloglogo" href="https://twitter.com/dadaromeo" target="_blank">
+                    <span class="icon-twitter" style="color:white;font-size:2em"></span>
+                </a>
+                 
+                <h1 class="page-title">Adventures in Dataland</h1>
+                <h2 class="page-description">Data Mining, Probabilistic Modeling and Network Analysis</h2>
+            </div>
+        </div>
+        <a class="scroll-down icon-arrow-left" href="#content"><span class="hidden">Scroll Down</span></a>
+    </header><main id="content" class="content" role="main"><div class="postindex">
+
+
+<article class="post post"><header class="post-header"><h2 class="post-title"><a href="posts/movies-recommendation-with-hierarchical-poisson-factorization-in-edward/">Movies Recommendation with Hierarchical Poisson Factorization in Edward</a></h2>
+    </header><section class="post-excerpt"><div>
 <p>In this article, we will explore an implementation on the Hierarchical Factorization (HPF)
 model in <a class="reference external" href="http://edwardlib.org">Edward</a>. This implementation will use the
 movilens 2k dataset to learn latent features that try to capture the <em>preferences</em>
 and <em>attributes</em> of users and movies respectively. The code is avalaible on <a class="reference external" href="https://github.com/dadaromeo/recsys-hpf">github</a>.</p>
 <p class="more"><a href="posts/movies-recommendation-with-hierarchical-poisson-factorization-in-edward/">Read more…</a></p>
 </div>
-    </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/automatic-topic-discovery-in-political-blog-posts/" class="u-url">Automatic Topic Discovery in Political Blog Posts</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn">
+    </section><footer class="post-meta">
                 Dada Romeo
-            </span></p>
-            <p class="dateline"><a href="posts/automatic-topic-discovery-in-political-blog-posts/" rel="bookmark"><time class="published dt-published" datetime="2017-05-15T15:37:55+01:00" title="2017-05-15 15:37">2017-05-15 15:37</time></a></p>
-                <p class="commentline">            <a href="posts/automatic-topic-discovery-in-political-blog-posts/#disqus_thread" data-disqus-identifier="cache/posts/automatic-topic-discovery-in-political-blog-posts.html">Comments</a>
 
+        on
+                <a href="categories/edward/">#edward</a>,
+                <a href="categories/mathjax/">#mathjax</a>,
+                <a href="categories/probabilistic-modeling/">#probabilistic modeling</a>,
+                <a href="categories/recommender-system/">#recommender system</a>,
 
-        </p>
-</div>
-    </header><div class="p-summary entry-summary">
-    <div class="section" id="introduction">
-<h2>Introduction</h2>
+        <time class="post-date" datetime="2017-05-26T10:44:36+01:00">
+            May, 26 2017
+        </time></footer></article><article class="post post"><header class="post-header"><h2 class="post-title"><a href="posts/automatic-topic-discovery-in-political-blog-posts/">Automatic Topic Discovery in Political Blog Posts</a></h2>
+    </header><section class="post-excerpt"><div>
 <p>Web data mining is a major component in the data science activities landscape.
 With its use, we can track brand mentions from social media statuses, policy sentiment on
 forums and "hot" topics from political blog posts.</p>
@@ -104,21 +96,20 @@ developed there.
 The scraping was done on May the 10th 2017 and the dataset includes 136 articles between February 17, 2017 and May 9, 2017.</p>
 <p class="more"><a href="posts/automatic-topic-discovery-in-political-blog-posts/">Read more…</a></p>
 </div>
-    </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/mesa-a-library-for-agent-based-modeling-in-python/" class="u-url">Mesa: A Library for Agent-Based Modeling in Python</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn">
+    </section><footer class="post-meta">
                 Dada Romeo
-            </span></p>
-            <p class="dateline"><a href="posts/mesa-a-library-for-agent-based-modeling-in-python/" rel="bookmark"><time class="published dt-published" datetime="2016-11-30T12:18:31+01:00" title="2016-11-30 12:18">2016-11-30 12:18</time></a></p>
-                <p class="commentline">            <a href="posts/mesa-a-library-for-agent-based-modeling-in-python/#disqus_thread" data-disqus-identifier="cache/posts/mesa-a-library-for-agent-based-modeling-in-python.html">Comments</a>
 
+        on
+                <a href="categories/gensim/">#gensim</a>,
+                <a href="categories/scrapy/">#scrapy</a>,
+                <a href="categories/spacy/">#spacy</a>,
+                <a href="categories/text-analytics/">#text analytics</a>,
+                <a href="categories/web-scraping/">#web scraping</a>,
 
-        </p>
-</div>
-    </header><div class="p-summary entry-summary">
-    <div class="section" id="introduction">
-<h2>Introduction</h2>
+        <time class="post-date" datetime="2017-05-15T15:37:55+01:00">
+            May, 15 2017
+        </time></footer></article><article class="post post"><header class="post-header"><h2 class="post-title"><a href="posts/mesa-a-library-for-agent-based-modeling-in-python/">Mesa: A Library for Agent-Based Modeling in Python</a></h2>
+    </header><section class="post-excerpt"><div>
 <p>In this post, we introduce <a class="reference external" href="https://github.com/projectmesa/mesa">Mesa</a> a library
 written in Python3 for Agent-Based Modeling (ABM). <a class="reference external" href="https://en.wikipedia.org/wiki/Agent-based_model">Agent-based modeling</a>
 is a growing topic of interest in many scientific disciplines, due to its flexibility
@@ -126,21 +117,17 @@ for modeling complex dynamical systems. Agent-based models (ABMs) consist of aut
 interacting computational objets, called agents within a given environment.</p>
 <p class="more"><a href="posts/mesa-a-library-for-agent-based-modeling-in-python/">Read more…</a></p>
 </div>
-    </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/the-voice-afrique-tweets-mining-part-4/" class="u-url">The Voice Afrique Tweets Mining Part 4</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn">
+    </section><footer class="post-meta">
                 Dada Romeo
-            </span></p>
-            <p class="dateline"><a href="posts/the-voice-afrique-tweets-mining-part-4/" rel="bookmark"><time class="published dt-published" datetime="2016-11-08T14:12:59+01:00" title="2016-11-08 14:12">2016-11-08 14:12</time></a></p>
-                <p class="commentline">            <a href="posts/the-voice-afrique-tweets-mining-part-4/#disqus_thread" data-disqus-identifier="cache/posts/the-voice-afrique-tweets-mining-part-4.html">Comments</a>
 
+        on
+                <a href="categories/agent-based-modeling/">#agent-based modeling</a>,
+                <a href="categories/mesa/">#mesa</a>,
 
-        </p>
-</div>
-    </header><div class="p-summary entry-summary">
-    <div class="section" id="sentiment-analysis">
-<h2>Sentiment Analysis</h2>
+        <time class="post-date" datetime="2016-11-30T12:18:31+01:00">
+            Nov, 30 2016
+        </time></footer></article><article class="post post"><header class="post-header"><h2 class="post-title"><a href="posts/the-voice-afrique-tweets-mining-part-4/">The Voice Afrique Tweets Mining Part 4</a></h2>
+    </header><section class="post-excerpt"><div>
 <p><a class="reference external" href="posts/the-voice-afrique-tweets-mining-part-3/">Previously</a>, we explore
 <em>topic modeling</em> an algorithm used to discover what users are talking about. But
 often, its not important to know what users are saying, but how they are saying it.
@@ -150,20 +137,19 @@ negative emotional score. Aggregating sentiment can give an idea of how people a
 responding to an event or a topic.</p>
 <p class="more"><a href="posts/the-voice-afrique-tweets-mining-part-4/">Read more…</a></p>
 </div>
-    </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/the-voice-afrique-tweets-mining-part-3/" class="u-url">The Voice Afrique Tweets Mining Part 3</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn">
+    </section><footer class="post-meta">
                 Dada Romeo
-            </span></p>
-            <p class="dateline"><a href="posts/the-voice-afrique-tweets-mining-part-3/" rel="bookmark"><time class="published dt-published" datetime="2016-11-08T14:10:58+01:00" title="2016-11-08 14:10">2016-11-08 14:10</time></a></p>
-                <p class="commentline">            <a href="posts/the-voice-afrique-tweets-mining-part-3/#disqus_thread" data-disqus-identifier="cache/posts/the-voice-afrique-tweets-mining-part-3.html">Comments</a>
 
+        on
+                <a href="categories/mathjax/">#mathjax</a>,
+                <a href="categories/sentiment-analysis/">#sentiment analysis</a>,
+                <a href="categories/text-mining/">#text mining</a>,
+                <a href="categories/text-processing/">#text processing</a>,
 
-        </p>
-</div>
-    </header><div class="p-summary entry-summary">
-    <div>
+        <time class="post-date" datetime="2016-11-08T14:12:59+01:00">
+            Nov, 08 2016
+        </time></footer></article><article class="post post"><header class="post-header"><h2 class="post-title"><a href="posts/the-voice-afrique-tweets-mining-part-3/">The Voice Afrique Tweets Mining Part 3</a></h2>
+    </header><section class="post-excerpt"><div>
 <p>In the <a class="reference external" href="posts/the-voice-afrique-tweets-mining-part-2/">social network analysis</a> part, we
 explored a model that exploits the links between the entities to help us find the
 key players in the data. Here, we will focus on the tweet’s text to better
@@ -175,36 +161,29 @@ approach that finds natural topics within the text. We then move on to
 the practice of associating a document with a sentiment score</p>
 <p class="more"><a href="posts/the-voice-afrique-tweets-mining-part-3/">Read more…</a></p>
 </div>
-    </div>
-    </article>
+    </section><footer class="post-meta">
+                Dada Romeo
+
+        on
+                <a href="categories/gensim/">#gensim</a>,
+                <a href="categories/text-mining/">#text mining</a>,
+                <a href="categories/text-processing/">#text processing</a>,
+                <a href="categories/topic-modeling/">#topic modeling</a>,
+
+        <time class="post-date" datetime="2016-11-07T14:10:58+01:00">
+            Nov, 07 2016
+        </time></footer></article>
 </div>
+
         <nav class="postindexpager"><ul class="pager">
 <li class="next">
                 <a href="index-1.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="dadaromeo";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script><script type="text/x-mathjax-config">
-            MathJax.Hub.Config({tex2jax: {inlineMath: [['$latex ','$'], ['\\(','\\)']]}});
-            </script>
-</div>
-</div>
-
-
-<!-- BODY FOOTER -->
-<div class="container">
-    <footer id="body_footer">
-
-        Contents © 2017         <a href="mailto:dada.romy@gmail.com">Dada Romeo</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
-        
-
-
-    </footer>
+        </ul></nav><script>var disqus_shortname="dadaromeo";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha256-yYfngbEKv4RENfGDvNUqJTqGFcKf31NJEe9OTnnMH3Y=" crossorigin="anonymous"></script><script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$latex ','$'], ['\\(','\\)']]}});
+        </script></main><footer class="site-footer clearfix"><section class="poweredby">Contents © 2017         <a href="mailto:dada.romy@gmail.com">Dada Romeo</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </section></footer>
 </div>
 
-
-<!-- SCRIPTS -->
-            <script src="assets/js/all-nocdn.js"></script><script>
-    moment.locale("en");
-    fancydates(1, "lll");
-</script>
+    <script type="text/javascript" src="assets/js/jquery.js"></script><script type="text/javascript" src="assets/js/jquery.fitvids.js"></script><script type="text/javascript" src="assets/js/index.js"></script>
 </body>
 </html>

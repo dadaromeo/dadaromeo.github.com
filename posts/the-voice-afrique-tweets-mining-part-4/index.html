@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html prefix="
-og: http://ogp.me/ns#
-article: http://ogp.me/ns/article#
-" lang="en">
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " vocab="http://ogp.me/ns" lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width">
 <title>The Voice Afrique Tweets Mining Part 4 | Adventures in Dataland</title>
-<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
-<meta content="#5670d4" name="theme-color">
+<link href="../../assets/css/rst.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/code.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/theme.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../../assets/css/screen.css">
+<link rel="stylesheet" type="text/css" href="../../assets/css/nav.css">
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic%7COpen+Sans:700,400%7CInconsolata">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
 <link rel="canonical" href="https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-4/">
 <link rel="icon" href="../../favicon.ico" sizes="16x16">
@@ -19,10 +22,10 @@ article: http://ogp.me/ns/article#
 <meta property="og:site_name" content="Adventures in Dataland">
 <meta property="og:title" content="The Voice Afrique Tweets Mining Part 4">
 <meta property="og:url" content="https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-4/">
-<meta property="og:description" content="Sentiment Analysis
-Previously, we explore
+<meta property="og:description" content="Previously, we explore
 topic modeling an algorithm used to discover what users are talking about. But
-often, its not important to know what users are saying, but how they are saying">
+often, its not important to know what users are saying, but how they are saying it.
+Sentiment anal">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2016-11-08T14:12:59+01:00">
 <meta property="article:tag" content="mathjax">
@@ -32,66 +35,46 @@ often, its not important to know what users are saying, but how they are saying"
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@dadaromeo">
 <meta name="twitter:creator" content="@dadaromeo">
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 </head>
-<body>
+<body class="nav-closed">
 
-
-<!-- BODY CONTAINER -->
-<div class="container" id="body_container">
-
-    <!-- HEADER -->
-    <header id="body_header"><a href="../../"><img class="portrait" src="../../assets/img/portrait-64x64.jpg"></a><br><em>Adventures in Dataland</em>
-    </header><!-- NAVBAR --><nav class="navbar navbar-default navbar-static"><div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-
-        </div>
-                
-        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false" role="navigation">
-            <ul class="nav navbar-nav">
-<li>
-<a href="../../">Home</a>
-                </li>
-<li>
-<a href="../../archive.html">Archive</a>
-                </li>
-<li>
-<a href="../../categories/">Tags</a>
-                </li>
-<li>
-<a href="../../rss.xml">RSS feed</a>
-
-                
-            </li>
-</ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+<li class="nav-opened" role="presentation">
+            <a href="../../">Home</a>
+        </li>
+        <li class="nav-opened" role="presentation">
+            <a href="../../archive.html">Archive</a>
+        </li>
+        <li class="nav-opened" role="presentation">
+            <a href="../../categories/">Tags</a>
+        </li>
+        <li class="nav-opened" role="presentation">
+            <a href="../../rss.xml">RSS feed</a>
+        </li>
+    
+    
+    </ul>
 </div>
-    </nav><!-- BODY CONTENT !! --><div class="container" id="body_content" role="main">
+<span class="nav-cover"></span>
 
-        
-<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><!--<h1 class="p-name entry-title" itemprop="headline name"><a href="/posts/the-voice-afrique-tweets-mining-part-4/" class="u-url">The Voice Afrique Tweets Mining Part 4</a></h1> --><h1 class="p-name entry-title" itemprop="headline name">The Voice Afrique Tweets Mining Part 4</h1>
-
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn">
-                    Dada Romeo
-            </span></p>
-            <p class="dateline"><time class="published dt-published" datetime="2016-11-08T14:12:59+01:00" itemprop="datePublished" title="2016-11-08 14:12">2016-11-08 14:12</time></p>
-                <p class="commentline">            <a href="#disqus_thread" data-disqus-identifier="cache/posts/the-voice-afrique-tweets-mining-part-4.html">Comments</a>
-
-
-            
-        </p>
-</div>
-        
-    </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div>
-<div class="section" id="sentiment-analysis">
-<h2>Sentiment Analysis</h2>
+<div class="site-wrapper">
+    <header class="main-header post-head no-cover"><nav class="main-nav overlay clearfix"><a class="menu-button" href="#"><span class="burger">☰</span><span class="word">Menu</span></a>
+        </nav></header><main id="content" class="content" role="main"><article class="post post"><header class="post-header"><h1 class="post-title">The Voice Afrique Tweets Mining Part 4</h1>
+        <section class="post-meta"> by
+            Dada Romeo
+            on
+                <a href="../../categories/mathjax/">#mathjax</a>,
+                <a href="../../categories/sentiment-analysis/">#sentiment analysis</a>,
+                <a href="../../categories/text-mining/">#text mining</a>,
+                <a href="../../categories/text-processing/">#text processing</a>,
+            <time class="post-date" datetime="2016-11-08T14:12:59+01:00">
+                Nov, 08 2016
+            </time></section></header><section class="post-content"><div>
 <p><a class="reference external" href="../the-voice-afrique-tweets-mining-part-3/">Previously</a>, we explore
 <em>topic modeling</em> an algorithm used to discover what users are talking about. But
 often, its not important to know what users are saying, but how they are saying it.
@@ -113,7 +96,7 @@ we're choosing. Words having different meaning in diffrent contexts. In this pos
 we don't have a lexicon nor want to build one. We will rely instead on the concept
 of <em>mutual information</em> to detect the polarity of the tweet.</p>
 <div class="section" id="mutual-information">
-<h3>Mutual information</h3>
+<h2>Mutual information</h2>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/Pointwise_mutual_information">Pointwise Mutual Information</a>
 (PMI) is a measure of association between two events. The PMI of a pair of outcomes
 <span class="math">\(x\)</span> and <span class="math">\(y\)</span> to discrete random variables <span class="math">\(X\)</span> and <span class="math">\(Y\)</span>
@@ -142,62 +125,62 @@ npmi(x,y) = \frac{pmi(x,y)}{h(x,y)}
 </div>
 </blockquote>
 <p>where <span class="math">\(h(x,y) = -\log p(x,y)\)</span></p>
-<pre class="code python"><a name="rest_code_69e57de6f7574586a0c2440e380e8d03-1"></a><span class="kn">import</span> <span class="nn">re</span>
-<a name="rest_code_69e57de6f7574586a0c2440e380e8d03-2"></a><span class="kn">import</span> <span class="nn">string</span>
-<a name="rest_code_69e57de6f7574586a0c2440e380e8d03-3"></a><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-<a name="rest_code_69e57de6f7574586a0c2440e380e8d03-4"></a>
-<a name="rest_code_69e57de6f7574586a0c2440e380e8d03-5"></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<a name="rest_code_69e57de6f7574586a0c2440e380e8d03-6"></a><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-<a name="rest_code_69e57de6f7574586a0c2440e380e8d03-7"></a><span class="kn">import</span> <span class="nn">emoji</span>
-<a name="rest_code_69e57de6f7574586a0c2440e380e8d03-8"></a><span class="kn">import</span> <span class="nn">altair</span>
-<a name="rest_code_69e57de6f7574586a0c2440e380e8d03-9"></a><span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>
-<a name="rest_code_69e57de6f7574586a0c2440e380e8d03-10"></a><span class="kn">from</span> <span class="nn">twitter.parse_tweet</span> <span class="kn">import</span> <span class="n">Emoticons</span>
-<a name="rest_code_69e57de6f7574586a0c2440e380e8d03-11"></a><span class="kn">from</span> <span class="nn">nltk.tokenize</span> <span class="kn">import</span> <span class="n">TweetTokenizer</span>
-<a name="rest_code_69e57de6f7574586a0c2440e380e8d03-12"></a><span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">stopwords</span>
-<a name="rest_code_69e57de6f7574586a0c2440e380e8d03-13"></a><span class="kn">from</span> <span class="nn">nltk.collocations</span> <span class="kn">import</span> <span class="n">BigramCollocationFinder</span>
-<a name="rest_code_69e57de6f7574586a0c2440e380e8d03-14"></a>
-<a name="rest_code_69e57de6f7574586a0c2440e380e8d03-15"></a><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
-<a name="rest_code_69e57de6f7574586a0c2440e380e8d03-16"></a>
-<a name="rest_code_69e57de6f7574586a0c2440e380e8d03-17"></a><span class="n">host</span> <span class="o">=</span> <span class="s2">"localhost"</span>
-<a name="rest_code_69e57de6f7574586a0c2440e380e8d03-18"></a><span class="n">port</span> <span class="o">=</span> <span class="mi">27017</span>
-<a name="rest_code_69e57de6f7574586a0c2440e380e8d03-19"></a>
-<a name="rest_code_69e57de6f7574586a0c2440e380e8d03-20"></a><span class="n">db</span> <span class="o">=</span> <span class="n">MongoClient</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span><span class="o">.</span><span class="n">search</span>
+<pre class="code python"><a name="rest_code_bc9cebf7573d43dd90fa947006dcbd9f-1"></a><span class="kn">import</span> <span class="nn">re</span>
+<a name="rest_code_bc9cebf7573d43dd90fa947006dcbd9f-2"></a><span class="kn">import</span> <span class="nn">string</span>
+<a name="rest_code_bc9cebf7573d43dd90fa947006dcbd9f-3"></a><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<a name="rest_code_bc9cebf7573d43dd90fa947006dcbd9f-4"></a>
+<a name="rest_code_bc9cebf7573d43dd90fa947006dcbd9f-5"></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<a name="rest_code_bc9cebf7573d43dd90fa947006dcbd9f-6"></a><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<a name="rest_code_bc9cebf7573d43dd90fa947006dcbd9f-7"></a><span class="kn">import</span> <span class="nn">emoji</span>
+<a name="rest_code_bc9cebf7573d43dd90fa947006dcbd9f-8"></a><span class="kn">import</span> <span class="nn">altair</span>
+<a name="rest_code_bc9cebf7573d43dd90fa947006dcbd9f-9"></a><span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>
+<a name="rest_code_bc9cebf7573d43dd90fa947006dcbd9f-10"></a><span class="kn">from</span> <span class="nn">twitter.parse_tweet</span> <span class="kn">import</span> <span class="n">Emoticons</span>
+<a name="rest_code_bc9cebf7573d43dd90fa947006dcbd9f-11"></a><span class="kn">from</span> <span class="nn">nltk.tokenize</span> <span class="kn">import</span> <span class="n">TweetTokenizer</span>
+<a name="rest_code_bc9cebf7573d43dd90fa947006dcbd9f-12"></a><span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">stopwords</span>
+<a name="rest_code_bc9cebf7573d43dd90fa947006dcbd9f-13"></a><span class="kn">from</span> <span class="nn">nltk.collocations</span> <span class="kn">import</span> <span class="n">BigramCollocationFinder</span>
+<a name="rest_code_bc9cebf7573d43dd90fa947006dcbd9f-14"></a>
+<a name="rest_code_bc9cebf7573d43dd90fa947006dcbd9f-15"></a><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<a name="rest_code_bc9cebf7573d43dd90fa947006dcbd9f-16"></a>
+<a name="rest_code_bc9cebf7573d43dd90fa947006dcbd9f-17"></a><span class="n">host</span> <span class="o">=</span> <span class="s2">"localhost"</span>
+<a name="rest_code_bc9cebf7573d43dd90fa947006dcbd9f-18"></a><span class="n">port</span> <span class="o">=</span> <span class="mi">27017</span>
+<a name="rest_code_bc9cebf7573d43dd90fa947006dcbd9f-19"></a>
+<a name="rest_code_bc9cebf7573d43dd90fa947006dcbd9f-20"></a><span class="n">db</span> <span class="o">=</span> <span class="n">MongoClient</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span><span class="o">.</span><span class="n">search</span>
 </pre>
 <p>Load the tweets.</p>
-<pre class="code python"><a name="rest_code_2e959144b0d9449fbb6d29ee0857238d-1"></a><span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"created_at"</span><span class="p">,</span> <span class="s2">"tweet"</span><span class="p">]</span>
-<a name="rest_code_2e959144b0d9449fbb6d29ee0857238d-2"></a><span class="n">tweets</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
-<a name="rest_code_2e959144b0d9449fbb6d29ee0857238d-3"></a>
-<a name="rest_code_2e959144b0d9449fbb6d29ee0857238d-4"></a><span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">thevoice</span><span class="o">.</span><span class="n">find</span><span class="p">():</span>
-<a name="rest_code_2e959144b0d9449fbb6d29ee0857238d-5"></a>    <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="s2">"retweeted_status"</span> <span class="ow">in</span> <span class="n">tweet</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
-<a name="rest_code_2e959144b0d9449fbb6d29ee0857238d-6"></a>        <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">cols</span><span class="p">,[</span><span class="n">tweet</span><span class="p">[</span><span class="s2">"created_at"</span><span class="p">],</span> <span class="n">tweet</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]]))</span>
-<a name="rest_code_2e959144b0d9449fbb6d29ee0857238d-7"></a>        <span class="n">tweets</span> <span class="o">=</span> <span class="n">tweets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">ignore_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_9db58517119b4e618fbbb57971f3cd24-1"></a><span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"created_at"</span><span class="p">,</span> <span class="s2">"tweet"</span><span class="p">]</span>
+<a name="rest_code_9db58517119b4e618fbbb57971f3cd24-2"></a><span class="n">tweets</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
+<a name="rest_code_9db58517119b4e618fbbb57971f3cd24-3"></a>
+<a name="rest_code_9db58517119b4e618fbbb57971f3cd24-4"></a><span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">thevoice</span><span class="o">.</span><span class="n">find</span><span class="p">():</span>
+<a name="rest_code_9db58517119b4e618fbbb57971f3cd24-5"></a>    <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="s2">"retweeted_status"</span> <span class="ow">in</span> <span class="n">tweet</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+<a name="rest_code_9db58517119b4e618fbbb57971f3cd24-6"></a>        <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">cols</span><span class="p">,[</span><span class="n">tweet</span><span class="p">[</span><span class="s2">"created_at"</span><span class="p">],</span> <span class="n">tweet</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]]))</span>
+<a name="rest_code_9db58517119b4e618fbbb57971f3cd24-7"></a>        <span class="n">tweets</span> <span class="o">=</span> <span class="n">tweets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">ignore_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre>
 <p>Since the <code>created_at</code> field was store as a string during
 <a class="reference external" href="../the-voice-afrique-tweets-mining-part-1/">data collection</a>,
 we use the <code>strptime</code> helper to restore the values in this field to a valid Python's
 <code>datetime</code> object.</p>
-<pre class="code python"><a name="rest_code_be92ee0ec3ae4cc985a261a5ba95a77a-1"></a><span class="k">def</span> <span class="nf">strptime</span><span class="p">(</span><span class="n">ts</span><span class="p">):</span>
-<a name="rest_code_be92ee0ec3ae4cc985a261a5ba95a77a-2"></a>    <span class="n">cformat</span> <span class="o">=</span> <span class="s2">"%a %b </span><span class="si">%d</span><span class="s2"> %H:%M:%S %Y"</span>
-<a name="rest_code_be92ee0ec3ae4cc985a261a5ba95a77a-3"></a>    <span class="n">uformat</span> <span class="o">=</span> <span class="s2">"%a %b </span><span class="si">%d</span><span class="s2"> %H:%M:%S %z %Y"</span>
-<a name="rest_code_be92ee0ec3ae4cc985a261a5ba95a77a-4"></a>
-<a name="rest_code_be92ee0ec3ae4cc985a261a5ba95a77a-5"></a>    <span class="n">ctime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">uformat</span><span class="p">)</span><span class="o">.</span><span class="n">ctime</span><span class="p">()</span>
-<a name="rest_code_be92ee0ec3ae4cc985a261a5ba95a77a-6"></a>    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">ctime</span><span class="p">,</span> <span class="n">cformat</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_63caec82aee34867976a98d29be6e5cd-1"></a><span class="k">def</span> <span class="nf">strptime</span><span class="p">(</span><span class="n">ts</span><span class="p">):</span>
+<a name="rest_code_63caec82aee34867976a98d29be6e5cd-2"></a>    <span class="n">cformat</span> <span class="o">=</span> <span class="s2">"%a %b </span><span class="si">%d</span><span class="s2"> %H:%M:%S %Y"</span>
+<a name="rest_code_63caec82aee34867976a98d29be6e5cd-3"></a>    <span class="n">uformat</span> <span class="o">=</span> <span class="s2">"%a %b </span><span class="si">%d</span><span class="s2"> %H:%M:%S %z %Y"</span>
+<a name="rest_code_63caec82aee34867976a98d29be6e5cd-4"></a>
+<a name="rest_code_63caec82aee34867976a98d29be6e5cd-5"></a>    <span class="n">ctime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">uformat</span><span class="p">)</span><span class="o">.</span><span class="n">ctime</span><span class="p">()</span>
+<a name="rest_code_63caec82aee34867976a98d29be6e5cd-6"></a>    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">ctime</span><span class="p">,</span> <span class="n">cformat</span><span class="p">)</span>
 </pre>
 <p>Clean up.</p>
-<pre class="code python"><a name="rest_code_a2dbca5ff9844ba9abc2f2d3cf220e4f-1"></a><span class="n">tweets</span> <span class="o">=</span> <span class="n">tweets</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">created</span><span class="o">=</span><span class="n">tweets</span><span class="o">.</span><span class="n">created_at</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">strptime</span><span class="p">))</span>
-<a name="rest_code_a2dbca5ff9844ba9abc2f2d3cf220e4f-2"></a><span class="n">tweets</span> <span class="o">=</span> <span class="n">tweets</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">"created_at"</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_76ae1e7eeffc429c94af40056d0af40f-1"></a><span class="n">tweets</span> <span class="o">=</span> <span class="n">tweets</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">created</span><span class="o">=</span><span class="n">tweets</span><span class="o">.</span><span class="n">created_at</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">strptime</span><span class="p">))</span>
+<a name="rest_code_76ae1e7eeffc429c94af40056d0af40f-2"></a><span class="n">tweets</span> <span class="o">=</span> <span class="n">tweets</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">"created_at"</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre>
 <p>The <code>stopwords-fr.txt</code> file is downloaded <a class="reference external" href="https://github.com/stopwords-iso/stopwords-fr">here</a>.</p>
-<pre class="code python"><a name="rest_code_62a17a46f2d94d5faf400db279ea73b6-1"></a><span class="n">stop_tokens</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-<a name="rest_code_62a17a46f2d94d5faf400db279ea73b6-2"></a><span class="n">stop_tokens</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">))</span>
-<a name="rest_code_62a17a46f2d94d5faf400db279ea73b6-3"></a><span class="n">stop_tokens</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s2">"french"</span><span class="p">))</span>
-<a name="rest_code_62a17a46f2d94d5faf400db279ea73b6-4"></a><span class="n">stop_tokens</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">Emoticons</span><span class="o">.</span><span class="n">POSITIVE</span><span class="p">)</span>
-<a name="rest_code_62a17a46f2d94d5faf400db279ea73b6-5"></a><span class="n">stop_tokens</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">Emoticons</span><span class="o">.</span><span class="n">NEGATIVE</span><span class="p">)</span>
-<a name="rest_code_62a17a46f2d94d5faf400db279ea73b6-6"></a><span class="n">stop_tokens</span><span class="o">.</span><span class="n">update</span><span class="p">([</span><span class="s2">"’"</span><span class="p">,</span> <span class="s2">"…"</span><span class="p">,</span> <span class="s2">"ca"</span><span class="p">,</span> <span class="s2">"°"</span><span class="p">,</span> <span class="s2">"çà"</span><span class="p">,</span> <span class="s2">"»"</span><span class="p">,</span> <span class="s2">"«"</span><span class="p">,</span> <span class="s2">"•"</span><span class="p">,</span> <span class="s2">"the"</span><span class="p">,</span>
-<a name="rest_code_62a17a46f2d94d5faf400db279ea73b6-7"></a>                    <span class="s2">"voice"</span><span class="p">,</span> <span class="s2">"afrique"</span><span class="p">,</span> <span class="s2">"voix"</span><span class="p">,</span> <span class="s2">"–"</span><span class="p">,</span> <span class="s2">"::"</span><span class="p">,</span> <span class="s2">"“"</span><span class="p">,</span> <span class="s2">"₩"</span><span class="p">,</span> <span class="s2">"🤣"</span><span class="p">])</span>
-<a name="rest_code_62a17a46f2d94d5faf400db279ea73b6-8"></a>
-<a name="rest_code_62a17a46f2d94d5faf400db279ea73b6-9"></a><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"data/stopwords-fr.txt"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-<a name="rest_code_62a17a46f2d94d5faf400db279ea73b6-10"></a>    <span class="n">stop_tokens</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()))</span>
+<pre class="code python"><a name="rest_code_6e24bf6c69914c1d8efa955cbf750b35-1"></a><span class="n">stop_tokens</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<a name="rest_code_6e24bf6c69914c1d8efa955cbf750b35-2"></a><span class="n">stop_tokens</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">))</span>
+<a name="rest_code_6e24bf6c69914c1d8efa955cbf750b35-3"></a><span class="n">stop_tokens</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s2">"french"</span><span class="p">))</span>
+<a name="rest_code_6e24bf6c69914c1d8efa955cbf750b35-4"></a><span class="n">stop_tokens</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">Emoticons</span><span class="o">.</span><span class="n">POSITIVE</span><span class="p">)</span>
+<a name="rest_code_6e24bf6c69914c1d8efa955cbf750b35-5"></a><span class="n">stop_tokens</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">Emoticons</span><span class="o">.</span><span class="n">NEGATIVE</span><span class="p">)</span>
+<a name="rest_code_6e24bf6c69914c1d8efa955cbf750b35-6"></a><span class="n">stop_tokens</span><span class="o">.</span><span class="n">update</span><span class="p">([</span><span class="s2">"’"</span><span class="p">,</span> <span class="s2">"…"</span><span class="p">,</span> <span class="s2">"ca"</span><span class="p">,</span> <span class="s2">"°"</span><span class="p">,</span> <span class="s2">"çà"</span><span class="p">,</span> <span class="s2">"»"</span><span class="p">,</span> <span class="s2">"«"</span><span class="p">,</span> <span class="s2">"•"</span><span class="p">,</span> <span class="s2">"the"</span><span class="p">,</span>
+<a name="rest_code_6e24bf6c69914c1d8efa955cbf750b35-7"></a>                    <span class="s2">"voice"</span><span class="p">,</span> <span class="s2">"afrique"</span><span class="p">,</span> <span class="s2">"voix"</span><span class="p">,</span> <span class="s2">"–"</span><span class="p">,</span> <span class="s2">"::"</span><span class="p">,</span> <span class="s2">"“"</span><span class="p">,</span> <span class="s2">"₩"</span><span class="p">,</span> <span class="s2">"🤣"</span><span class="p">])</span>
+<a name="rest_code_6e24bf6c69914c1d8efa955cbf750b35-8"></a>
+<a name="rest_code_6e24bf6c69914c1d8efa955cbf750b35-9"></a><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"data/stopwords-fr.txt"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<a name="rest_code_6e24bf6c69914c1d8efa955cbf750b35-10"></a>    <span class="n">stop_tokens</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()))</span>
 </pre>
 <p>The <code>parse</code> function in this post is slightly different from the one used in the
 <a class="reference external" href="../the-voice-afrique-tweets-mining-part-3/">topic modeling</a>
@@ -216,193 +199,193 @@ so(tweet) = \sum_{w \in tweet} npmi(w, 😍) - \sum_{w \in tweet} npmi(w, 😂)
 </div>
 </blockquote>
 <p>See the <code>orientation</code> function.</p>
-<pre class="code python"><a name="rest_code_10195c81af5d4ee0b3dd95098683b74c-1"></a><span class="n">tokenize</span> <span class="o">=</span> <span class="n">TweetTokenizer</span><span class="p">()</span><span class="o">.</span><span class="n">tokenize</span>
-<a name="rest_code_10195c81af5d4ee0b3dd95098683b74c-2"></a>
-<a name="rest_code_10195c81af5d4ee0b3dd95098683b74c-3"></a><span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-<a name="rest_code_10195c81af5d4ee0b3dd95098683b74c-4"></a>
-<a name="rest_code_10195c81af5d4ee0b3dd95098683b74c-5"></a>    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-<a name="rest_code_10195c81af5d4ee0b3dd95098683b74c-6"></a>    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">"..."</span><span class="p">)</span>
-<a name="rest_code_10195c81af5d4ee0b3dd95098683b74c-7"></a>    <span class="n">text</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r"\w*\d+\w*"</span><span class="p">,</span> <span class="n">text</span><span class="p">))</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-<a name="rest_code_10195c81af5d4ee0b3dd95098683b74c-8"></a>    <span class="n">tokens</span> <span class="o">=</span> <span class="n">tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-<a name="rest_code_10195c81af5d4ee0b3dd95098683b74c-9"></a>
-<a name="rest_code_10195c81af5d4ee0b3dd95098683b74c-10"></a>    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
-<a name="rest_code_10195c81af5d4ee0b3dd95098683b74c-11"></a>        <span class="n">cond</span> <span class="o">=</span> <span class="p">(</span><span class="n">token</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">"#"</span><span class="p">,</span> <span class="s2">"@"</span><span class="p">,</span> <span class="s2">"http"</span><span class="p">,</span> <span class="s2">"www"</span><span class="p">))</span> <span class="ow">or</span>
-<a name="rest_code_10195c81af5d4ee0b3dd95098683b74c-12"></a>                <span class="s2">"."</span> <span class="ow">in</span> <span class="n">token</span> <span class="ow">or</span>
-<a name="rest_code_10195c81af5d4ee0b3dd95098683b74c-13"></a>                <span class="s2">"'"</span> <span class="ow">in</span> <span class="n">token</span>
-<a name="rest_code_10195c81af5d4ee0b3dd95098683b74c-14"></a>                <span class="p">)</span>
-<a name="rest_code_10195c81af5d4ee0b3dd95098683b74c-15"></a>
-<a name="rest_code_10195c81af5d4ee0b3dd95098683b74c-16"></a>        <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">cond</span><span class="p">):</span>
-<a name="rest_code_10195c81af5d4ee0b3dd95098683b74c-17"></a>            <span class="k">yield</span> <span class="n">token</span>
-<a name="rest_code_10195c81af5d4ee0b3dd95098683b74c-18"></a>
-<a name="rest_code_10195c81af5d4ee0b3dd95098683b74c-19"></a><span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-<a name="rest_code_10195c81af5d4ee0b3dd95098683b74c-20"></a>    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-<a name="rest_code_10195c81af5d4ee0b3dd95098683b74c-21"></a>    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">parse</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-<a name="rest_code_10195c81af5d4ee0b3dd95098683b74c-22"></a>        <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">token</span> <span class="ow">in</span> <span class="n">stop_tokens</span><span class="p">):</span>
-<a name="rest_code_10195c81af5d4ee0b3dd95098683b74c-23"></a>            <span class="k">yield</span> <span class="n">token</span>
+<pre class="code python"><a name="rest_code_06ba4a9c73e749c9b122b173c4dccabd-1"></a><span class="n">tokenize</span> <span class="o">=</span> <span class="n">TweetTokenizer</span><span class="p">()</span><span class="o">.</span><span class="n">tokenize</span>
+<a name="rest_code_06ba4a9c73e749c9b122b173c4dccabd-2"></a>
+<a name="rest_code_06ba4a9c73e749c9b122b173c4dccabd-3"></a><span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+<a name="rest_code_06ba4a9c73e749c9b122b173c4dccabd-4"></a>
+<a name="rest_code_06ba4a9c73e749c9b122b173c4dccabd-5"></a>    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<a name="rest_code_06ba4a9c73e749c9b122b173c4dccabd-6"></a>    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">"..."</span><span class="p">)</span>
+<a name="rest_code_06ba4a9c73e749c9b122b173c4dccabd-7"></a>    <span class="n">text</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s2">"\w*\d+\w*"</span><span class="p">,</span> <span class="n">text</span><span class="p">))</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<a name="rest_code_06ba4a9c73e749c9b122b173c4dccabd-8"></a>    <span class="n">tokens</span> <span class="o">=</span> <span class="n">tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<a name="rest_code_06ba4a9c73e749c9b122b173c4dccabd-9"></a>
+<a name="rest_code_06ba4a9c73e749c9b122b173c4dccabd-10"></a>    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
+<a name="rest_code_06ba4a9c73e749c9b122b173c4dccabd-11"></a>        <span class="n">cond</span> <span class="o">=</span> <span class="p">(</span><span class="n">token</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">"#"</span><span class="p">,</span> <span class="s2">"@"</span><span class="p">,</span> <span class="s2">"http"</span><span class="p">,</span> <span class="s2">"www"</span><span class="p">))</span> <span class="ow">or</span>
+<a name="rest_code_06ba4a9c73e749c9b122b173c4dccabd-12"></a>                <span class="s2">"."</span> <span class="ow">in</span> <span class="n">token</span> <span class="ow">or</span>
+<a name="rest_code_06ba4a9c73e749c9b122b173c4dccabd-13"></a>                <span class="s2">"'"</span> <span class="ow">in</span> <span class="n">token</span>
+<a name="rest_code_06ba4a9c73e749c9b122b173c4dccabd-14"></a>                <span class="p">)</span>
+<a name="rest_code_06ba4a9c73e749c9b122b173c4dccabd-15"></a>
+<a name="rest_code_06ba4a9c73e749c9b122b173c4dccabd-16"></a>        <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">cond</span><span class="p">):</span>
+<a name="rest_code_06ba4a9c73e749c9b122b173c4dccabd-17"></a>            <span class="k">yield</span> <span class="n">token</span>
+<a name="rest_code_06ba4a9c73e749c9b122b173c4dccabd-18"></a>
+<a name="rest_code_06ba4a9c73e749c9b122b173c4dccabd-19"></a><span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+<a name="rest_code_06ba4a9c73e749c9b122b173c4dccabd-20"></a>    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<a name="rest_code_06ba4a9c73e749c9b122b173c4dccabd-21"></a>    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">parse</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+<a name="rest_code_06ba4a9c73e749c9b122b173c4dccabd-22"></a>        <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">token</span> <span class="ow">in</span> <span class="n">stop_tokens</span><span class="p">):</span>
+<a name="rest_code_06ba4a9c73e749c9b122b173c4dccabd-23"></a>            <span class="k">yield</span> <span class="n">token</span>
 </pre>
 <p>We add <span class="math">\(1\)</span> to the numerator and <span class="math">\(2\)</span> in the denomination of the calculation
 of marginal and joint probabilities. It's a simple heuristic to avoid potential
 numerical instabilities when estimating the probability of a event as a frequency.</p>
 <p>The <code>BigramCollocationFinder</code> helps us build the words and bigram coccurences
 frequency dictionnairies that will be used later in the calculation of marginals and joints.</p>
-<pre class="code python"><a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-1"></a><span class="n">bigram</span> <span class="o">=</span> <span class="n">BigramCollocationFinder</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">preprocess</span><span class="p">,</span> <span class="n">tweets</span><span class="o">.</span><span class="n">tweet</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-2"></a>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-3"></a><span class="n">muck</span> <span class="o">=</span> <span class="s2">"😂"</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-4"></a><span class="n">happy</span> <span class="o">=</span> <span class="s2">"😍"</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-5"></a>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-6"></a><span class="n">n_words</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bigram</span><span class="o">.</span><span class="n">word_fd</span><span class="p">)</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-7"></a><span class="n">n_bigrams</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bigram</span><span class="o">.</span><span class="n">ngram_fd</span><span class="p">)</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-8"></a>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-9"></a><span class="k">def</span> <span class="nf">marginal_p</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-10"></a>    <span class="sd">"""Marginal probabilty"""</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-11"></a>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-12"></a>    <span class="n">freq</span> <span class="o">=</span> <span class="n">bigram</span><span class="o">.</span><span class="n">word_fd</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-13"></a>    <span class="k">return</span> <span class="n">freq</span> <span class="o">/</span> <span class="p">(</span><span class="n">n_words</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-14"></a>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-15"></a><span class="k">def</span> <span class="nf">joint_p</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-16"></a>    <span class="sd">"""Joint probability"""</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-17"></a>    <span class="n">freq</span> <span class="o">=</span> <span class="n">bigram</span><span class="o">.</span><span class="n">ngram_fd</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">w</span><span class="p">,</span><span class="n">z</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-18"></a>    <span class="k">return</span> <span class="n">freq</span> <span class="o">/</span> <span class="p">(</span><span class="n">n_bigrams</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-19"></a>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-20"></a><span class="k">def</span> <span class="nf">pmi</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-21"></a>    <span class="sd">"""Pointwise mutual information"""</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-22"></a>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-23"></a>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">joint_p</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">z</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">marginal_p</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="o">*</span> <span class="n">marginal_p</span><span class="p">(</span><span class="n">z</span><span class="p">)))</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-24"></a>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-25"></a><span class="k">def</span> <span class="nf">npmi</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-26"></a>    <span class="s2">"Normalized pointwise mutual information"</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-27"></a>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-28"></a>    <span class="k">return</span> <span class="n">pmi</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">z</span><span class="p">)</span> <span class="o">/</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">joint_p</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">z</span><span class="p">))</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-29"></a>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-30"></a><span class="k">def</span> <span class="nf">polarity</span><span class="p">(</span><span class="n">score</span><span class="p">):</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-31"></a>    <span class="k">if</span> <span class="n">score</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-32"></a>        <span class="k">return</span> <span class="s2">"positive"</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-33"></a>    <span class="k">elif</span> <span class="n">score</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-34"></a>        <span class="k">return</span> <span class="s2">"negative"</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-35"></a>    <span class="k">else</span><span class="p">:</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-36"></a>        <span class="k">return</span> <span class="s2">"neutral"</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-37"></a>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-38"></a><span class="k">def</span> <span class="nf">orientation</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-39"></a>    <span class="sd">"""Semantic orientation"""</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-40"></a>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-41"></a>    <span class="n">ps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">npmi</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">happy</span><span class="p">)</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">text</span><span class="p">)])</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-42"></a>    <span class="n">ns</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">npmi</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">muck</span><span class="p">)</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">text</span><span class="p">)])</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-43"></a>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-44"></a>    <span class="k">return</span> <span class="n">ps</span><span class="o">-</span><span class="n">ns</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-45"></a>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-46"></a><span class="k">def</span> <span class="nf">extract</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">names</span><span class="p">):</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-47"></a>    <span class="sd">"""This function walks trought the dataframe,</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-48"></a><span class="sd">    extract tweets related to each coach and concatenate</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-49"></a><span class="sd">    the into a common dataframe.</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-50"></a><span class="sd">    """</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-51"></a>    <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-52"></a>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-53"></a>    <span class="k">def</span> <span class="nf">word_in_text</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-54"></a>        <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-55"></a>            <span class="k">return</span> <span class="bp">True</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-56"></a>        <span class="k">else</span><span class="p">:</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-57"></a>            <span class="k">return</span> <span class="bp">False</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-58"></a>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-59"></a>    <span class="n">field</span> <span class="o">=</span> <span class="s2">"name"</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-60"></a>    <span class="n">new_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">+</span><span class="p">[</span><span class="n">field</span><span class="p">])</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-61"></a>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-62"></a>    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-63"></a>        <span class="n">ifelse</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">word_in_text</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-64"></a>        <span class="n">mention</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">tweet</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">ifelse</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-65"></a>        <span class="n">mention</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-66"></a>        <span class="n">new_df</span> <span class="o">=</span> <span class="n">new_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mention</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-67"></a>
-<a name="rest_code_0382f03cfa8642e8aefb0f3aabdc82dc-68"></a>    <span class="k">return</span> <span class="n">new_df</span>
+<pre class="code python"><a name="rest_code_b4851ad4a4574f86960991c3715f5611-1"></a><span class="n">bigram</span> <span class="o">=</span> <span class="n">BigramCollocationFinder</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">preprocess</span><span class="p">,</span> <span class="n">tweets</span><span class="o">.</span><span class="n">tweet</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-2"></a>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-3"></a><span class="n">muck</span> <span class="o">=</span> <span class="s2">"😂"</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-4"></a><span class="n">happy</span> <span class="o">=</span> <span class="s2">"😍"</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-5"></a>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-6"></a><span class="n">n_words</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bigram</span><span class="o">.</span><span class="n">word_fd</span><span class="p">)</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-7"></a><span class="n">n_bigrams</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bigram</span><span class="o">.</span><span class="n">ngram_fd</span><span class="p">)</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-8"></a>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-9"></a><span class="k">def</span> <span class="nf">marginal_p</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-10"></a>    <span class="sd">"""Marginal probabilty"""</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-11"></a>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-12"></a>    <span class="n">freq</span> <span class="o">=</span> <span class="n">bigram</span><span class="o">.</span><span class="n">word_fd</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-13"></a>    <span class="k">return</span> <span class="n">freq</span> <span class="o">/</span> <span class="p">(</span><span class="n">n_words</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-14"></a>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-15"></a><span class="k">def</span> <span class="nf">joint_p</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-16"></a>    <span class="sd">"""Joint probability"""</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-17"></a>    <span class="n">freq</span> <span class="o">=</span> <span class="n">bigram</span><span class="o">.</span><span class="n">ngram_fd</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">w</span><span class="p">,</span><span class="n">z</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-18"></a>    <span class="k">return</span> <span class="n">freq</span> <span class="o">/</span> <span class="p">(</span><span class="n">n_bigrams</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-19"></a>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-20"></a><span class="k">def</span> <span class="nf">pmi</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-21"></a>    <span class="sd">"""Pointwise mutual information"""</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-22"></a>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-23"></a>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">joint_p</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">z</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">marginal_p</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="o">*</span> <span class="n">marginal_p</span><span class="p">(</span><span class="n">z</span><span class="p">)))</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-24"></a>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-25"></a><span class="k">def</span> <span class="nf">npmi</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-26"></a>    <span class="s2">"Normalized pointwise mutual information"</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-27"></a>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-28"></a>    <span class="k">return</span> <span class="n">pmi</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">z</span><span class="p">)</span> <span class="o">/</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">joint_p</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">z</span><span class="p">))</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-29"></a>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-30"></a><span class="k">def</span> <span class="nf">polarity</span><span class="p">(</span><span class="n">score</span><span class="p">):</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-31"></a>    <span class="k">if</span> <span class="n">score</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-32"></a>        <span class="k">return</span> <span class="s2">"positive"</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-33"></a>    <span class="k">elif</span> <span class="n">score</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-34"></a>        <span class="k">return</span> <span class="s2">"negative"</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-35"></a>    <span class="k">else</span><span class="p">:</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-36"></a>        <span class="k">return</span> <span class="s2">"neutral"</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-37"></a>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-38"></a><span class="k">def</span> <span class="nf">orientation</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-39"></a>    <span class="sd">"""Semantic orientation"""</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-40"></a>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-41"></a>    <span class="n">ps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">npmi</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">happy</span><span class="p">)</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">text</span><span class="p">)])</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-42"></a>    <span class="n">ns</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">npmi</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">muck</span><span class="p">)</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">text</span><span class="p">)])</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-43"></a>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-44"></a>    <span class="k">return</span> <span class="n">ps</span><span class="o">-</span><span class="n">ns</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-45"></a>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-46"></a><span class="k">def</span> <span class="nf">extract</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">names</span><span class="p">):</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-47"></a>    <span class="sd">"""This function walks trought the dataframe,</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-48"></a><span class="sd">    extract tweets related to each coach and concatenate</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-49"></a><span class="sd">    the into a common dataframe.</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-50"></a><span class="sd">    """</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-51"></a>    <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-52"></a>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-53"></a>    <span class="k">def</span> <span class="nf">word_in_text</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-54"></a>        <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-55"></a>            <span class="k">return</span> <span class="bp">True</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-56"></a>        <span class="k">else</span><span class="p">:</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-57"></a>            <span class="k">return</span> <span class="bp">False</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-58"></a>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-59"></a>    <span class="n">field</span> <span class="o">=</span> <span class="s2">"name"</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-60"></a>    <span class="n">new_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">+</span><span class="p">[</span><span class="n">field</span><span class="p">])</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-61"></a>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-62"></a>    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-63"></a>        <span class="n">ifelse</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">word_in_text</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-64"></a>        <span class="n">mention</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">tweet</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">ifelse</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-65"></a>        <span class="n">mention</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-66"></a>        <span class="n">new_df</span> <span class="o">=</span> <span class="n">new_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mention</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-67"></a>
+<a name="rest_code_b4851ad4a4574f86960991c3715f5611-68"></a>    <span class="k">return</span> <span class="n">new_df</span>
 </pre>
 <p>Calculate the semantic orientation and polarity of tweets.</p>
-<pre class="code python"><a name="rest_code_1d237ef231644e78824963f6c0a92e6f-1"></a><span class="n">tweets</span><span class="p">[</span><span class="s2">"count"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="rest_code_1d237ef231644e78824963f6c0a92e6f-2"></a><span class="n">tweets</span> <span class="o">=</span> <span class="n">tweets</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">orientation</span><span class="o">=</span><span class="n">tweets</span><span class="o">.</span><span class="n">tweet</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">orientation</span><span class="p">))</span>
-<a name="rest_code_1d237ef231644e78824963f6c0a92e6f-3"></a><span class="n">tweets</span> <span class="o">=</span> <span class="n">tweets</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">polarity</span><span class="o">=</span><span class="n">tweets</span><span class="o">.</span><span class="n">orientation</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">polarity</span><span class="p">))</span>
+<pre class="code python"><a name="rest_code_47d58c4311fe4b9f903f9f48e0553799-1"></a><span class="n">tweets</span><span class="p">[</span><span class="s2">"count"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="rest_code_47d58c4311fe4b9f903f9f48e0553799-2"></a><span class="n">tweets</span> <span class="o">=</span> <span class="n">tweets</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">orientation</span><span class="o">=</span><span class="n">tweets</span><span class="o">.</span><span class="n">tweet</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">orientation</span><span class="p">))</span>
+<a name="rest_code_47d58c4311fe4b9f903f9f48e0553799-3"></a><span class="n">tweets</span> <span class="o">=</span> <span class="n">tweets</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">polarity</span><span class="o">=</span><span class="n">tweets</span><span class="o">.</span><span class="n">orientation</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">polarity</span><span class="p">))</span>
 </pre>
 <p>Ploting the result with Altair.</p>
-<pre class="code python"><a name="rest_code_39d3516e7ed64554a0108de62f9bb41a-1"></a><span class="n">altair</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">tweets</span><span class="p">)</span><span class="o">.</span><span class="n">mark_line</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
-<a name="rest_code_39d3516e7ed64554a0108de62f9bb41a-2"></a>    <span class="n">x</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"created"</span><span class="p">,</span> <span class="n">timeUnit</span><span class="o">=</span><span class="s2">"hoursminutes"</span><span class="p">,</span>
-<a name="rest_code_39d3516e7ed64554a0108de62f9bb41a-3"></a>               <span class="n">scale</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="n">nice</span><span class="o">=</span><span class="s2">"hour"</span><span class="p">),</span>
-<a name="rest_code_39d3516e7ed64554a0108de62f9bb41a-4"></a>               <span class="n">axis</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Time (hour)"</span><span class="p">),</span>
-<a name="rest_code_39d3516e7ed64554a0108de62f9bb41a-5"></a>              <span class="p">),</span>
-<a name="rest_code_39d3516e7ed64554a0108de62f9bb41a-6"></a>    <span class="n">y</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"count"</span><span class="p">,</span> <span class="n">aggregate</span><span class="o">=</span><span class="s2">"sum"</span><span class="p">,</span>
-<a name="rest_code_39d3516e7ed64554a0108de62f9bb41a-7"></a>               <span class="n">axis</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Number of tweets"</span><span class="p">),</span>
-<a name="rest_code_39d3516e7ed64554a0108de62f9bb41a-8"></a>              <span class="p">),</span>
-<a name="rest_code_39d3516e7ed64554a0108de62f9bb41a-9"></a>    <span class="n">color</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="s2">"polarity"</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Polarity"</span><span class="p">),</span>
-<a name="rest_code_39d3516e7ed64554a0108de62f9bb41a-10"></a>                       <span class="n">scale</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="nb">range</span><span class="o">=</span><span class="p">[</span><span class="s2">"crimson"</span><span class="p">,</span> <span class="s2">"orange"</span><span class="p">,</span> <span class="s2">"green"</span><span class="p">])),</span>
-<a name="rest_code_39d3516e7ed64554a0108de62f9bb41a-11"></a><span class="p">)</span><span class="o">.</span><span class="n">configure_cell</span><span class="p">(</span>
-<a name="rest_code_39d3516e7ed64554a0108de62f9bb41a-12"></a>    <span class="n">width</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span>
-<a name="rest_code_39d3516e7ed64554a0108de62f9bb41a-13"></a><span class="p">)</span>
+<pre class="code python"><a name="rest_code_5c37363a5a3c48d2a5d2d9b696741504-1"></a><span class="n">altair</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">tweets</span><span class="p">)</span><span class="o">.</span><span class="n">mark_line</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+<a name="rest_code_5c37363a5a3c48d2a5d2d9b696741504-2"></a>    <span class="n">x</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"created"</span><span class="p">,</span> <span class="n">timeUnit</span><span class="o">=</span><span class="s2">"hoursminutes"</span><span class="p">,</span>
+<a name="rest_code_5c37363a5a3c48d2a5d2d9b696741504-3"></a>               <span class="n">scale</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="n">nice</span><span class="o">=</span><span class="s2">"hour"</span><span class="p">),</span>
+<a name="rest_code_5c37363a5a3c48d2a5d2d9b696741504-4"></a>               <span class="n">axis</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Time (hour)"</span><span class="p">),</span>
+<a name="rest_code_5c37363a5a3c48d2a5d2d9b696741504-5"></a>              <span class="p">),</span>
+<a name="rest_code_5c37363a5a3c48d2a5d2d9b696741504-6"></a>    <span class="n">y</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"count"</span><span class="p">,</span> <span class="n">aggregate</span><span class="o">=</span><span class="s2">"sum"</span><span class="p">,</span>
+<a name="rest_code_5c37363a5a3c48d2a5d2d9b696741504-7"></a>               <span class="n">axis</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Number of tweets"</span><span class="p">),</span>
+<a name="rest_code_5c37363a5a3c48d2a5d2d9b696741504-8"></a>              <span class="p">),</span>
+<a name="rest_code_5c37363a5a3c48d2a5d2d9b696741504-9"></a>    <span class="n">color</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="s2">"polarity"</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Polarity"</span><span class="p">),</span>
+<a name="rest_code_5c37363a5a3c48d2a5d2d9b696741504-10"></a>                       <span class="n">scale</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="nb">range</span><span class="o">=</span><span class="p">[</span><span class="s2">"crimson"</span><span class="p">,</span> <span class="s2">"orange"</span><span class="p">,</span> <span class="s2">"green"</span><span class="p">])),</span>
+<a name="rest_code_5c37363a5a3c48d2a5d2d9b696741504-11"></a><span class="p">)</span><span class="o">.</span><span class="n">configure_cell</span><span class="p">(</span>
+<a name="rest_code_5c37363a5a3c48d2a5d2d9b696741504-12"></a>    <span class="n">width</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span>
+<a name="rest_code_5c37363a5a3c48d2a5d2d9b696741504-13"></a><span class="p">)</span>
 </pre>
 <img alt="polarity" class="align-center" src="../../images/polarity.png"><p>With this figure, we see that the overall sentiment is positive. The neutral being
 the less common, which the expected behaviour from the users/viewers (to or not to be)
 for this kind of event (I guess).</p>
 <p>We dig into the tweets and extract (with the <code>extract</code> function) those related
 to each coach and plot them.</p>
-<pre class="code python"><a name="rest_code_afc8b80a06354db9b21b3325d3a3bbef-1"></a><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"asalfo"</span><span class="p">,</span> <span class="s2">"charlotte"</span><span class="p">,</span> <span class="s2">"lokua"</span><span class="p">,</span> <span class="s2">"singuila"</span><span class="p">]</span>
-<a name="rest_code_afc8b80a06354db9b21b3325d3a3bbef-2"></a><span class="n">coaches</span> <span class="o">=</span> <span class="n">extract</span><span class="p">(</span><span class="n">tweets</span><span class="p">,</span> <span class="n">names</span><span class="p">)</span>
-<a name="rest_code_afc8b80a06354db9b21b3325d3a3bbef-3"></a>
-<a name="rest_code_afc8b80a06354db9b21b3325d3a3bbef-4"></a><span class="n">altair</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">coaches</span><span class="p">)</span><span class="o">.</span><span class="n">mark_line</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
-<a name="rest_code_afc8b80a06354db9b21b3325d3a3bbef-5"></a>    <span class="n">x</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"created"</span><span class="p">,</span> <span class="n">timeUnit</span><span class="o">=</span><span class="s2">"hoursminutes"</span><span class="p">,</span>
-<a name="rest_code_afc8b80a06354db9b21b3325d3a3bbef-6"></a>               <span class="n">scale</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="n">nice</span><span class="o">=</span><span class="s2">"hour"</span><span class="p">),</span>
-<a name="rest_code_afc8b80a06354db9b21b3325d3a3bbef-7"></a>               <span class="n">axis</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Time (hour)"</span><span class="p">),</span>
-<a name="rest_code_afc8b80a06354db9b21b3325d3a3bbef-8"></a>              <span class="p">),</span>
-<a name="rest_code_afc8b80a06354db9b21b3325d3a3bbef-9"></a>    <span class="n">y</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"count"</span><span class="p">,</span> <span class="n">aggregate</span><span class="o">=</span><span class="s2">"sum"</span><span class="p">,</span>
-<a name="rest_code_afc8b80a06354db9b21b3325d3a3bbef-10"></a>               <span class="n">axis</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Number of tweets"</span><span class="p">),</span>
-<a name="rest_code_afc8b80a06354db9b21b3325d3a3bbef-11"></a>              <span class="p">),</span>
-<a name="rest_code_afc8b80a06354db9b21b3325d3a3bbef-12"></a>    <span class="n">row</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span><span class="s2">"name"</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Coach"</span><span class="p">)),</span>
-<a name="rest_code_afc8b80a06354db9b21b3325d3a3bbef-13"></a>    <span class="n">color</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="s2">"polarity"</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Polarity"</span><span class="p">),</span>
-<a name="rest_code_afc8b80a06354db9b21b3325d3a3bbef-14"></a>                       <span class="n">scale</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="nb">range</span><span class="o">=</span><span class="p">[</span><span class="s2">"crimson"</span><span class="p">,</span> <span class="s2">"green"</span><span class="p">,</span> <span class="s2">"orange"</span><span class="p">])),</span>
-<a name="rest_code_afc8b80a06354db9b21b3325d3a3bbef-15"></a><span class="p">)</span><span class="o">.</span><span class="n">configure_cell</span><span class="p">(</span>
-<a name="rest_code_afc8b80a06354db9b21b3325d3a3bbef-16"></a>    <span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
-<a name="rest_code_afc8b80a06354db9b21b3325d3a3bbef-17"></a><span class="p">)</span>
+<pre class="code python"><a name="rest_code_3e7fba8cad0e4aa99fe1684584269d62-1"></a><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"asalfo"</span><span class="p">,</span> <span class="s2">"charlotte"</span><span class="p">,</span> <span class="s2">"lokua"</span><span class="p">,</span> <span class="s2">"singuila"</span><span class="p">]</span>
+<a name="rest_code_3e7fba8cad0e4aa99fe1684584269d62-2"></a><span class="n">coaches</span> <span class="o">=</span> <span class="n">extract</span><span class="p">(</span><span class="n">tweets</span><span class="p">,</span> <span class="n">names</span><span class="p">)</span>
+<a name="rest_code_3e7fba8cad0e4aa99fe1684584269d62-3"></a>
+<a name="rest_code_3e7fba8cad0e4aa99fe1684584269d62-4"></a><span class="n">altair</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">coaches</span><span class="p">)</span><span class="o">.</span><span class="n">mark_line</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+<a name="rest_code_3e7fba8cad0e4aa99fe1684584269d62-5"></a>    <span class="n">x</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"created"</span><span class="p">,</span> <span class="n">timeUnit</span><span class="o">=</span><span class="s2">"hoursminutes"</span><span class="p">,</span>
+<a name="rest_code_3e7fba8cad0e4aa99fe1684584269d62-6"></a>               <span class="n">scale</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="n">nice</span><span class="o">=</span><span class="s2">"hour"</span><span class="p">),</span>
+<a name="rest_code_3e7fba8cad0e4aa99fe1684584269d62-7"></a>               <span class="n">axis</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Time (hour)"</span><span class="p">),</span>
+<a name="rest_code_3e7fba8cad0e4aa99fe1684584269d62-8"></a>              <span class="p">),</span>
+<a name="rest_code_3e7fba8cad0e4aa99fe1684584269d62-9"></a>    <span class="n">y</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"count"</span><span class="p">,</span> <span class="n">aggregate</span><span class="o">=</span><span class="s2">"sum"</span><span class="p">,</span>
+<a name="rest_code_3e7fba8cad0e4aa99fe1684584269d62-10"></a>               <span class="n">axis</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Number of tweets"</span><span class="p">),</span>
+<a name="rest_code_3e7fba8cad0e4aa99fe1684584269d62-11"></a>              <span class="p">),</span>
+<a name="rest_code_3e7fba8cad0e4aa99fe1684584269d62-12"></a>    <span class="n">row</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span><span class="s2">"name"</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Coach"</span><span class="p">)),</span>
+<a name="rest_code_3e7fba8cad0e4aa99fe1684584269d62-13"></a>    <span class="n">color</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="s2">"polarity"</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Polarity"</span><span class="p">),</span>
+<a name="rest_code_3e7fba8cad0e4aa99fe1684584269d62-14"></a>                       <span class="n">scale</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="nb">range</span><span class="o">=</span><span class="p">[</span><span class="s2">"crimson"</span><span class="p">,</span> <span class="s2">"green"</span><span class="p">,</span> <span class="s2">"orange"</span><span class="p">])),</span>
+<a name="rest_code_3e7fba8cad0e4aa99fe1684584269d62-15"></a><span class="p">)</span><span class="o">.</span><span class="n">configure_cell</span><span class="p">(</span>
+<a name="rest_code_3e7fba8cad0e4aa99fe1684584269d62-16"></a>    <span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+<a name="rest_code_3e7fba8cad0e4aa99fe1684584269d62-17"></a><span class="p">)</span>
 </pre>
 <img alt="polarity coaches" class="align-center" src="../../images/polarity_coaches.png"><p>We do the same with some candidates.</p>
-<pre class="code python"><a name="rest_code_62811c8319b8401c92dcc602e4d8d1f4-1"></a><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"nadia"</span><span class="p">,</span> <span class="s2">"eds"</span><span class="p">,</span> <span class="s2">"verushka"</span><span class="p">,</span> <span class="s2">"brake"</span><span class="p">]</span>
-<a name="rest_code_62811c8319b8401c92dcc602e4d8d1f4-2"></a><span class="n">candidates</span> <span class="o">=</span> <span class="n">extract</span><span class="p">(</span><span class="n">tweets</span><span class="p">,</span> <span class="n">names</span><span class="p">)</span>
-<a name="rest_code_62811c8319b8401c92dcc602e4d8d1f4-3"></a>
-<a name="rest_code_62811c8319b8401c92dcc602e4d8d1f4-4"></a><span class="n">altair</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">candidates</span><span class="p">)</span><span class="o">.</span><span class="n">mark_line</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
-<a name="rest_code_62811c8319b8401c92dcc602e4d8d1f4-5"></a>    <span class="n">x</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"created"</span><span class="p">,</span> <span class="n">timeUnit</span><span class="o">=</span><span class="s2">"hoursminutes"</span><span class="p">,</span>
-<a name="rest_code_62811c8319b8401c92dcc602e4d8d1f4-6"></a>               <span class="n">scale</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="n">nice</span><span class="o">=</span><span class="s2">"hour"</span><span class="p">),</span>
-<a name="rest_code_62811c8319b8401c92dcc602e4d8d1f4-7"></a>               <span class="n">axis</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Time (hour)"</span><span class="p">),</span>
-<a name="rest_code_62811c8319b8401c92dcc602e4d8d1f4-8"></a>              <span class="p">),</span>
-<a name="rest_code_62811c8319b8401c92dcc602e4d8d1f4-9"></a>    <span class="n">y</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"count"</span><span class="p">,</span> <span class="n">aggregate</span><span class="o">=</span><span class="s2">"sum"</span><span class="p">,</span>
-<a name="rest_code_62811c8319b8401c92dcc602e4d8d1f4-10"></a>               <span class="n">axis</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Number of tweets"</span><span class="p">),</span>
-<a name="rest_code_62811c8319b8401c92dcc602e4d8d1f4-11"></a>               <span class="p">),</span>
-<a name="rest_code_62811c8319b8401c92dcc602e4d8d1f4-12"></a>    <span class="n">row</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span><span class="s2">"name"</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Candidate"</span><span class="p">)),</span>
-<a name="rest_code_62811c8319b8401c92dcc602e4d8d1f4-13"></a>    <span class="n">color</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="s2">"polarity"</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Polarity"</span><span class="p">),</span>
-<a name="rest_code_62811c8319b8401c92dcc602e4d8d1f4-14"></a>                       <span class="n">scale</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="nb">range</span><span class="o">=</span><span class="p">[</span><span class="s2">"crimson"</span><span class="p">,</span> <span class="s2">"green"</span><span class="p">,</span> <span class="s2">"orange"</span><span class="p">])),</span>
-<a name="rest_code_62811c8319b8401c92dcc602e4d8d1f4-15"></a><span class="p">)</span><span class="o">.</span><span class="n">configure_cell</span><span class="p">(</span>
-<a name="rest_code_62811c8319b8401c92dcc602e4d8d1f4-16"></a>    <span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
-<a name="rest_code_62811c8319b8401c92dcc602e4d8d1f4-17"></a><span class="p">)</span>
+<pre class="code python"><a name="rest_code_21b6aef3321a42c384507996218733cf-1"></a><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"nadia"</span><span class="p">,</span> <span class="s2">"eds"</span><span class="p">,</span> <span class="s2">"verushka"</span><span class="p">,</span> <span class="s2">"brake"</span><span class="p">]</span>
+<a name="rest_code_21b6aef3321a42c384507996218733cf-2"></a><span class="n">candidates</span> <span class="o">=</span> <span class="n">extract</span><span class="p">(</span><span class="n">tweets</span><span class="p">,</span> <span class="n">names</span><span class="p">)</span>
+<a name="rest_code_21b6aef3321a42c384507996218733cf-3"></a>
+<a name="rest_code_21b6aef3321a42c384507996218733cf-4"></a><span class="n">altair</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">candidates</span><span class="p">)</span><span class="o">.</span><span class="n">mark_line</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+<a name="rest_code_21b6aef3321a42c384507996218733cf-5"></a>    <span class="n">x</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"created"</span><span class="p">,</span> <span class="n">timeUnit</span><span class="o">=</span><span class="s2">"hoursminutes"</span><span class="p">,</span>
+<a name="rest_code_21b6aef3321a42c384507996218733cf-6"></a>               <span class="n">scale</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="n">nice</span><span class="o">=</span><span class="s2">"hour"</span><span class="p">),</span>
+<a name="rest_code_21b6aef3321a42c384507996218733cf-7"></a>               <span class="n">axis</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Time (hour)"</span><span class="p">),</span>
+<a name="rest_code_21b6aef3321a42c384507996218733cf-8"></a>              <span class="p">),</span>
+<a name="rest_code_21b6aef3321a42c384507996218733cf-9"></a>    <span class="n">y</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"count"</span><span class="p">,</span> <span class="n">aggregate</span><span class="o">=</span><span class="s2">"sum"</span><span class="p">,</span>
+<a name="rest_code_21b6aef3321a42c384507996218733cf-10"></a>               <span class="n">axis</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Number of tweets"</span><span class="p">),</span>
+<a name="rest_code_21b6aef3321a42c384507996218733cf-11"></a>               <span class="p">),</span>
+<a name="rest_code_21b6aef3321a42c384507996218733cf-12"></a>    <span class="n">row</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span><span class="s2">"name"</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Candidate"</span><span class="p">)),</span>
+<a name="rest_code_21b6aef3321a42c384507996218733cf-13"></a>    <span class="n">color</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="s2">"polarity"</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Polarity"</span><span class="p">),</span>
+<a name="rest_code_21b6aef3321a42c384507996218733cf-14"></a>                       <span class="n">scale</span><span class="o">=</span><span class="n">altair</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="nb">range</span><span class="o">=</span><span class="p">[</span><span class="s2">"crimson"</span><span class="p">,</span> <span class="s2">"green"</span><span class="p">,</span> <span class="s2">"orange"</span><span class="p">])),</span>
+<a name="rest_code_21b6aef3321a42c384507996218733cf-15"></a><span class="p">)</span><span class="o">.</span><span class="n">configure_cell</span><span class="p">(</span>
+<a name="rest_code_21b6aef3321a42c384507996218733cf-16"></a>    <span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+<a name="rest_code_21b6aef3321a42c384507996218733cf-17"></a><span class="p">)</span>
 </pre>
 <img alt="polarity candidates" class="align-center" src="../../images/polarity_candidates.png"><p>With the <code>show_tweets</code> function below, we print <span class="math">\(n\)</span> randomly choosen
 tweets associated with <em>negative</em> or <em>positive</em> sentiment for a paticular coach.
 This viusal inspection will help us see if our method did a god job by classify
 all the tweets proprely or a least, most of them.</p>
-<pre class="code python"><a name="rest_code_59475790f1e94789b066f2b94a7f63e0-1"></a><span class="k">def</span> <span class="nf">show_tweets</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"negative"</span><span class="p">):</span>
-<a name="rest_code_59475790f1e94789b066f2b94a7f63e0-2"></a>
-<a name="rest_code_59475790f1e94789b066f2b94a7f63e0-3"></a>    <span class="k">def</span> <span class="nf">print_header</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-<a name="rest_code_59475790f1e94789b066f2b94a7f63e0-4"></a>
-<a name="rest_code_59475790f1e94789b066f2b94a7f63e0-5"></a>        <span class="n">title</span> <span class="o">=</span> <span class="s2">"{} randomly choosen tweets marked with '{}' sentiment for {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-<a name="rest_code_59475790f1e94789b066f2b94a7f63e0-6"></a>        <span class="k">print</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
-<a name="rest_code_59475790f1e94789b066f2b94a7f63e0-7"></a>        <span class="k">print</span><span class="p">(</span><span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">"-"</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="p">))</span>
-<a name="rest_code_59475790f1e94789b066f2b94a7f63e0-8"></a>        <span class="k">print</span><span class="p">()</span>
-<a name="rest_code_59475790f1e94789b066f2b94a7f63e0-9"></a>
-<a name="rest_code_59475790f1e94789b066f2b94a7f63e0-10"></a>    <span class="n">select</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">name</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">polarity</span> <span class="o">==</span> <span class="n">kind</span><span class="p">)]</span>
-<a name="rest_code_59475790f1e94789b066f2b94a7f63e0-11"></a>
-<a name="rest_code_59475790f1e94789b066f2b94a7f63e0-12"></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">select</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-<a name="rest_code_59475790f1e94789b066f2b94a7f63e0-13"></a>        <span class="n">size</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">select</span><span class="p">))</span>
-<a name="rest_code_59475790f1e94789b066f2b94a7f63e0-14"></a>        <span class="n">ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">select</span><span class="p">))</span>
-<a name="rest_code_59475790f1e94789b066f2b94a7f63e0-15"></a>        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<a name="rest_code_59475790f1e94789b066f2b94a7f63e0-16"></a>        <span class="n">print_header</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
-<a name="rest_code_59475790f1e94789b066f2b94a7f63e0-17"></a>        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">tweet</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">select</span><span class="o">.</span><span class="n">tweet</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">idx</span><span class="p">]):</span>
-<a name="rest_code_59475790f1e94789b066f2b94a7f63e0-18"></a>            <span class="k">print</span><span class="p">(</span><span class="s2">"{} - {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">tweet</span><span class="p">))</span>
-<a name="rest_code_59475790f1e94789b066f2b94a7f63e0-19"></a>    <span class="k">else</span><span class="p">:</span>
-<a name="rest_code_59475790f1e94789b066f2b94a7f63e0-20"></a>        <span class="k">print</span><span class="p">(</span><span class="s2">"Nothing found!"</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_8d97db396a204ea791edd32d48cc6500-1"></a><span class="k">def</span> <span class="nf">show_tweets</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"negative"</span><span class="p">):</span>
+<a name="rest_code_8d97db396a204ea791edd32d48cc6500-2"></a>
+<a name="rest_code_8d97db396a204ea791edd32d48cc6500-3"></a>    <span class="k">def</span> <span class="nf">print_header</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<a name="rest_code_8d97db396a204ea791edd32d48cc6500-4"></a>
+<a name="rest_code_8d97db396a204ea791edd32d48cc6500-5"></a>        <span class="n">title</span> <span class="o">=</span> <span class="s2">"{} randomly choosen tweets marked with '{}' sentiment for {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+<a name="rest_code_8d97db396a204ea791edd32d48cc6500-6"></a>        <span class="k">print</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+<a name="rest_code_8d97db396a204ea791edd32d48cc6500-7"></a>        <span class="k">print</span><span class="p">(</span><span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">"-"</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="p">))</span>
+<a name="rest_code_8d97db396a204ea791edd32d48cc6500-8"></a>        <span class="k">print</span><span class="p">()</span>
+<a name="rest_code_8d97db396a204ea791edd32d48cc6500-9"></a>
+<a name="rest_code_8d97db396a204ea791edd32d48cc6500-10"></a>    <span class="n">select</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">name</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">polarity</span> <span class="o">==</span> <span class="n">kind</span><span class="p">)]</span>
+<a name="rest_code_8d97db396a204ea791edd32d48cc6500-11"></a>
+<a name="rest_code_8d97db396a204ea791edd32d48cc6500-12"></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">select</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+<a name="rest_code_8d97db396a204ea791edd32d48cc6500-13"></a>        <span class="n">size</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">select</span><span class="p">))</span>
+<a name="rest_code_8d97db396a204ea791edd32d48cc6500-14"></a>        <span class="n">ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">select</span><span class="p">))</span>
+<a name="rest_code_8d97db396a204ea791edd32d48cc6500-15"></a>        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<a name="rest_code_8d97db396a204ea791edd32d48cc6500-16"></a>        <span class="n">print_header</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+<a name="rest_code_8d97db396a204ea791edd32d48cc6500-17"></a>        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">tweet</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">select</span><span class="o">.</span><span class="n">tweet</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">idx</span><span class="p">]):</span>
+<a name="rest_code_8d97db396a204ea791edd32d48cc6500-18"></a>            <span class="k">print</span><span class="p">(</span><span class="s2">"{} - {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">tweet</span><span class="p">))</span>
+<a name="rest_code_8d97db396a204ea791edd32d48cc6500-19"></a>    <span class="k">else</span><span class="p">:</span>
+<a name="rest_code_8d97db396a204ea791edd32d48cc6500-20"></a>        <span class="k">print</span><span class="p">(</span><span class="s2">"Nothing found!"</span><span class="p">)</span>
 </pre>
 <div class="section" id="negative-sentiment">
-<h4>Negative sentiment</h4>
+<h3>Negative sentiment</h3>
 <p>We print tweets marked with 'negative' sentiment for:</p>
 <ul class="simple">
 <li>Asalfo</li>
@@ -410,7 +393,7 @@ all the tweets proprely or a least, most of them.</p>
 <li>Lokua</li>
 <li>Singuila</li>
 </ul>
-<pre class="code python"><a name="rest_code_6058b40cb8194236961cd30fa460c155-1"></a><span class="n">show_tweets</span><span class="p">(</span><span class="s2">"Asalfo"</span><span class="p">,</span> <span class="n">coaches</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_9c11163977584ba69f5ec2681918a97d-1"></a><span class="n">show_tweets</span><span class="p">(</span><span class="s2">"Asalfo"</span><span class="p">,</span> <span class="n">coaches</span><span class="p">)</span>
 </pre>
 <p>5 randomly choosen tweets marked with 'negative' sentiment for Asalfo
 -------------------------------------------------------------------------------</p>
@@ -421,7 +404,7 @@ all the tweets proprely or a least, most of them.</p>
 <li>Asalfo quand il prend la parole avec sa voix la 😂😂😂😂😂 #TheVoiceAfrique</li>
 <li>"Tu es parfaite à  100%" 😕😕😕😕😂😂😂😂😂 #TheVoiceAfrique eseh Asalfo</li>
 </ol>
-<pre class="code python"><a name="rest_code_7460de63d72c43aba5265818c2a69dbd-1"></a><span class="n">show_tweets</span><span class="p">(</span><span class="s2">"Charlotte"</span><span class="p">,</span> <span class="n">coaches</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_b9de7b6821f7455b834943899e2ec157-1"></a><span class="n">show_tweets</span><span class="p">(</span><span class="s2">"Charlotte"</span><span class="p">,</span> <span class="n">coaches</span><span class="p">)</span>
 </pre>
 <p>5 randomly choosen tweets marked with 'negative' sentiment for Charlotte
 -------------------------------------------------------------------------------</p>
@@ -432,7 +415,7 @@ all the tweets proprely or a least, most of them.</p>
 <li>"Si tu te retournes après Charlotte  tu vas gagner quoi..??" Ouaarr Asalfo😂😂😂 #TheVoiceAfriqueFrancophone</li>
 <li>Aie c booo, Coucou de Charlotte. Bravo mami... Juska elle oublie son age 😂 #TheVoiceAfriqueFrancophone</li>
 </ol>
-<pre class="code python"><a name="rest_code_6ab971a761714359aa14f56d73511e85-1"></a><span class="n">show_tweets</span><span class="p">(</span><span class="s2">"Lokua"</span><span class="p">,</span> <span class="n">coaches</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_33df256582264d03b99d1ab87bd0f311-1"></a><span class="n">show_tweets</span><span class="p">(</span><span class="s2">"Lokua"</span><span class="p">,</span> <span class="n">coaches</span><span class="p">)</span>
 </pre>
 <p>2 randomly choosen tweets marked with 'negative' sentiment for Lokua
 -------------------------------------------------------------------------------</p>
@@ -440,7 +423,7 @@ all the tweets proprely or a least, most of them.</p>
 <li>POUAHHHH le vent de Lokua 😭😂😂#TheVoiceAfrique</li>
 <li>Pourquoi il n'y a que Lokua qui ne s'agite pas trop .😂😂 #TheVoiceAfrique</li>
 </ol>
-<pre class="code python"><a name="rest_code_137875feeaa54c0ba4c0618077d3100a-1"></a><span class="n">show_tweets</span><span class="p">(</span><span class="s2">"Singuila"</span><span class="p">,</span> <span class="n">coaches</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_2b7ca349097f4a07a9fe72ac0e6271b5-1"></a><span class="n">show_tweets</span><span class="p">(</span><span class="s2">"Singuila"</span><span class="p">,</span> <span class="n">coaches</span><span class="p">)</span>
 </pre>
 <p>5 randomly choosen tweets marked with 'negative' sentiment for Singuila
 -------------------------------------------------------------------------------</p>
@@ -453,7 +436,7 @@ all the tweets proprely or a least, most of them.</p>
 </ol>
 </div>
 <div class="section" id="positive-sentiment">
-<h4>Positive sentiment</h4>
+<h3>Positive sentiment</h3>
 <p>We print tweets marked with 'positive' sentiment for:</p>
 <ul class="simple">
 <li>Asalfo</li>
@@ -461,7 +444,7 @@ all the tweets proprely or a least, most of them.</p>
 <li>Lokua</li>
 <li>Singuila</li>
 </ul>
-<pre class="code python"><a name="rest_code_8c557a27f2b34d639f534af59454e01b-1"></a><span class="n">show_tweets</span><span class="p">(</span><span class="s2">"Asalfo"</span><span class="p">,</span> <span class="n">coaches</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"positive"</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_0e9d577166714cbc8dd197da5ad11804-1"></a><span class="n">show_tweets</span><span class="p">(</span><span class="s2">"Asalfo"</span><span class="p">,</span> <span class="n">coaches</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"positive"</span><span class="p">)</span>
 </pre>
 <p>5 randomly choosen tweets marked with 'positive' sentiment for Asalfo
 -------------------------------------------------------------------------------</p>
@@ -472,7 +455,7 @@ all the tweets proprely or a least, most of them.</p>
 <li>Asalfo je sait pas ce qu'il fait la  #TheVoiceAfrique</li>
 <li>Ptdrrrrrr Asalfo a sauvé la fille la sinon le village allait être déçu #TheVoiceAfrique</li>
 </ol>
-<pre class="code python"><a name="rest_code_b5adcc14ae2848899f7908f5ddb72aaa-1"></a><span class="n">show_tweets</span><span class="p">(</span><span class="s2">"Charlotte"</span><span class="p">,</span> <span class="n">coaches</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"positive"</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_13821ba5652f467199eb9b3bf7966d5e-1"></a><span class="n">show_tweets</span><span class="p">(</span><span class="s2">"Charlotte"</span><span class="p">,</span> <span class="n">coaches</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"positive"</span><span class="p">)</span>
 </pre>
 <p>5 randomly choosen tweets marked with 'positive' sentiment for Charlotte
 -------------------------------------------------------------------------------</p>
@@ -483,7 +466,7 @@ all the tweets proprely or a least, most of them.</p>
 <li>De l'émotion pure sur un coucou de Charlotte. Magnifique! #TheVoiceAfrique</li>
 <li>Charlotte des qu'on te choisit tu redeviens CAMER #TheVoiceAfrique</li>
 </ol>
-<pre class="code python"><a name="rest_code_a9456bccebd345479bd008d06e3f3856-1"></a><span class="n">show_tweets</span><span class="p">(</span><span class="s2">"Lokua"</span><span class="p">,</span> <span class="n">coaches</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"positive"</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_501492656a6a47c99f2c8830f3750604-1"></a><span class="n">show_tweets</span><span class="p">(</span><span class="s2">"Lokua"</span><span class="p">,</span> <span class="n">coaches</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"positive"</span><span class="p">)</span>
 </pre>
 <p>5 randomly choosen tweets marked with 'positive' sentiment for Lokua
 -------------------------------------------------------------------------------</p>
@@ -495,7 +478,7 @@ all the tweets proprely or a least, most of them.</p>
 <li>Non mais Brake respect l'espace personnel quand même laisse Lokua tranquille!!! #TheVoiceAfrique <a class="reference external" href="https://t.co/ycPvRukcc5">https://t.co/ycPvRukcc5</a>
 </li>
 </ol>
-<pre class="code python"><a name="rest_code_83cb32264e824afd92adc149d9e6cff3-1"></a><span class="n">show_tweets</span><span class="p">(</span><span class="s2">"Singuila"</span><span class="p">,</span> <span class="n">coaches</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"positive"</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_a9ba47dda02345eca4c625a8c1ea356a-1"></a><span class="n">show_tweets</span><span class="p">(</span><span class="s2">"Singuila"</span><span class="p">,</span> <span class="n">coaches</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"positive"</span><span class="p">)</span>
 </pre>
 <p>5 randomly choosen tweets marked with 'positive' sentiment for Singuila
 -------------------------------------------------------------------------------</p>
@@ -510,12 +493,11 @@ all the tweets proprely or a least, most of them.</p>
 </div>
 </div>
 <div class="section" id="related-posts">
-<h3>Related posts</h3>
+<h2>Related posts</h2>
 <ul class="simple">
 <li><a class="reference external" href="https://marcobonzanini.com/2015/05/17/mining-twitter-data-with-python-part-6-sentiment-analysis-basics/">Mining Twitter Data with Python (Part 6 – Sentiment Analysis Basics)</a></li>
 <li><a class="reference external" href="http://analyzecore.com/2014/04/28/twitter-sentiment-analysis/">Twitter sentiment analysis with R</a></li>
 </ul>
-</div>
 </div>
 <div class="section" id="conclusion">
 <h2>Conclusion</h2>
@@ -535,21 +517,10 @@ you can <a class="reference external" href="../the-voice-afrique-tweets-mining-p
 <p>Thanks for reading, comments are welcome.</p>
 </div>
 </div>
-    </div>
-    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
-<li><a class="tag p-category" href="../../categories/sentiment-analysis/" rel="tag">sentiment analysis</a></li>
-            <li><a class="tag p-category" href="../../categories/text-mining/" rel="tag">text mining</a></li>
-            <li><a class="tag p-category" href="../../categories/text-processing/" rel="tag">text processing</a></li>
-        </ul>
-<ul class="pager hidden-print">
-<li class="previous">
-                <a href="../the-voice-afrique-tweets-mining-part-3/" rel="prev" title="The Voice Afrique Tweets Mining Part 3"><i class="fa fa-arrow-left"></i>  Previous post</a>
-            </li>
-            <li class="next">
-                <a href="../mesa-a-library-for-agent-based-modeling-in-python/" rel="next" title="Mesa: A Library for Agent-Based Modeling in Python">Next post  <i class="fa fa-arrow-right"></i></a>
-            </li>
-        </ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
-                        <div id="disqus_thread"></div>
+    </section><footer class="post-footer"><section class="comments hidden-print"><h2>Comments</h2>
+        
+        
+        <div id="disqus_thread"></div>
         <script>
         var disqus_shortname ="dadaromeo",
             disqus_url="https://dadaromeo.github.io/posts/the-voice-afrique-tweets-mining-part-4/",
@@ -568,29 +539,9 @@ you can <a class="reference external" href="../the-voice-afrique-tweets-mining-p
     <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
-        </section><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script><script type="text/x-mathjax-config">
-            MathJax.Hub.Config({tex2jax: {inlineMath: [['$latex ','$'], ['\\(','\\)']]}});
-            </script></article><script>var disqus_shortname="dadaromeo";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
-</div>
+        </section></footer></article><script>var disqus_shortname="dadaromeo";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script></main><footer class="site-footer clearfix"><section class="poweredby">Contents © 2017         <a href="mailto:dada.romy@gmail.com">Dada Romeo</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </section></footer>
 </div>
 
-
-<!-- BODY FOOTER -->
-<div class="container">
-    <footer id="body_footer">
-
-        Contents © 2017         <a href="mailto:dada.romy@gmail.com">Dada Romeo</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
-        
-
-
-    </footer>
-</div>
-
-
-<!-- SCRIPTS -->
-            <script src="../../assets/js/all-nocdn.js"></script><script>
-    moment.locale("en");
-    fancydates(1, "lll");
-</script>
+    <script type="text/javascript" src="../../assets/js/jquery.js"></script><script type="text/javascript" src="../../assets/js/jquery.fitvids.js"></script><script type="text/javascript" src="../../assets/js/index.js"></script>
 </body>
 </html>
