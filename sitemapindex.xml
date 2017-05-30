@@ -7,94 +7,90 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/agent-based-modeling.xml</loc>
-  <lastmod>2017-05-29T07:14:00Z</lastmod>
+  <lastmod>2017-05-30T05:42:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/data-collection.xml</loc>
-  <lastmod>2017-05-29T08:45:00Z</lastmod>
+  <lastmod>2017-05-30T05:42:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/data-mining.xml</loc>
-  <lastmod>2017-05-29T08:45:00Z</lastmod>
+  <lastmod>2017-05-30T05:42:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/edward.xml</loc>
-  <lastmod>2017-05-29T07:14:00Z</lastmod>
+  <lastmod>2017-05-30T05:42:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/gensim.xml</loc>
-  <lastmod>2017-05-29T08:45:00Z</lastmod>
+  <lastmod>2017-05-30T05:42:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/graph-tool.xml</loc>
-  <lastmod>2017-05-29T08:45:00Z</lastmod>
+  <lastmod>2017-05-30T05:42:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/mathjax.xml</loc>
-  <lastmod>2017-05-29T07:14:00Z</lastmod>
+  <lastmod>2017-05-30T05:42:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/mesa.xml</loc>
-  <lastmod>2017-05-29T07:14:00Z</lastmod>
+  <lastmod>2017-05-30T05:42:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/probabilistic-modeling.xml</loc>
-  <lastmod>2017-05-29T07:14:00Z</lastmod>
+  <lastmod>2017-05-30T05:42:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/recommender-system.xml</loc>
-  <lastmod>2017-05-29T07:14:00Z</lastmod>
+  <lastmod>2017-05-30T05:42:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/scrapy.xml</loc>
-  <lastmod>2017-05-29T07:14:00Z</lastmod>
+  <lastmod>2017-05-30T05:42:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/sentiment-analysis.xml</loc>
-  <lastmod>2017-05-29T07:14:00Z</lastmod>
+  <lastmod>2017-05-30T05:42:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/social-network-analysis.xml</loc>
-  <lastmod>2017-05-29T08:45:00Z</lastmod>
+  <lastmod>2017-05-30T05:42:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/spacy.xml</loc>
-  <lastmod>2017-05-29T07:14:00Z</lastmod>
+  <lastmod>2017-05-30T05:42:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/text-analytics.xml</loc>
-  <lastmod>2017-05-29T07:14:00Z</lastmod>
+  <lastmod>2017-05-30T05:42:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/text-mining.xml</loc>
-  <lastmod>2017-05-29T08:45:00Z</lastmod>
+  <lastmod>2017-05-30T05:42:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/text-processing.xml</loc>
-  <lastmod>2017-05-29T08:45:00Z</lastmod>
+  <lastmod>2017-05-30T05:42:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/topic-modeling.xml</loc>
-  <lastmod>2017-05-29T08:45:00Z</lastmod>
+  <lastmod>2017-05-30T05:42:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/tweepy.xml</loc>
-  <lastmod>2017-05-29T08:45:00Z</lastmod>
+  <lastmod>2017-05-30T05:42:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/categories/web-scraping.xml</loc>
-  <lastmod>2017-05-29T07:14:00Z</lastmod>
- </sitemap>
- <sitemap>
-  <loc>https://dadaromeo.github.io/galleries/rss.xml</loc>
-  <lastmod>2017-05-29T08:45:00Z</lastmod>
+  <lastmod>2017-05-30T05:42:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/rss.xml</loc>
-  <lastmod>2017-05-29T08:45:00Z</lastmod>
+  <lastmod>2017-05-30T05:42:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dadaromeo.github.io/sitemap.xml</loc>
-  <lastmod>2017-05-29T08:45:00Z</lastmod>
+  <lastmod>2017-05-30T05:42:00Z</lastmod>
  </sitemap>
 </sitemapindex>

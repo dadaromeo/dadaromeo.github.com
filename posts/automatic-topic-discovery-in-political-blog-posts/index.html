@@ -100,57 +100,57 @@ Hopefully, there is <a class="reference external" href="https://scrapy.org">scra
 one of the most used sraping framework out there. One you need to do is to tell <code>scrapy</code> how to
 process the received pages, point it to a starting url and it will do the "dirty" work for you.</p>
 <p>The installation of <code>scrapy</code> is really simple.</p>
-<pre class="code bash"><a name="rest_code_d1bba7b5a2ba49ecb661b9a9e13ce4e5-1"></a>$ pip install scrapy
+<pre class="code bash"><a name="rest_code_b89c189ca3ea407481e9034f0c4624ef-1"></a>$ pip install scrapy
 </pre>
 <p>Or if you use the <code>conda</code> environment which I recommend.</p>
-<pre class="code bash"><a name="rest_code_8413ab617aed4d66a8067aaf617ce025-1"></a>$ conda install -c conda-forge scrapy
+<pre class="code bash"><a name="rest_code_b5078b4f63ad40babbb11bbadc933f22-1"></a>$ conda install -c conda-forge scrapy
 </pre>
 <p>Once installed, you create a new project, move to the project folder and generate
 your spider.</p>
-<pre class="code bash"><a name="rest_code_d25fb92d0e044534adebc6654e2faaf3-1"></a>$ scrapy startproject jdc
-<a name="rest_code_d25fb92d0e044534adebc6654e2faaf3-2"></a>$ <span class="nb">cd</span> jdc/
-<a name="rest_code_d25fb92d0e044534adebc6654e2faaf3-3"></a>$ scrapy genspider polblog
+<pre class="code bash"><a name="rest_code_fca43f245c814de4823211b68352d004-1"></a>$ scrapy startproject jdc
+<a name="rest_code_fca43f245c814de4823211b68352d004-2"></a>$ <span class="nb">cd</span> jdc/
+<a name="rest_code_fca43f245c814de4823211b68352d004-3"></a>$ scrapy genspider polblog
 </pre>
 <p>Inside the <code>spiders</code> folder, will be a script named <code>polblog.py</code> that
 contains something like this.</p>
-<pre class="code python"><a name="rest_code_0f2a21f9e0824db495700912e42322bb-1"></a><span class="kn">import</span> <span class="nn">scrapy</span>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-2"></a>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-3"></a><span class="k">class</span> <span class="nc">PolblogSpider</span><span class="p">(</span><span class="n">scrapy</span><span class="o">.</span><span class="n">Spider</span><span class="p">):</span>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-4"></a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">"polblog"</span>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-5"></a>    <span class="n">start_urls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'http://journalducameroun.com/en/category/politics/'</span><span class="p">]</span>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-6"></a>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-7"></a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-8"></a>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-9"></a>        <span class="k">for</span> <span class="n">href</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">"//ul[@class='list-post list-full ']//article/a/@href"</span><span class="p">)</span><span class="o">.</span><span class="n">extract</span><span class="p">():</span>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-10"></a>            <span class="n">url</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">urljoin</span><span class="p">(</span><span class="n">href</span><span class="p">)</span>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-11"></a>            <span class="k">yield</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse_post</span><span class="p">)</span>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-12"></a>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-13"></a>        <span class="n">next_page</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">"//a[@rel='next']/@href"</span><span class="p">)</span><span class="o">.</span><span class="n">extract_first</span><span class="p">()</span>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-14"></a>        <span class="k">if</span> <span class="n">next_page</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-15"></a>            <span class="n">url</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">urljoin</span><span class="p">(</span><span class="n">next_page</span><span class="p">)</span>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-16"></a>            <span class="k">yield</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">)</span>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-17"></a>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-18"></a>    <span class="k">def</span> <span class="nf">parse_post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-19"></a>        <span class="n">post</span> <span class="o">=</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Item</span><span class="p">()</span>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-20"></a>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-21"></a>        <span class="n">text</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">"//article[@class='post-full']//div[@class='post-content']//p/text()"</span><span class="p">)</span><span class="o">.</span><span class="n">extract</span><span class="p">())</span>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-22"></a>        <span class="n">info</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">"//article[@class='post-full']//p/text()"</span><span class="p">)</span><span class="o">.</span><span class="n">extract_first</span><span class="p">()</span>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-23"></a>        <span class="n">h</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">"\d+h\d+"</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"h"</span><span class="p">,</span> <span class="s2">":"</span><span class="p">)</span>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-24"></a>        <span class="n">d</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">"\d+.\d+.\d+"</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-25"></a>        <span class="n">date</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="s2">"-"</span> <span class="o">+</span> <span class="n">m</span> <span class="o">+</span> <span class="s2">"-"</span> <span class="o">+</span> <span class="n">d</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="n">h</span>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-26"></a>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-27"></a>        <span class="n">post</span><span class="p">[</span><span class="s2">"url"</span><span class="p">]</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">url</span>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-28"></a>        <span class="n">post</span><span class="p">[</span><span class="s2">"title"</span><span class="p">]</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">"//article[@class='post-full']/h1/text()"</span><span class="p">)</span><span class="o">.</span><span class="n">extract_first</span><span class="p">()</span>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-29"></a>        <span class="n">post</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">,</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" "</span><span class="p">)))</span>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-30"></a>        <span class="n">post</span><span class="p">[</span><span class="s2">"author"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">"\w+"</span><span class="p">,</span> <span class="n">info</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"by"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]))</span>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-31"></a>        <span class="n">post</span><span class="p">[</span><span class="s2">"published"</span><span class="p">]</span> <span class="o">=</span> <span class="n">date</span>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-32"></a>
-<a name="rest_code_0f2a21f9e0824db495700912e42322bb-33"></a>        <span class="k">yield</span> <span class="n">post</span>
+<pre class="code python"><a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-1"></a><span class="kn">import</span> <span class="nn">scrapy</span>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-2"></a>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-3"></a><span class="k">class</span> <span class="nc">PolblogSpider</span><span class="p">(</span><span class="n">scrapy</span><span class="o">.</span><span class="n">Spider</span><span class="p">):</span>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-4"></a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">"polblog"</span>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-5"></a>    <span class="n">start_urls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'http://journalducameroun.com/en/category/politics/'</span><span class="p">]</span>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-6"></a>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-7"></a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-8"></a>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-9"></a>        <span class="k">for</span> <span class="n">href</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">"//ul[@class='list-post list-full ']//article/a/@href"</span><span class="p">)</span><span class="o">.</span><span class="n">extract</span><span class="p">():</span>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-10"></a>            <span class="n">url</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">urljoin</span><span class="p">(</span><span class="n">href</span><span class="p">)</span>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-11"></a>            <span class="k">yield</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse_post</span><span class="p">)</span>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-12"></a>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-13"></a>        <span class="n">next_page</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">"//a[@rel='next']/@href"</span><span class="p">)</span><span class="o">.</span><span class="n">extract_first</span><span class="p">()</span>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-14"></a>        <span class="k">if</span> <span class="n">next_page</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-15"></a>            <span class="n">url</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">urljoin</span><span class="p">(</span><span class="n">next_page</span><span class="p">)</span>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-16"></a>            <span class="k">yield</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">)</span>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-17"></a>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-18"></a>    <span class="k">def</span> <span class="nf">parse_post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-19"></a>        <span class="n">post</span> <span class="o">=</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Item</span><span class="p">()</span>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-20"></a>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-21"></a>        <span class="n">text</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">"//article[@class='post-full']//div[@class='post-content']//p/text()"</span><span class="p">)</span><span class="o">.</span><span class="n">extract</span><span class="p">())</span>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-22"></a>        <span class="n">info</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">"//article[@class='post-full']//p/text()"</span><span class="p">)</span><span class="o">.</span><span class="n">extract_first</span><span class="p">()</span>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-23"></a>        <span class="n">h</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">"\d+h\d+"</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"h"</span><span class="p">,</span> <span class="s2">":"</span><span class="p">)</span>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-24"></a>        <span class="n">d</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">"\d+.\d+.\d+"</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-25"></a>        <span class="n">date</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="s2">"-"</span> <span class="o">+</span> <span class="n">m</span> <span class="o">+</span> <span class="s2">"-"</span> <span class="o">+</span> <span class="n">d</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="n">h</span>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-26"></a>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-27"></a>        <span class="n">post</span><span class="p">[</span><span class="s2">"url"</span><span class="p">]</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">url</span>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-28"></a>        <span class="n">post</span><span class="p">[</span><span class="s2">"title"</span><span class="p">]</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">"//article[@class='post-full']/h1/text()"</span><span class="p">)</span><span class="o">.</span><span class="n">extract_first</span><span class="p">()</span>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-29"></a>        <span class="n">post</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">,</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" "</span><span class="p">)))</span>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-30"></a>        <span class="n">post</span><span class="p">[</span><span class="s2">"author"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">"\w+"</span><span class="p">,</span> <span class="n">info</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"by"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]))</span>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-31"></a>        <span class="n">post</span><span class="p">[</span><span class="s2">"published"</span><span class="p">]</span> <span class="o">=</span> <span class="n">date</span>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-32"></a>
+<a name="rest_code_2a3ecb2f65f64783ba3e3327ba96db53-33"></a>        <span class="k">yield</span> <span class="n">post</span>
 </pre>
 <p>The code above is very simple. It tells <code>scrapy</code> to go to the politics's category
 of JDC and for each post listed there, fecth the content of
 the post and extract its title, publish date, author and text content.</p>
-<pre class="code bash"><a name="rest_code_fd1bb78961b2456b82e5f0c34364d774-1"></a>$ scrapy crawl polblog -o data/jdc-raw.en.json
+<pre class="code bash"><a name="rest_code_c51e32bc91bf425b9bbaa28ffd263a99-1"></a>$ scrapy crawl polblog -o data/jdc-raw.en.json
 </pre>
 </div>
 <div class="section" id="preprocessing">
@@ -162,25 +162,25 @@ irrelevant because they don't convey enough information to discriminate between
 topics in documents. For this, we will use a well established library for text analytics,
 <a class="reference external" href="https://spacy.io">spacy</a>. The installation is as simple as the installation of scrapy.
 And after the installtion, we just import the library into our working environment.</p>
-<pre class="code python"><a name="rest_code_df10ae89872e49049e79a6f97ad900af-1"></a><span class="kn">import</span> <span class="nn">spacy</span>
+<pre class="code python"><a name="rest_code_f94afb53d26740a0add7e102c3c6eed2-1"></a><span class="kn">import</span> <span class="nn">spacy</span>
 </pre>
 <p>After importing the library, we load the english lexicon.</p>
-<pre class="code python"><a name="rest_code_1d5c2ff0eca64a8781eae9b4b4cc0cff-1"></a><span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">"en"</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_50ce2332916d44af97f737be5c661384-1"></a><span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">"en"</span><span class="p">)</span>
 </pre>
 <p>We now stream trought the texts and transform each to a set of tokens and save them to a file. See the
 <code>transform_doc</code> in the <a class="reference external" href="https://github.com/dadaromeo/polblog-mining">repository</a>.</p>
-<pre class="code python"><a name="rest_code_1c97356aa6cb4a6ab92bfbf801d735f2-1"></a><span class="k">def</span> <span class="nf">transform_texts</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">out_file</span><span class="p">):</span>
-<a name="rest_code_1c97356aa6cb4a6ab92bfbf801d735f2-2"></a>
-<a name="rest_code_1c97356aa6cb4a6ab92bfbf801d735f2-3"></a>    <span class="n">out</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">out_file</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span>
-<a name="rest_code_1c97356aa6cb4a6ab92bfbf801d735f2-4"></a>    <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">:</span>
-<a name="rest_code_1c97356aa6cb4a6ab92bfbf801d735f2-5"></a>        <span class="n">doc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-<a name="rest_code_1c97356aa6cb4a6ab92bfbf801d735f2-6"></a>        <span class="n">line</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">transform_doc</span><span class="p">(</span><span class="n">doc</span><span class="p">))</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span>
-<a name="rest_code_1c97356aa6cb4a6ab92bfbf801d735f2-7"></a>        <span class="n">out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
-<a name="rest_code_1c97356aa6cb4a6ab92bfbf801d735f2-8"></a>
-<a name="rest_code_1c97356aa6cb4a6ab92bfbf801d735f2-9"></a>    <span class="n">out</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-<a name="rest_code_1c97356aa6cb4a6ab92bfbf801d735f2-10"></a>
-<a name="rest_code_1c97356aa6cb4a6ab92bfbf801d735f2-11"></a><span class="n">texts</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">"data/jdc-raw.en.json"</span><span class="p">))]</span>
-<a name="rest_code_1c97356aa6cb4a6ab92bfbf801d735f2-12"></a><span class="n">transform_texts</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="s2">"data/jdc-tokens.en.text"</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_40b76f28ec564017a3f97ffee4d473a7-1"></a><span class="k">def</span> <span class="nf">transform_texts</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">out_file</span><span class="p">):</span>
+<a name="rest_code_40b76f28ec564017a3f97ffee4d473a7-2"></a>
+<a name="rest_code_40b76f28ec564017a3f97ffee4d473a7-3"></a>    <span class="n">out</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">out_file</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span>
+<a name="rest_code_40b76f28ec564017a3f97ffee4d473a7-4"></a>    <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">:</span>
+<a name="rest_code_40b76f28ec564017a3f97ffee4d473a7-5"></a>        <span class="n">doc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<a name="rest_code_40b76f28ec564017a3f97ffee4d473a7-6"></a>        <span class="n">line</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">transform_doc</span><span class="p">(</span><span class="n">doc</span><span class="p">))</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span>
+<a name="rest_code_40b76f28ec564017a3f97ffee4d473a7-7"></a>        <span class="n">out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+<a name="rest_code_40b76f28ec564017a3f97ffee4d473a7-8"></a>
+<a name="rest_code_40b76f28ec564017a3f97ffee4d473a7-9"></a>    <span class="n">out</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<a name="rest_code_40b76f28ec564017a3f97ffee4d473a7-10"></a>
+<a name="rest_code_40b76f28ec564017a3f97ffee4d473a7-11"></a><span class="n">texts</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">"data/jdc-raw.en.json"</span><span class="p">))]</span>
+<a name="rest_code_40b76f28ec564017a3f97ffee4d473a7-12"></a><span class="n">transform_texts</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="s2">"data/jdc-tokens.en.text"</span><span class="p">)</span>
 </pre>
 <p>Now that we have our posts as tokens, we're good to go.</p>
 </div>
@@ -194,29 +194,29 @@ library in Python dedicated for it, named <a class="reference external" href="ht
 There is also a module in <a class="reference external" href="https://scikit-learn.org">scikit-learn</a>
 (another popular Python's library for Machine Learning) for performning LDA.
 The code is pretty simple.</p>
-<pre class="code python"><a name="rest_code_4610c7bc642544ac9d6fe428083fb909-1"></a><span class="kn">from</span> <span class="nn">gensim.corpora</span> <span class="kn">import</span> <span class="n">TextCorpus</span><span class="p">,</span> <span class="n">MmCorpus</span>
-<a name="rest_code_4610c7bc642544ac9d6fe428083fb909-2"></a><span class="kn">from</span> <span class="nn">gensim.models</span> <span class="kn">import</span> <span class="n">LdaModel</span>
-<a name="rest_code_4610c7bc642544ac9d6fe428083fb909-3"></a>
-<a name="rest_code_4610c7bc642544ac9d6fe428083fb909-4"></a><span class="k">class</span> <span class="nc">Corpus</span><span class="p">(</span><span class="n">TextCorpus</span><span class="p">):</span>
-<a name="rest_code_4610c7bc642544ac9d6fe428083fb909-5"></a>
-<a name="rest_code_4610c7bc642544ac9d6fe428083fb909-6"></a>    <span class="k">def</span> <span class="nf">get_texts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<a name="rest_code_4610c7bc642544ac9d6fe428083fb909-7"></a>        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">):</span>
-<a name="rest_code_4610c7bc642544ac9d6fe428083fb909-8"></a>            <span class="k">yield</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">", "</span><span class="p">)</span>
-<a name="rest_code_4610c7bc642544ac9d6fe428083fb909-9"></a>
-<a name="rest_code_4610c7bc642544ac9d6fe428083fb909-10"></a><span class="n">corpus</span> <span class="o">=</span> <span class="n">Corpus</span><span class="p">(</span><span class="s2">"data/jdc-tokens.en.txt"</span><span class="p">)</span>
-<a name="rest_code_4610c7bc642544ac9d6fe428083fb909-11"></a>
-<a name="rest_code_4610c7bc642544ac9d6fe428083fb909-12"></a><span class="n">lda</span> <span class="o">=</span> <span class="n">LdaModel</span><span class="p">(</span>
-<a name="rest_code_4610c7bc642544ac9d6fe428083fb909-13"></a>    <span class="n">corpus</span><span class="p">,</span>
-<a name="rest_code_4610c7bc642544ac9d6fe428083fb909-14"></a>    <span class="n">num_topics</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-<a name="rest_code_4610c7bc642544ac9d6fe428083fb909-15"></a>    <span class="n">id2word</span><span class="o">=</span><span class="n">corpus</span><span class="o">.</span><span class="n">dictionary</span><span class="p">,</span>
-<a name="rest_code_4610c7bc642544ac9d6fe428083fb909-16"></a>    <span class="n">minimum_probability</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
-<a name="rest_code_4610c7bc642544ac9d6fe428083fb909-17"></a>    <span class="n">chunksize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-<a name="rest_code_4610c7bc642544ac9d6fe428083fb909-18"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
-<a name="rest_code_4610c7bc642544ac9d6fe428083fb909-19"></a><span class="p">)</span>
+<pre class="code python"><a name="rest_code_5bf437757d094f30b281bb1ce70bb466-1"></a><span class="kn">from</span> <span class="nn">gensim.corpora</span> <span class="kn">import</span> <span class="n">TextCorpus</span><span class="p">,</span> <span class="n">MmCorpus</span>
+<a name="rest_code_5bf437757d094f30b281bb1ce70bb466-2"></a><span class="kn">from</span> <span class="nn">gensim.models</span> <span class="kn">import</span> <span class="n">LdaModel</span>
+<a name="rest_code_5bf437757d094f30b281bb1ce70bb466-3"></a>
+<a name="rest_code_5bf437757d094f30b281bb1ce70bb466-4"></a><span class="k">class</span> <span class="nc">Corpus</span><span class="p">(</span><span class="n">TextCorpus</span><span class="p">):</span>
+<a name="rest_code_5bf437757d094f30b281bb1ce70bb466-5"></a>
+<a name="rest_code_5bf437757d094f30b281bb1ce70bb466-6"></a>    <span class="k">def</span> <span class="nf">get_texts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a name="rest_code_5bf437757d094f30b281bb1ce70bb466-7"></a>        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">):</span>
+<a name="rest_code_5bf437757d094f30b281bb1ce70bb466-8"></a>            <span class="k">yield</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">", "</span><span class="p">)</span>
+<a name="rest_code_5bf437757d094f30b281bb1ce70bb466-9"></a>
+<a name="rest_code_5bf437757d094f30b281bb1ce70bb466-10"></a><span class="n">corpus</span> <span class="o">=</span> <span class="n">Corpus</span><span class="p">(</span><span class="s2">"data/jdc-tokens.en.txt"</span><span class="p">)</span>
+<a name="rest_code_5bf437757d094f30b281bb1ce70bb466-11"></a>
+<a name="rest_code_5bf437757d094f30b281bb1ce70bb466-12"></a><span class="n">lda</span> <span class="o">=</span> <span class="n">LdaModel</span><span class="p">(</span>
+<a name="rest_code_5bf437757d094f30b281bb1ce70bb466-13"></a>    <span class="n">corpus</span><span class="p">,</span>
+<a name="rest_code_5bf437757d094f30b281bb1ce70bb466-14"></a>    <span class="n">num_topics</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<a name="rest_code_5bf437757d094f30b281bb1ce70bb466-15"></a>    <span class="n">id2word</span><span class="o">=</span><span class="n">corpus</span><span class="o">.</span><span class="n">dictionary</span><span class="p">,</span>
+<a name="rest_code_5bf437757d094f30b281bb1ce70bb466-16"></a>    <span class="n">minimum_probability</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+<a name="rest_code_5bf437757d094f30b281bb1ce70bb466-17"></a>    <span class="n">chunksize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+<a name="rest_code_5bf437757d094f30b281bb1ce70bb466-18"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+<a name="rest_code_5bf437757d094f30b281bb1ce70bb466-19"></a><span class="p">)</span>
 </pre>
 <p>Now that we've trained a model, we can save it for later use.</p>
-<pre class="code python"><a name="rest_code_13bd708ffb2e478b817a81d4635bd6da-1"></a><span class="n">lda</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">"data/jdc-lda-model"</span><span class="p">)</span>
-<a name="rest_code_13bd708ffb2e478b817a81d4635bd6da-2"></a><span class="n">MmCorpus</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="s2">"data/jdc-corpus.mm"</span><span class="p">,</span> <span class="n">corpus</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_198471980d9a4a7bbe9ff2e4e5c08cc4-1"></a><span class="n">lda</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">"data/jdc-lda-model"</span><span class="p">)</span>
+<a name="rest_code_198471980d9a4a7bbe9ff2e4e5c08cc4-2"></a><span class="n">MmCorpus</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="s2">"data/jdc-corpus.mm"</span><span class="p">,</span> <span class="n">corpus</span><span class="p">)</span>
 </pre>
 <p>Along side the LDA for topic modeling, there is also another common used model,
 the <a class="reference external" href="https://en.wikipedia.org/wiki/Poisson_Matrix_Factorization">Poisson Matrix Factorization</a>
@@ -226,14 +226,14 @@ reasoning behind.</p>
 <div class="section" id="results">
 <h2>Results</h2>
 <p>We trained our model and save it to disk. We can now inspect its ouput.</p>
-<pre class="code python"><a name="rest_code_b4418b942d8e46d288749c891fa5ac96-1"></a><span class="kn">from</span> <span class="nn">gensim.corpora</span> <span class="kn">import</span> <span class="n">Mmcorpus</span>
-<a name="rest_code_b4418b942d8e46d288749c891fa5ac96-2"></a><span class="kn">from</span> <span class="nn">gensim.models</span> <span class="kn">import</span> <span class="n">LdaModel</span>
-<a name="rest_code_b4418b942d8e46d288749c891fa5ac96-3"></a>
-<a name="rest_code_b4418b942d8e46d288749c891fa5ac96-4"></a><span class="n">lda</span> <span class="o">=</span> <span class="n">LdaModel</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">"data/jdc-lda-model"</span><span class="p">)</span>
-<a name="rest_code_b4418b942d8e46d288749c891fa5ac96-5"></a><span class="n">corpus</span> <span class="o">=</span> <span class="n">MmCorpus</span><span class="p">(</span><span class="s2">"data/jdc-corpus.mm"</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_476b1747a990482eb225c0a2501a9f2c-1"></a><span class="kn">from</span> <span class="nn">gensim.corpora</span> <span class="kn">import</span> <span class="n">Mmcorpus</span>
+<a name="rest_code_476b1747a990482eb225c0a2501a9f2c-2"></a><span class="kn">from</span> <span class="nn">gensim.models</span> <span class="kn">import</span> <span class="n">LdaModel</span>
+<a name="rest_code_476b1747a990482eb225c0a2501a9f2c-3"></a>
+<a name="rest_code_476b1747a990482eb225c0a2501a9f2c-4"></a><span class="n">lda</span> <span class="o">=</span> <span class="n">LdaModel</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">"data/jdc-lda-model"</span><span class="p">)</span>
+<a name="rest_code_476b1747a990482eb225c0a2501a9f2c-5"></a><span class="n">corpus</span> <span class="o">=</span> <span class="n">MmCorpus</span><span class="p">(</span><span class="s2">"data/jdc-corpus.mm"</span><span class="p">)</span>
 </pre>
 <p>We show the topics with the ten more prominent words.</p>
-<pre class="code python"><a name="rest_code_f714f4e4ec4f4d2fa02bce56b93a5828-1"></a><span class="n">show_topics</span><span class="p">(</span><span class="n">lda</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_abd161223abd4c04b1e52fd51090995f-1"></a><span class="n">show_topics</span><span class="p">(</span><span class="n">lda</span><span class="p">)</span>
 </pre>
 <table border="1" class="docutils">
 <colgroup>
@@ -305,8 +305,8 @@ The second is about the national airline compagny, Camair Coorporation (CamairCo
 that have been struggle to take off since its creation and have been replacing
 board members and directors without much of a success. The third topic seems to be
 with terrorism and Boko Haram sect. We can then go ahead and label our topics.</p>
-<pre class="code python"><a name="rest_code_5cf83256aae1473f99d9e320abb0d4f9-1"></a><span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"AngloCrisis"</span><span class="p">,</span> <span class="s2">"CamairCo"</span><span class="p">,</span> <span class="s2">"BokoHaram"</span><span class="p">]</span>
-<a name="rest_code_5cf83256aae1473f99d9e320abb0d4f9-2"></a><span class="n">show_topics</span><span class="p">(</span><span class="n">lda</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_e6a7db754bad4c9cbba01c46213c388a-1"></a><span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"AngloCrisis"</span><span class="p">,</span> <span class="s2">"CamairCo"</span><span class="p">,</span> <span class="s2">"BokoHaram"</span><span class="p">]</span>
+<a name="rest_code_e6a7db754bad4c9cbba01c46213c388a-2"></a><span class="n">show_topics</span><span class="p">(</span><span class="n">lda</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
 </pre>
 <table border="1" class="docutils">
 <colgroup>
@@ -375,11 +375,11 @@ with terrorism and Boko Haram sect. We can then go ahead and label our topics.</
 <p>One way to visualize the topics above is to plot the number of documents per topic
 per time to spot the evolution of each topic. We will use the time lag of a week
 to sum up the counts.</p>
-<pre class="code python"><a name="rest_code_437ee16213f84a63a34f9c08a89bc734-1"></a><span class="n">topic</span> <span class="o">=</span> <span class="n">topic_by_post</span><span class="p">(</span><span class="n">lda</span><span class="p">,</span> <span class="n">corpus</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
-<a name="rest_code_437ee16213f84a63a34f9c08a89bc734-2"></a><span class="n">weekly</span> <span class="o">=</span> <span class="n">topic</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">"W"</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="s2">"left"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"left"</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<a name="rest_code_437ee16213f84a63a34f9c08a89bc734-3"></a><span class="n">plot_topic_evolution</span><span class="p">(</span><span class="n">weekly</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_e745e22f12a645b7a3173130afa6a712-1"></a><span class="n">topic</span> <span class="o">=</span> <span class="n">topic_by_post</span><span class="p">(</span><span class="n">lda</span><span class="p">,</span> <span class="n">corpus</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+<a name="rest_code_e745e22f12a645b7a3173130afa6a712-2"></a><span class="n">weekly</span> <span class="o">=</span> <span class="n">topic</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">"W"</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="s2">"left"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"left"</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<a name="rest_code_e745e22f12a645b7a3173130afa6a712-3"></a><span class="n">plot_topic_evolution</span><span class="p">(</span><span class="n">weekly</span><span class="p">)</span>
 </pre>
-<img alt="topic evolution" src="../../images/topic_evolution.png"><p>We see that the "anglophone crisis" dominated the news on this site during this timeline.</p>
+<img alt="topic evolution" class="align-center" src="../../images/topic_evolution.png"><p>We see that the "anglophone crisis" dominated the news on this site during this timeline.</p>
 </div>
 <div class="section" id="conclusion">
 <h2>Conclusion</h2>

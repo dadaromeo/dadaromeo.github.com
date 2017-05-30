@@ -283,6 +283,7 @@ to sum up the counts.
 
 .. image:: /images/topic_evolution.png
     :alt: topic evolution
+    :align: center
 
 We see that the "anglophone crisis" dominated the news on this site during this timeline.
 
